@@ -1,4 +1,4 @@
-#list of team members
+# list of team members
   ** Name -> Github ID ** 
 1. Richard Thomas -> RichardThomas215
 2. Zachary Norcross -> Daytona211
