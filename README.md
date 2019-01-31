@@ -6,5 +6,11 @@
 3. Abraham Mitchell -> ZeroSkillSamus
 4. Daryle Henry -> DaryleH98
 5. Mitchell Rogerson -> MitchellRogerson
-6. Jared Chua -> JChua227
-7. Danish Kholar -> 
+6. Danish Kholar -> dkholar
+
+Technologies used:
+ MYSQL
+ ExpressJS
+ Bootstrap
+ NodeJS
+ Our own SEBN stack
