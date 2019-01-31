@@ -1,5 +1,5 @@
 # Project_418
-# list of team members
+## list of team members
 ** Name -> Github ID ** 
 1. Richard Thomas -> RichardThomas215
 2. Zachary Norcross -> Daytona211
@@ -8,9 +8,13 @@
 5. Mitchell Rogerson -> MitchellRogerson
 6. Danish Kholar -> dkholar
 
-Technologies used:
- MYSQL
- ExpressJS
- Bootstrap
- NodeJS
+## Technologies used:
+ * MYSQL
+ * ExpressJS
+ * Bootstrap
+ * NodeJS
  Our own SEBN stack
+### The usual technologies
+ * HTML
+ * CSS
+ * JavaScript (JS)
