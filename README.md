@@ -6,7 +6,7 @@
 3. Abraham Mitchell -> ZeroSkillSamus
 4. Daryle Henry -> DaryleH98
 5. Mitchell Rogerson -> MitchellRogerson
-6. Danish Kholar -> dkholar
+6. Danish Khokar -> dkhokar
 
 ## Technologies used:
  * MYSQL
