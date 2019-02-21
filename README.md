@@ -8,14 +8,10 @@
 5. Mitchell Rogerson -> MitchellRogerson
 6. Danish Khokar -> dkhokar
 
-## Technologies used:
- * MYSQL
- * ExpressJS
- * Bootstrap
- * NodeJS
 
- Our own SEBN stack
-### The usual technologies
- * HTML
- * CSS
- * JavaScript (JS)
+## Technologies:
+Front end: HTML, CSS, JS, Bootstrap
+Backend: ExpressJS, NodeJS
+Database: MySQL
+Cloud service: AWS?
+Repository: Github
