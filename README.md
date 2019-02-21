@@ -10,8 +10,8 @@
 
 
 ## Technologies:
-Front end: HTML, CSS, JS, Bootstrap
-Backend: ExpressJS, NodeJS
-Database: MySQL
-Cloud service: AWS?
-Repository: Github
+Front end: HTML, CSS, JS, Bootstrap <br />
+Backend: ExpressJS, NodeJS <br />
+Database: MySQL <br />
+Cloud service: AWS? <br />
+Repository: Github <br />
