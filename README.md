@@ -6,16 +6,12 @@
 3. Abraham Mitchell -> ZeroSkillSamus
 4. Daryle Henry -> DaryleH98
 5. Mitchell Rogerson -> MitchellRogerson
-6. Danish Kholar -> dkholar
+6. Danish Khokar -> dkhokar
 
-## Technologies used:
- * MYSQL
- * ExpressJS
- * Bootstrap
- * NodeJS
 
- Our own SEBN stack
-### The usual technologies
- * HTML
- * CSS
- * JavaScript (JS)
+## Technologies:
+Front end: HTML, CSS, JS, Bootstrap <br />
+Backend: ExpressJS, NodeJS <br />
+Database: MySQL <br />
+Cloud service: AWS? <br />
+Repository: Github <br />
