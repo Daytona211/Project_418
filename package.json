@@ -1,0 +1,19 @@
+{
+  "name": "project_418",
+  "version": "1.0.0",
+  "description": "Project for ICSI418",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Daytona211/Project_418.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Daytona211/Project_418/issues"
+  },
+  "homepage": "https://github.com/Daytona211/Project_418#readme"
+}
