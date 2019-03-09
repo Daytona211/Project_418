@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/Daytona211/Project_418/issues"
   },
-  "homepage": "https://github.com/Daytona211/Project_418#readme"
+  "homepage": "https://github.com/Daytona211/Project_418#readme",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "express-ejs-layouts": "^2.5.0",
+    "mysql": "^2.16.0"
+  }
 }
