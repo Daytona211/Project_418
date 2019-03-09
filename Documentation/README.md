@@ -15,3 +15,6 @@ Backend: ExpressJS, NodeJS <br />
 Database: MySQL <br />
 Cloud service: AWS? <br />
 Repository: Github <br />
+
+## Up to date development document
+https://docs.google.com/document/d/1pMUHcyQqa7Ua_L9SCYZO3BcoIlvpEF60Gp24ETHUS3c/edit?usp=sharing
