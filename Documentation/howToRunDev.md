@@ -21,6 +21,9 @@ database stuff and anything else we may need on the backend
 in there well ejs is our view engine which basically allows us to write HTML with all the standard rules but now we can use ejs which lets
 us use variables loops and other things we may need within the HTML.
 
+## Once you understand it all
+In order to run the program you need to use nodeJS by doing node server.js while your working directory is the server folder. This will run the server then you can connect to it by going to localhost:3000 which will bring you to our homepage from there you can use the routes to connect to the different pages (or buttons if Abe has them done)
+
 ## Wrap up
 Thanks for reading if any of this DID NOT make sense you should contact a group member or **WATCH THE TUTORIALS ASAP** since you are
 expected to contribute to this.
