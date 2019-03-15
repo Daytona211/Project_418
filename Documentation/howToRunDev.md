@@ -10,10 +10,13 @@ You will see a directory call Project_418 this is the folder that has our projec
 
 **Documentation**- Pretty self explanitary. This is where all of our docs and forms will go so that we have it in one collected area we
 will present this to the professor at the end of the semester so we need to keep it clean and organized
+
 **node_modules**- Think of this as a giant config file for our project there is alot of technical things in here DON'T TOUCH IT. We will
 run commands using node that will update this we ** WE SHOULD NEVER TOUCH IT OURSELVES **
+
 **Server**- Server is where our server goes (duh) it has everything fro our backend so our backend JS (which is written using expressJS)
 database stuff and anything else we may need on the backend
+
 **Views**- This is where our views will go aka our front end stuff like HTML CSS and frontend JS. You may be asking why we have ejs files
 in there well ejs is our view engine which basically allows us to write HTML with all the standard rules but now we can use ejs which lets
 us use variables loops and other things we may need within the HTML.
