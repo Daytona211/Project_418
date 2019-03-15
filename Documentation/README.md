@@ -7,6 +7,7 @@
 4. Daryle Henry -> DaryleH98
 5. Mitchell Rogerson -> MitchellRogerson
 6. Danish Khokar -> dkhokar
+7. Jared Chua -> JChua227
 
 
 ## Technologies:
