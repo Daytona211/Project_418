@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Register/Signup Page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- i dont know what this really does but it seems like all the files have it -->
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <!-- not sure where were supposed to link the css -->
+        <style>
+            .inputcollection{
+                text-align: center;
+                padding-top: 10%;
+            }
+
+            .passwordinput,.retypepasswordinput,.submitbutton{
+                margin-top: 1%;
+            }
+
+            button:hover{
+                border-color: rgb(12, 92, 146);
+            }
+        </style>
+
+    </head>
+
+    <body>
+        <div class="inputcollection">
+
+            <div class="usernameinput">
+                <label style="padding-right: 7%">Username:</label>
+                <br>
+                <input type="text" placeholder="Username">
+                <img src="questionmark.jpg" alt="usernameinfo" width="15px" title="This will be your permanent username. Choose wisely.">
+
+            <br>
+
+            <div class="passwordinput">
+                <label style="padding-right: 7%">Password:</label>
+                <br>
+                <input type="password" placeholder="Password">
+                <img src="questionmark.jpg" alt="passwordinfo" width="15px" title="At least:
+        -8 Characters total
+        -1 Upper Case
+        -1 Lower Case
+        -1 Numeric
+        -1 Special Symbol">
+            </div>
+
+            <br>
+
+            <div class="retypepasswordinput">
+                <label style="padding-right: 3.8%">Retype Password:</label>
+                <br>
+                <input type="password" placeholder="Retype Password">
+                <img src="questionmark.jpg" alt="retypepasswordinfo" width="15px" title="Confirm your password to make sure it matches correctly.">
+            </div>
+
+
+            <button class="submitbutton">Submit</button>
+
+        </div>
+    </body>
+</html>
