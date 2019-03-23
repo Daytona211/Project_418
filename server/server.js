@@ -20,7 +20,9 @@ app.listen(PORT, () => {
 });
 
 // // routes
-app.use("/", require("./routes/index"));
+app.use("/",require("./routes/index"));
+app.use("/about", require("./routes/index"));
+app.use("/register", require("./routes/index"));
+app.use("/admin", require("./routes/index"));
 app.use("/users", require("./routes/users"));
-// app.use("/users", require("./routes/users"));
 // app.use("/practice", require("./routes/practice"));
