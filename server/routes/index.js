@@ -6,11 +6,14 @@ router.get("/", (req, res)=>{
     res.render("welcomePage");
 });
 
+//Register Page Route 
+router.get("/register", (req, res)=>{
+    res.render("registerPage");
+});
+
 //About Page Route
 router.get("/about", (req, res)=>{
     res.render("aboutPage");
 });
-
-
 
 module.exports = router;
