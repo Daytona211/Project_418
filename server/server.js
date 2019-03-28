@@ -25,5 +25,3 @@ app.listen(PORT, () => {
 app.use("/",require("./routes/index"));
 // app.use("/about", require("./routes/about"));
 app.use("/users", require("./routes/users"));
-
-connection.end();
