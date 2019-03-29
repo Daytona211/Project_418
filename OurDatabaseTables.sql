@@ -1,9 +1,17 @@
+CREATE TABLE UserGroup(
+	UserGroupId int AUTO_INCREMENT NOT NULL,
+	Title BIT NOT NULL,
+	PRIMARY KEY(UserGroupId)
+);
+
 CREATE TABLE UserProfile(
 	UserProfileId int AUTO_INCREMENT NOT NULL,
+	UserGroupId int NOT NULL,
 	Name varchar(20) NOT NULL,
 	Email varchar(30) NOT NULL,
 	Password varchar(30) NOT NULL,
-	PRIMARY KEY(UserProfileId)
+	PRIMARY KEY(UserProfileId),
+	FOREIGN KEY(UserGroupId) REFERENCES UserGroup(UserGroupId)
 );
 
 CREATE TABLE Test(
