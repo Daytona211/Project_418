@@ -1,0 +1,30 @@
+#logo{
+    height: 100px;
+    width: 100px;
+}
+
+#loginFrm{
+    padding-top: 10%;
+}
+
+.form-control{
+    margin: auto;
+    width: 20%;
+    padding: 10px;  
+}
+
+#username{
+    padding-bottom: 10px;
+}
+
+#spaceBetweenInput{
+    padding: 2px;
+}
+
+#errorAlert{
+    position: relative;
+    width: 475px;
+    height: 50px;
+    left: 35%;
+    top: 10px;
+}
