@@ -1,7 +1,12 @@
 const express = require("express");
 const mysql = require('mysql');
 const router = express.Router();
+const bodyParser = require('body-parser');
 
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 // DATABASE SETUP
 var db = mysql.createConnection({
@@ -39,7 +44,7 @@ router.post("/sublogin", (req, res)=>{
                 res.render("loginPage", {
                     errorMsg
                 });
-            } else {
+            } else {    
                 for (let i = 0; i < result.length; i++) {
                     if (passWord == result[i].Password) {
                         console.log(result);
@@ -57,4 +62,4 @@ router.post("/sublogin", (req, res)=>{
     });
 });
 
-module.exports = router;        
+module.exports = router;
