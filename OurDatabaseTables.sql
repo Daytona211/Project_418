@@ -17,7 +17,7 @@ CREATE TABLE Test(
 
 CREATE TABLE Image(
 	ImageId int AUTO_INCREMENT NOT NULL,
-	Image varbinary LONGBLOB NOT NULL,
+	Image LONGBLOB NOT NULL,
 	PRIMARY KEY(ImageId)
 );
 
