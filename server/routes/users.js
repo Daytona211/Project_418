@@ -21,6 +21,10 @@ router.get("/register", (req, res)=>{
     res.render("registerPage"); // to access this page go to /users/register
 });
 
+router.get("/about", (req, res)=>{
+    res.render("aboutPage");
+});
+
 router.post("/sublogin", (req, res)=>{
     let userName = req.body.username;
     let passWord = req.body.password;
