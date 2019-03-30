@@ -20,11 +20,9 @@
                 text-align: center;
                 padding-top: 10%;
             }
-
             .passwordinput,.retypepasswordinput,.submitbutton{
                 margin-top: 1%;
             }
-
             button:hover{
                 border-color: rgb(12, 92, 146);
             }
@@ -114,8 +112,58 @@
 
     <!-- 
 
-        <div class="inputcollection">
+    <br>
+    <br>
+    <br>
 
+
+
+    <div class="container">
+        <form id="createUser" method="POST" action="/users/registers">
+            <div class="heading">
+                <h2>Create Account</h2>
+            </div>
+
+            <div class="inputForInformation" class="form-group">
+                <input name="username" type="text" placeholder="Username" class="form-control">
+            </div>
+
+            <div class="spaceBetweenInput">
+
+            </div>
+
+            <div class="inputForInformation" class="form-group">
+                <input name="password" type="password" placeholder="Password" class="form-control">
+            </div>
+
+            <div class="spaceBetweenInput">
+
+            </div>
+
+            <div class="inputForInformation" class="form-group">
+                <input name="password2" type="password" placeholder="Re-Type Password" class="form-control">
+            </div>
+
+            <div class="spaceBetweenInput">
+
+            </div>
+
+            <div class="submitButton">
+                <button type="submit" class="btn btn-dark" value="createUser">Submit</button>
+            </div>
+
+        </form>
+
+    </div>
+
+
+
+
+
+
+
+    <!-- 
+        <div class="inputcollection">
             <div class="usernameinput">
                 <label style="padding-right: 7%">Username:</label>
                 <br>
@@ -123,7 +171,6 @@
                 <img src="questionmark.jpg" alt="usernameinfo" width="15px" title="This will be your permanent username. Choose wisely.">
             </div>
             <br>
-
             <div class="passwordinput">
                 <label style="padding-right: 7%">Password:</label>
                 <br>
@@ -135,19 +182,14 @@
         -1 Numeric
         -1 Special Key">
             </div>
-
             <br>
-
             <div class="retypepasswordinput">
                 <label style="padding-right: 3.8%">Retype Password:</label>
                 <br>
                 <input type="password" placeholder="Retype Password">
                 <img src="questionmark.jpg" alt="retypepasswordinfo" width="15px" title="Confirm your password to make sure it matches correctly.">
             </div>
-
-
             <button class="submitbutton">Submit</button>
-
         </div>
         -->
 </body>
