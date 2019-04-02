@@ -22,7 +22,7 @@ var db = mysql.createConnection({
   database : 'coding_buddy'
 });
  
-db.connect(()=>{
+db.connect(()=>{  
     console.log("Connected to DB");
 });
 
