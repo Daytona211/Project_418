@@ -1,0 +1,23 @@
+.heading {
+	text-align: center;
+	padding-top: 20%;
+}
+ .inputForInformation {
+	margin: auto;
+	width: 45%;
+}
+.spaceBetweenInput {
+	padding-bottom: 3px;
+}
+
+.submitButton {
+	text-align: center;
+}
+
+ .spaceBetweenInput {
+	padding-bottom: 3px;
+}
+
+ .submitButton {
+	text-align: center;
+} 

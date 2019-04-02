@@ -9,12 +9,22 @@ const path = require("path");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 // app.use(expressLayouts);
-app.set("view engine", "ejs");
+app.set("view engine", "ejs"); 
 
 app.set("views", path.join(__dirname, "/../views"));
 
-
+ 
 // DATABASE SETUP
+var db = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : '',
+  database : 'coding_buddy'
+});
+ 
+db.connect(()=>{  
+    console.log("Connected to DB");
+});
 
 const PORT = ('port', process.env.PORT || 3000);
 app.listen(PORT, () => {
@@ -25,3 +35,7 @@ app.listen(PORT, () => {
 app.use("/",require("./routes/index"));
 // app.use("/about", require("./routes/about"));
 app.use("/users", require("./routes/users"));
+
+db.end();
+
+module.exports.db = db;  
