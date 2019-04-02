@@ -1,0 +1,23 @@
+#questionFrm {
+    position: relative;
+    top: 100px;
+    width: 40%;
+    left: 30%;
+}
+
+#mcInput #mcLabel {
+    position: relative;
+    padding-left: 10px;
+}
+
+#spaceBetweenInput{
+    padding: 2px;
+}
+
+#checkAnsReminder{
+    justify-self: left;
+}
+
+#tfAllContent{
+    display: none;
+}
