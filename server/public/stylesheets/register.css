@@ -2,17 +2,10 @@
 	text-align: center;
 	padding-top: 20%;
 }
-
-<<<<<<< HEAD
-.inputForInformation {
-=======
  .inputForInformation {
->>>>>>> origin/zach
 	margin: auto;
 	width: 45%;
 }
-
-<<<<<<< HEAD
 .spaceBetweenInput {
 	padding-bottom: 3px;
 }
@@ -20,7 +13,7 @@
 .submitButton {
 	text-align: center;
 }
-=======
+
  .spaceBetweenInput {
 	padding-bottom: 3px;
 }
@@ -28,4 +21,3 @@
  .submitButton {
 	text-align: center;
 } 
->>>>>>> origin/zach
