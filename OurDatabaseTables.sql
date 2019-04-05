@@ -24,9 +24,9 @@
 
 	CREATE TABLE Question(
 		QuestionId int identity primary key NOT NULL,
-		TestId int NOT NULL foreign key references Test(TestId),
-		ImageId int NOT NULL foreign key references Image(ImageId),
-		ChoicesId int NOT NULL foreign key references Choices(ChoicesId),
+		TestId int foreign key references Test(TestId),
+		ImageId int foreign key references Image(ImageId),
+		ChoicesId int foreign key references Choices(ChoicesId),
 		TypeOfQuestion varchar(10) NOT NULL,
 		Answer varchar(100) NOT NULL,
 		Question varchar(500) NOT NULL
