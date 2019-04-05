@@ -1,7 +1,9 @@
+const serverInfo = require('./../server.js');
 const express = require('express');
 const mysql = require('mysql');
 const router = express.Router();
 const bodyParser = require('body-parser');
+const session = serverInfo.session;
 
 router.use(bodyParser.json());
 router.use(
@@ -11,14 +13,7 @@ router.use(
 );
 
 // DATABASE SETUP
-var db = mysql.createConnection({
-	host: 'localhost',
-	user: 'root',
-	password: '',
-	database: 'coding_buddy'
-});
-
-db.connect();
+var db = serverInfo.db;
 
 router.use(bodyParser.json());
 router.use(
@@ -28,11 +23,18 @@ router.use(
 );
 
 router.get('/login', (req, res) => {
-	res.render('loginPage'); // to access this page go to /users/login
+	console.log(req);
+	if (req.session.userId)
+		res.render('adminAddQuestions');		
+	else
+		res.render('loginPage'); // to access this page go to /users/login
 });
 
-router.get("/register", (req,res) =>{
-	res.render("registerPage");
+router.get("/register", (req, res) => {
+	if (req.session.userId)
+		res.redirect('adminAddQuestions');
+	else
+		res.render("registerPage");
 });
 
 router.post('/registers', (req, res) => {
@@ -43,6 +45,7 @@ router.post('/registers', (req, res) => {
 });
 
 router.get('/about', (req, res) => {
+	console.log(req.session);
 	res.render('aboutPage');
 });
 
@@ -62,9 +65,9 @@ router.post('/sublogin', (req, res) => {
 			} else {
 				for (let i = 0; i < result.length; i++) {
 					if (passWord == result[i].Password) {
-						console.log(result);
-						res.render('adminPage'); //TOFIX with proper redirect
-						return;
+						req.session.userId = result[i].UserProfileId;
+						console.log(req.session);
+						return res.render('adminAddQuestions');	//TO FIX WITH PROPER ROUTE
 					}
 				}
 
@@ -76,5 +79,8 @@ router.post('/sublogin', (req, res) => {
 		}
 	});
 });
+
+
+
 
 module.exports = router;
