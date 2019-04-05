@@ -17,7 +17,7 @@
 
 	CREATE TABLE Image(
 		ImageId int NOT NULL,
-		Image varbinary(max) NOT NULL,
+		Image BLOB NOT NULL,
 		PRIMARY KEY (ImageId)
 	);
 
