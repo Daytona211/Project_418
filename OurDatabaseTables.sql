@@ -39,4 +39,4 @@
 		FOREIGN KEY (TestId) REFERENCES Test(TestId),
 		FOREIGN KEY (ImageId) REFERENCES Image(ImageId),
 		FOREIGN KEY (ChoicesId) REFERENCES Choices(ChoicesId)
-	)
+	);
