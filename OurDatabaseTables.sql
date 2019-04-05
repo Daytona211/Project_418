@@ -30,7 +30,7 @@
 	CREATE TABLE Question(
 		QuestionId int NOT NULL,
 		TestId int Test(TestId),
-		ImageId intImage(ImageId),
+		ImageId int Image(ImageId),
 		ChoicesId int Choices(ChoicesId),
 		TypeOfQuestion varchar(10) NOT NULL,
 		Answer varchar(100) NOT NULL,
