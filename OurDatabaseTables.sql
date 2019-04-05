@@ -18,7 +18,7 @@
 	CREATE TABLE Question(
 		QuestionId int NOT NULL,
 		TestId int NOT NULL,
-		TypeOfQuestion varchar(10) NOT NULL,
+		TypeOfQuestion varchar(20) NOT NULL,
 		Answer varchar(100) NOT NULL,
 		Question varchar(500) NOT NULL,
 		PRIMARY KEY (QuestionId),
@@ -36,7 +36,7 @@
 	CREATE TABLE Choices(
 		ChoicesId int NOT NULL,
 		QuestionId int NOT NULL,
-		PossibleAnswer varchar(100) NOT NULL,
+		PossibleAnswer varchar(200) NOT NULL,
 		PRIMARY KEY (ChoicesId),
 		FOREIGN KEY (QuestionId) REFERENCES Question(QuestionId)
 	);
