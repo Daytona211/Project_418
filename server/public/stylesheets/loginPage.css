@@ -28,3 +28,7 @@
     left: 35%;
     top: 10px;
 }
+
+#password{
+    -webkit-text-security:disc;
+  }

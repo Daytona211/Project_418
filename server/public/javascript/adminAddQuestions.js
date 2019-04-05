@@ -23,6 +23,10 @@ function main() {
     });
 }
 
+function addNewItemToQuizBank(item){
+    
+}
+
 document.addEventListener("DOMContentLoaded", function (event) {
     main();
 });
