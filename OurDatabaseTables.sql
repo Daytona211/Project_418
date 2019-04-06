@@ -1,5 +1,5 @@
 	CREATE TABLE UserProfile(
-		UserProfileId int NOT NULL AUTO_INCREMENT,
+		UserProfileId int AUTO_INCREMENT,
 		Name varchar(20) NOT NULL,
 		Email varchar(30) NOT NULL,
 		Password varchar(30) NOT NULL,
@@ -7,7 +7,7 @@
 	);
 
 	CREATE TABLE Test(
-		TestId int NOT NULL AUTO_INCREMENT,
+		TestId int AUTO_INCREMENT,
 		UserProfileId int NOT NULL,
 		UserStatus varchar(15) NOT NULL,
 		UserPermission varchar(15) NOT NULL,
@@ -16,8 +16,8 @@
 	);
 
 	CREATE TABLE Question(
-		QuestionId int NOT NULL AUTO_INCREMENT,
-		TestId int NOT NULL,
+		QuestionId int AUTO_INCREMENT,
+		TestId int,
 		TypeOfQuestion varchar(20) NOT NULL,
 		Answer varchar(100) NOT NULL,
 		Question varchar(500) NOT NULL,
@@ -26,7 +26,7 @@
 	);
 	
 	CREATE TABLE Image(
-		ImageId int NOT NULL AUTO_INCREMENT,
+		ImageId int AUTO_INCREMENT,
 		QuestionId int NOT NULL,
 		Image BLOB NOT NULL,
 		PRIMARY KEY (ImageId),
@@ -34,7 +34,7 @@
 	);
 
 	CREATE TABLE Choices(
-		ChoicesId int NOT NULL AUTO_INCREMENT,
+		ChoicesId int AUTO_INCREMENT,
 		QuestionId int NOT NULL,
 		PossibleAnswer varchar(200) NOT NULL,
 		PRIMARY KEY (ChoicesId),
