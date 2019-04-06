@@ -8,27 +8,45 @@ router.get("/addQuestions", (req, res) => {
     if (!req.session.userId)
         res.redirect('/users/login');
     else {
-        res.render("adminAddQuestions");
+        res.render("adminAddQuestions", {
+            results: undefined
+        });
     }
 });
 
-function insertTrueFalse(req) {
-    var quest = req.body.question;
-    var ans;
+function insertTrueFalse(req, res) {
+    var question = req.body.question;
+    var answer;
+    var questionId = req.body.questionId;
+    console.log(req.body);
+    var type = req.body.TypeOfQuestion;
     if (req.body.isTrueCorrect == undefined)
-        ans = "true";
+        answer = "true";
     else
-        ans = "false";
-    var sqlQuery = `INSERT INTO question (TypeOfQuestion, Answer, Question)` +
-        `VALUES(\"T/F\",\"${ans}\",\"${quest}\");`;
-    db.query(sqlQuery, (req, res, error) => {
+        answer = "false";
+     //   INSERT INTO table(c1,c2,...) VALUES (v1,v2,...);
+   // var sqlQuery = `INSERT INTO question(Answer) VALUES (?);`;
+    db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "True False");`, [answer, question, type], (req, res, error) => {
         if (error) {
             console.log(error);
             return;
         }
         console.log("Added t/f question");
+        console.log(req);
     });
-    res.redirect("adminAddQuestions");
+
+    var pass;
+    db.query(`SELECT * FROM question;`, (req, res, error )=>{
+        if(error) console.log(error);
+        //console.log(res);
+        //console.log(req);
+        //console.log(res[0]);
+        pass = res[1];
+       // console.log(pass);
+    });
+    res.render("adminAddQuestions", {
+        results: pass
+    });
 }
 
 
@@ -46,7 +64,7 @@ function insertMC(req){
 router.post("/questionSubmission", (req, res) => {
     console.log(req.body);
     if (req.body.isTF == "on") { // if it's a T/F question
-        insertTrueFalse(req);
+        insertTrueFalse(req, res);
     } else { // if it's MC
         insertMC(req);
     }

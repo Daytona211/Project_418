@@ -25,14 +25,15 @@ router.use(
 router.get('/login', (req, res) => {
 	console.log(req.session.userId);
 	if (req.session.userId != undefined)
-		res.render('adminAddQuestions');
+		res.render('adminAddQuestions', {results: undefined});
 	else
 		res.render('loginPage'); // to access this page go to /users/login
 });
 
 router.get("/register", (req, res) => {
-	if (req.session.userId != undefined)
-		res.redirect('adminAddQuestions');
+	console.log(req.session.userId);
+	if (req.session.userId)
+		res.render('adminAddQuestions', {results: undefined});
 	else
 		res.render("registerPage");
 });
@@ -40,8 +41,16 @@ router.get("/register", (req, res) => {
 router.post('/registers', (req, res) => {
 	//res.render("registerPage"); // to access this page go to /users/register
 	var username = req.body.username;
-	console.log(username);
-	res.end(JSON.stringify(req.body));
+	var password = req.body.password;
+	db.query(`INSERT INTO userprofile(Name, Password) VALUES (?, ?)`, [username, password]);
+	db.query('SELECT * FROM userprofile WHERE Name="' + username + '";', (error, result) =>{
+		// if(error) throw error;
+		console.log(error);
+		req.session.userId = result[0].UserProfileId;
+		console.log(result[0].UserProfileId);
+		console.log(req.session.userId);
+		res.render('adminAddQuestions', {results: undefined});
+	});
 });
 
 router.get('/about', (req, res) => {
@@ -67,7 +76,9 @@ router.post('/sublogin', (req, res) => {
 					if (passWord == result[i].Password) {
 						req.session.userId = result[i].UserProfileId;
 						console.log(req.session);
-						return res.render('adminAddQuestions'); //TO FIX WITH PROPER ROUTE
+						return res.render('adminAddQuestions', {
+							results: undefined
+						}); //TO FIX WITH PROPER ROUTE
 					}
 				}
 
