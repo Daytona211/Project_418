@@ -23,15 +23,15 @@ router.use(
 );
 
 router.get('/login', (req, res) => {
-	console.log(req);
-	if (req.session.userId)
-		res.render('adminAddQuestions');		
+	console.log(req.session.userId);
+	if (req.session.userId != undefined)
+		res.render('adminAddQuestions');
 	else
 		res.render('loginPage'); // to access this page go to /users/login
 });
 
 router.get("/register", (req, res) => {
-	if (req.session.userId)
+	if (req.session.userId != undefined)
 		res.redirect('adminAddQuestions');
 	else
 		res.render("registerPage");
@@ -67,7 +67,7 @@ router.post('/sublogin', (req, res) => {
 					if (passWord == result[i].Password) {
 						req.session.userId = result[i].UserProfileId;
 						console.log(req.session);
-						return res.render('adminAddQuestions');	//TO FIX WITH PROPER ROUTE
+						return res.render('adminAddQuestions'); //TO FIX WITH PROPER ROUTE
 					}
 				}
 

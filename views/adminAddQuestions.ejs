@@ -31,7 +31,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/users/login">Login</a>
-            </li>   
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="/users/about">About</a>
             </li>
@@ -45,7 +45,8 @@
     <form id="questionFrm" autocomplete="off" class="form-signUp text-center" method="POST"
         action="/admin/questionSubmission">
         <input id="question" name="question" class="form-control" placeholder="Question"> </input>
-        <label id="mcLabel" class="radio-inline"><input id="mcInput" type="radio" name="isMultipleChoice" checked>Multiple
+        <label id="mcLabel" class="radio-inline"><input id="mcInput" type="radio" name="isMultipleChoice"
+                checked>Multiple
             Choice</label>
         <label id="tflabel" class="radio-inline"><input id="tfInput" type="radio" name="isTF">True /
             False</label>
@@ -99,8 +100,43 @@
                 </div>
             </div>
         </div>
-      <button id= "submit" type="submit" class="btn btn-outline-primary btn-lg">Submit</button>        
+        <button id="submit" type="submit" class="btn btn-outline-primary btn-lg">Submit</button>
     </form>
+</div>
+
+
+<div id="quizbank">
+    <table class="table table-sm table-active">
+        <thead>
+            <tr>
+                <th scope="col" class="bg-info">QuestionID</th>
+                <th scope="col" class="bg-info">Question</th>
+                <th scope="col" class="bg-info">Answer</th>
+                <th scope="col" class="bg-info">Question Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Does Abe love CSS?</td>
+                <td>True</td>
+                <td>True or False</td>
+            </tr>
+
+            <tr>
+                <th scope="row">2</th>
+                <td>What is Richard's new major</td>
+                <td>Chemistry</td>
+                <td>Multiple Choice</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>What did Jared not watch?</td>
+                <td>The videos</td>
+                <td>Multiple Choice</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 </body>
