@@ -113,9 +113,13 @@
                 <th scope="col" class="bg-info">Question</th>
                 <th scope="col" class="bg-info">Answer</th>
                 <th scope="col" class="bg-info">Question Type</th>
+
             </tr>
         </thead>
         <tbody>
+            <div class="redXImage">
+                <image width="90px" height="90px" id="logo" src="/images/redX.jpg"></image>
+            </div>
               <% for(var i = 0; i < results.length; i++) { %>
                       <tr>  
                         <th scope="row"> <%= results[i].QuestionId %> </th>
