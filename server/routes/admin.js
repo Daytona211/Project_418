@@ -49,13 +49,13 @@ function insertMC(req, res) {
     var answer = "";
     var type = req.body.TypeOfQuestion;
     if (req.body.isACorrect != undefined)
-        answer += "A";
+        answer += "A ";
     if (req.body.isBCorrect != undefined)
-        answer += ",B";
+        answer += "B ";
     if (req.body.isCCorrect != undefined)
-        answer += ",C";
+        answer += "C ";
     if (req.body.isDCorrect != undefined)
-        answer += ",D";
+        answer += "D";
     db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "Multiple Choice");`, [answer, question, type], (req, res, error) => {
         if (error) {
             console.log(error);
