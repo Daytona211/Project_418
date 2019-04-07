@@ -104,7 +104,7 @@
     </form>
 </div>
 
-
+<br>
 <div id="quizbank">
     <table class="table table-sm table-active">
         <thead>
@@ -113,15 +113,22 @@
                 <th scope="col" class="bg-info">Question</th>
                 <th scope="col" class="bg-info">Answer</th>
                 <th scope="col" class="bg-info">Question Type</th>
+                <th scope="col" class="bg-info"></th>
             </tr>
         </thead>
         <tbody>
+               
               <% for(var i = 0; i < results.length; i++) { %>
-                      <tr>  
+                      <tr> 
                         <th scope="row"> <%= results[i].QuestionId %> </th>
                         <td> <%= results[i].Question %></td>
                         <td> <%= results[i].Answer %> </td>
                         <td> <%= results[i].TypeOfQuestion %></td>
+                        <td>
+                            <div class="redXImage">
+                                <input width="15px" height="15px" type="image" src="/images/redX.jpg"/>
+                            </div>
+                        </td>
                     </tr>
                 <% } %>
         </tbody>
