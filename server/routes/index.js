@@ -16,4 +16,9 @@ router.get("/about", (req, res)=>{
     res.render("aboutPage");
 });
 
+//Quiz Page Route
+router.get("/QuizPage", (req, res)=>{
+    res.render("QuizPage");
+});
+
 module.exports = router;
