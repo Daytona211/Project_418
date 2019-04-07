@@ -34,7 +34,7 @@ app.listen(PORT, () => {
 
 //SESSIONS SETUP / TESTING
 app.use(session({
-  secret: 'Sick meme',
+  secret: 'sick meme',
   resave: false,
   saveUninitialized: false,
   cookie: { 

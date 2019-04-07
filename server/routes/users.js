@@ -23,17 +23,17 @@ router.use(
 );
 
 router.get('/login', (req, res) => {
-	console.log(req.session.userId);
-	if (req.session.userId != undefined)
-		res.render('adminAddQuestions', {results: undefined});
+	if (req.session.userId != undefined){
+		res.render('adminPage'); 	
+	}
 	else
 		res.render('loginPage'); // to access this page go to /users/login
 });
 
 router.get("/register", (req, res) => {
-	console.log(req.session.userId);
-	if (req.session.userId)
-		res.render('adminAddQuestions', {results: undefined});
+	if (req.session.userId){
+		res.render('adminPage'); 	
+	}
 	else
 		res.render("registerPage");
 });
@@ -45,16 +45,12 @@ router.post('/registers', (req, res) => {
 	db.query(`INSERT INTO userprofile(Name, Password) VALUES (?, ?)`, [username, password]);
 	db.query('SELECT * FROM userprofile WHERE Name="' + username + '";', (error, result) =>{
 		// if(error) throw error;
-		console.log(error);
 		req.session.userId = result[0].UserProfileId;
-		console.log(result[0].UserProfileId);
-		console.log(req.session.userId);
-		res.render('adminAddQuestions', {results: undefined});
+		return res.render("adminPage");
 	});
 });
 
 router.get('/about', (req, res) => {
-	console.log(req.session);
 	res.render('aboutPage');
 });
 
@@ -68,20 +64,17 @@ router.post('/sublogin', (req, res) => {
 			if (result.length == 0) {
 				// User doesn't exist
 				let errorMsg = "We don't recognize that username. Please register";
-				res.render('loginPage', {
+				return res.render('loginPage', {
 					errorMsg
 				});
 			} else {
 				for (let i = 0; i < result.length; i++) {
 					if (passWord == result[i].Password) {
 						req.session.userId = result[i].UserProfileId;
-						console.log(req.session);
-						return res.render('adminAddQuestions', {
-							results: undefined
-						}); //TO FIX WITH PROPER ROUTE
+						return res.render("adminPage");
 					}
 				}
-
+			
 				let errorMsg = "We don't recognize that password. Please try again";
 				res.render('loginPage', {
 					errorMsg
@@ -90,8 +83,5 @@ router.post('/sublogin', (req, res) => {
 		}
 	});
 });
-
-
-
 
 module.exports = router;
