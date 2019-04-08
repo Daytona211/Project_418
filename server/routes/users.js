@@ -58,6 +58,14 @@ router.get('/about', (req, res) => {
 	res.render('aboutPage');
 });
 
+router.get('/home', (req, res) => {
+
+	console.log(req.session);
+	res.render('userhome');
+//	console.log("hellll");
+
+});
+
 router.post('/sublogin', (req, res) => {
 	let userName = req.body.username;
 	let passWord = req.body.password;
@@ -76,7 +84,12 @@ router.post('/sublogin', (req, res) => {
 					if (passWord == result[i].Password) {
 						req.session.userId = result[i].UserProfileId;
 						console.log(req.session);
+<<<<<<< Updated upstream
 						return res.render('adminAddQuestions', {
+=======
+						return res.render('userhome', {
+						//return res.render('adminAddQuestions', {
+>>>>>>> Stashed changes
 							results: undefined
 						}); //TO FIX WITH PROPER ROUTE
 					}
@@ -90,6 +103,8 @@ router.post('/sublogin', (req, res) => {
 		}
 	});
 });
+
+
 
 
 
