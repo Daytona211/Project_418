@@ -17,6 +17,22 @@ router.get("/addQuestions", (req, res) => {
     }
 });
 
+router.get("/deleteQuestions", (req1, res1) => {
+    if (!req1.session.userId)
+        res1.redirect('/users/login');
+    else {
+        var id = req1.query.id;
+        db.query(`DELETE FROM question WHERE QuestionId=${id}`, (req2, res2) => {
+            db.query(`SELECT * FROM question;`, (req3, res3, error) => {
+                if (error) console.log(error);
+                res1.render("adminAddQuestions", {
+                    results: res3
+                });
+            });
+        })
+    }
+});
+
 function insertTrueFalse(req, res) {
     var question = req.body.question;
     var answer;

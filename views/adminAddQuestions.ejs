@@ -126,7 +126,7 @@
                         <td> <%= results[i].TypeOfQuestion %></td>
                         <td>
                             <div class="redXImage">
-                                <input width="15px" height="15px" type="image" src="/images/redX.jpg"/>
+                                <a href="/admin/deleteQuestions/?id=<%-results[i].QuestionId%>"> <input width="15px" height="15px" type="image" src="/images/redX.jpg"/> </a>
                             </div>
                         </td>
                     </tr>
