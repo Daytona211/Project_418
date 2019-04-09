@@ -1,29 +1,33 @@
 #questionFrm {
-    position: relative;
-    top: 100px;
-    width: 40%;
-    left: 30%;
+	position: relative;
+	top: 100px;
+	width: 40%;
+	left: 30%;
 }
 
 #mcInput #mcLabel {
-    position: relative;
-    padding-left: 10px;
+	position: relative;
+	padding-left: 10px;
 }
 
-#spaceBetweenInput{
-    padding: 2px;
+#spaceBetweenInput {
+	padding: 2px;
 }
 
-#checkAnsReminder{
-    justify-self: left;
+#checkAnsReminder {
+	justify-self: left;
 }
 
-#tfAllContent{
-    display: none;
+#tfAllContent {
+	display: none;
 }
 
-#quizbank{
-    padding-top: 10%;
-    width: 50%;
-    margin: 0 auto;
+#quizbank {
+	padding-top: 10%;
+	width: 50%;
+	margin: 0 auto;
+}
+
+.redXImage {
+	float: left;
 }

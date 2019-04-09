@@ -8,47 +8,91 @@ router.get("/addQuestions", (req, res) => {
     if (!req.session.userId)
         res.redirect('/users/login');
     else {
-        res.render("adminAddQuestions");
+        db.query(`SELECT * FROM question;`, (request, result, error) => {
+            if (error) console.log(error);
+            res.render("adminAddQuestions", {
+                results: result
+            });
+        });
     }
 });
 
-function insertTrueFalse(req) {
-    var quest = req.body.question;
-    var ans;
-    if (req.body.isTrueCorrect == undefined)
-        ans = "true";
+router.get("/deleteQuestions", (req1, res1) => {
+    if (!req1.session.userId)
+        res1.redirect('/users/login');
+    else {
+        var id = req1.query.id;
+        db.query(`DELETE FROM question WHERE QuestionId=${id}`, (req2, res2) => {
+            db.query(`SELECT * FROM question;`, (req3, res3, error) => {
+                if (error) console.log(error);
+                res1.render("adminAddQuestions", {
+                    results: res3
+                });
+            });
+        })
+    }
+});
+
+function insertTrueFalse(req, res) {
+    var question = req.body.question;
+    var answer;
+    var questionId = req.body.questionId;
+    var type = req.body.TypeOfQuestion;
+    if (req.body.isTrueCorrect != undefined)
+        answer = "true";
     else
-        ans = "false";
-    var sqlQuery = `INSERT INTO question (TypeOfQuestion, Answer, Question)` +
-        `VALUES(\"T/F\",\"${ans}\",\"${quest}\");`;
-    db.query(sqlQuery, (req, res, error) => {
+        answer = "false";
+    //   INSERT INTO table(c1,c2,...) VALUES (v1,v2,...);
+    // var sqlQuery = `INSERT INTO question(Answer) VALUES (?);`;
+    db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "True False");`, [answer, question, type], (req, res, error) => {
         if (error) {
             console.log(error);
             return;
         }
         console.log("Added t/f question");
     });
-    res.redirect("adminAddQuestions");
+    db.query(`SELECT * FROM question;`, (request, result, error) => {
+        if (error) console.log(error);
+        res.render("adminAddQuestions", {
+            results: result
+        });
+    });
 }
 
 
-function insertMC(req){
-    var quest = req.body.question;
-   // if(isACorrect) // NEED TO FINISH
-    //if()
-    //var ans = req.body.ans;
-    //var sqlQuery = `INSERT INTO question (TypeOfQuestion, Answer, Question)` +
-     //   `VALUES(\"Multiple Choice\",\"${ans}\",\"${quest}\");`;
-
+function insertMC(req, res) {
+    var question = req.body.question;
+    var answer = "";
+    var type = req.body.TypeOfQuestion;
+    if (req.body.isACorrect != undefined)
+        answer += "A ";
+    if (req.body.isBCorrect != undefined)
+        answer += "B ";
+    if (req.body.isCCorrect != undefined)
+        answer += "C ";
+    if (req.body.isDCorrect != undefined)
+        answer += "D";
+    db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "Multiple Choice");`, [answer, question, type], (req, res, error) => {
+        if (error) {
+            console.log(error);
+            return;
+        }
+        console.log("Added MC question");
+    });
+    db.query(`SELECT * FROM question;`, (request, result, error) => {
+        if (error) console.log(error);
+        res.render("adminAddQuestions", {
+            results: result
+        });
+    });
 }
 
 
 router.post("/questionSubmission", (req, res) => {
-    console.log(req.body);
     if (req.body.isTF == "on") { // if it's a T/F question
-        insertTrueFalse(req);
+        insertTrueFalse(req, res);
     } else { // if it's MC
-        insertMC(req);
+        insertMC(req, res);
     }
 });
 
