@@ -61,10 +61,28 @@ router.get('/about', (req, res) => {
 
 router.get('/home', (req, res) => {
 
-	var userName =	req.session.user && req.session.user.username ? req.session.user.username : null;
-	res.render('userhome', {username: user});
-	console.log(userName);
-	console.log("hellll");
+	var toppings = ["Tomato", "Cheese", "Pepperoni", 
+	"Olives", "Jalapenos", "Pineapple", "Ham"];
+
+var ul = document.querySelector("ul");
+
+for (var i = 0; i < toppings.length; i++) {
+var topping = toppings[i];
+
+var listItem = document.createElement("li");
+listItem.textContent = topping;
+
+ul.appendChild(listItem);
+
+
+  
+
+	res.render('userhome', {username: user, examstaken: ul});
+
+}
+
+	
+	
 
 });
 
