@@ -36,7 +36,7 @@
 	CREATE TABLE Choices(
 		ChoicesId int AUTO_INCREMENT,
 		QuestionId int NOT NULL,
-		PossibleAnswer varchar(200) NOT NULL,
+		PossibleAnswer varchar(400) NOT NULL,
 		PRIMARY KEY (ChoicesId),
 		FOREIGN KEY (QuestionId) REFERENCES Question(QuestionId)
 	);
