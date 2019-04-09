@@ -4,6 +4,7 @@ const mysql = require('mysql');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const session = serverInfo.session;
+let user = null;
 
 router.use(bodyParser.json());
 router.use(
@@ -61,8 +62,9 @@ router.get('/about', (req, res) => {
 router.get('/home', (req, res) => {
 
 	var userName =	req.session.user && req.session.user.username ? req.session.user.username : null;
-	res.render('userhome', {user: userName});
-//	console.log("hellll");
+	res.render('userhome', {username: user});
+	console.log(userName);
+	console.log("hellll");
 
 });
 
@@ -70,8 +72,8 @@ router.post('/sublogin', (req, res) => {
 	let userName = req.body.username;
 	let passWord = req.body.password;
 	let sqlQuery = 'SELECT * FROM userprofile WHERE Name="' + userName + '";';
-
 	user = userName;
+	
 	db.query(sqlQuery, (error, result) => {
 		if (error) console.log(error);
 		else {
@@ -88,7 +90,7 @@ router.post('/sublogin', (req, res) => {
 						console.log(req.session);
 						return res.render('userhome', {
 						//return res.render('adminAddQuestions', {
-							user: userName
+							username: userName
 						}); //TO FIX WITH PROPER ROUTE
 					}
 				}
