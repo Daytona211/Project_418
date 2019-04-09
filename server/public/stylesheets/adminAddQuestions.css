@@ -18,6 +18,10 @@
 	justify-self: left;
 }
 
+#csvContent{
+	display: none;	
+}
+
 #tfAllContent {
 	display: none;
 }

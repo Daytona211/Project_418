@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const serverInfo = require('./../server.js');
 const session = serverInfo.session;
-const db = serverInfo.db;
+const db = serverInfo.db; 
 
 router.get("/addQuestions", (req, res) => {
     if (!req.session.userId)
@@ -30,6 +30,18 @@ router.get("/deleteQuestions", (req1, res1) => {
                 });
             });
         })
+    }
+});
+
+
+router.post("/questionSubmission", (req, res) => {
+    console.log(req.body);
+    if (req.body.isTF == "on") { // if it's a T/F question
+        insertTrueFalse(req, res);
+    } else if (req.body.isMultipleChoice == "on") { // if it's MC
+        insertMC(req, res);
+    } else {
+        insertCSV(req, res);
     }
 });
 
@@ -87,13 +99,10 @@ function insertMC(req, res) {
     });
 }
 
+function insertCSV(req, res) {
 
-router.post("/questionSubmission", (req, res) => {
-    if (req.body.isTF == "on") { // if it's a T/F question
-        insertTrueFalse(req, res);
-    } else { // if it's MC
-        insertMC(req, res);
-    }
-});
+}
+
+
 
 module.exports = router;

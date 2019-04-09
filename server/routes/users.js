@@ -54,12 +54,6 @@ router.get('/about', (req, res) => {
 	res.render('aboutPage');
 });
 
-function timeout(){
-	var myInt = setInterval(function () {
-		console.log("Hello");
-	}, 500);
-}
-
 router.post('/sublogin', (req, res) => {
 	let userName = req.body.username;
 	let passWord = req.body.password;
