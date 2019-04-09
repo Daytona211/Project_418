@@ -60,8 +60,8 @@ router.get('/about', (req, res) => {
 
 router.get('/home', (req, res) => {
 
-	console.log(req.session);
-	res.render('userhome');
+	var userName =	req.session.user && req.session.user.username ? req.session.user.username : null;
+	res.render('userhome', {user: userName});
 //	console.log("hellll");
 
 });
@@ -70,6 +70,8 @@ router.post('/sublogin', (req, res) => {
 	let userName = req.body.username;
 	let passWord = req.body.password;
 	let sqlQuery = 'SELECT * FROM userprofile WHERE Name="' + userName + '";';
+
+	user = userName;
 	db.query(sqlQuery, (error, result) => {
 		if (error) console.log(error);
 		else {
@@ -84,13 +86,9 @@ router.post('/sublogin', (req, res) => {
 					if (passWord == result[i].Password) {
 						req.session.userId = result[i].UserProfileId;
 						console.log(req.session);
-<<<<<<< Updated upstream
-						return res.render('adminAddQuestions', {
-=======
 						return res.render('userhome', {
 						//return res.render('adminAddQuestions', {
->>>>>>> Stashed changes
-							results: undefined
+							user: userName
 						}); //TO FIX WITH PROPER ROUTE
 					}
 				}
