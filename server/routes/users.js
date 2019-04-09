@@ -54,6 +54,12 @@ router.get('/about', (req, res) => {
 	res.render('aboutPage');
 });
 
+function timeout(){
+	var myInt = setInterval(function () {
+		console.log("Hello");
+	}, 500);
+}
+
 router.post('/sublogin', (req, res) => {
 	let userName = req.body.username;
 	let passWord = req.body.password;
@@ -73,7 +79,7 @@ router.post('/sublogin', (req, res) => {
 						req.session.userId = result[i].UserProfileId;
 						return res.render("adminPage");
 					}
-				}
+				}	
 			
 				let errorMsg = "We don't recognize that password. Please try again";
 				res.render('loginPage', {
