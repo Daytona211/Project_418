@@ -6,6 +6,14 @@ const bodyParser = require('body-parser');
 const session = serverInfo.session;
 let user = null;
 
+var exams = [
+	{ name : "Intro to CS"}, 
+	{ name :"Data Structures"},
+	{ name : "Systems Programming"}, 
+	{ name :"Object Oriented Programming"}, 
+	{ name :"Intro to Web Technologies"}
+]
+
 router.use(bodyParser.json());
 router.use(
 	bodyParser.urlencoded({
@@ -61,25 +69,11 @@ router.get('/about', (req, res) => {
 
 router.get('/home', (req, res) => {
 
-	var toppings = ["Tomato", "Cheese", "Pepperoni", 
-	"Olives", "Jalapenos", "Pineapple", "Ham"];
-
-var ul = document.querySelector("ul");
-
-for (var i = 0; i < toppings.length; i++) {
-var topping = toppings[i];
-
-var listItem = document.createElement("li");
-listItem.textContent = topping;
-
-ul.appendChild(listItem);
-
 
   
+	res.render('userhome', {username: user, exams: exams});
 
-	res.render('userhome', {username: user, examstaken: ul});
 
-}
 
 	
 	
@@ -108,7 +102,7 @@ router.post('/sublogin', (req, res) => {
 						console.log(req.session);
 						return res.render('userhome', {
 						//return res.render('adminAddQuestions', {
-							username: userName
+							username: userName, exams: exams
 						}); //TO FIX WITH PROPER ROUTE
 					}
 				}
