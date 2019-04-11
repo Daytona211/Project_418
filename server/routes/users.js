@@ -80,8 +80,7 @@ router.post('/sublogin', (req, res) => {
 	});
 });
 
-
-//is this where it goes?
+//queries question/choices
 router.get('/QuizPage', (req, res) => {
 	db.query("SELECT * FROM question JOIN choices on question.questionid=choices.questionid;",(request,results,error) => {
 		if(error) console.log(error);
