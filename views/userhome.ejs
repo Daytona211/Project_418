@@ -51,7 +51,7 @@
            <div >
            <ul class="col-6 mx-auto" >
        
-            <% examstoTake.forEach(function( eachExam){ %>
+            <% examstoTake.forEach(function(eachExam){ %>
                 
 
                      <li><%= eachExam.TestId %></li>
@@ -60,6 +60,21 @@
            </ul>
          </div>
 
+          <br> </br>
+            <h3>Quizzes to Take</h2>
+
+           <br><br>
+           <div >
+           <ul class="col-6 mx-auto" >
+       
+            <% examsComplete.forEach(function(eachExam){ %>
+                
+
+                     <li><%= examsComplete.TestId %></li>
+                   
+                     <% }) %>
+           </ul>
+         </div>
        
             
     

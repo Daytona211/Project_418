@@ -74,44 +74,62 @@ let sqlQuery_status = 'SELECT  UserStatus FROM test;';
 let sqlQuery_testid = 'SELECT TestId FROM test;';
 var exams_incomplete = [];
 var exams_complete = [];
+var testids = new Array();
+var statuses =  new Array() ;
+var userids = new Array() ;
 
-console.log("yerr");
-db.query(sqlQuery_status, (error, status)  => {
-    if (err) throw err;
+db.query(sqlQuery_status, (err, status)  => {
+
+		if (err) throw err;
+		statuses = status;
     
   });
 
-  db.query(sqlQuery_testid, (error, testid)  => {
+  db.query(sqlQuery_testid, (err, testid)  => {
     if (err) throw err;
-
+		testids = testid;
   });
 
    
-db.query(sqlQuery_user, (error, users) => {
+db.query(sqlQuery_user, (err, users) => {
+	if (err) throw err;
+	userids = users;
 
 	
+	
+	//	console.log("yerr else");
 
-	if (error) console.log(error);
-	else{
-
-		for( let i= 0; i < users.length; i++){
-			if (users[i].UserProfileId == 0){
-				
-				if(status[i].UserStatus == 'incomplete'){
-					console.log(testid[i]);
-					exams_incomplete.push(testid[i]);
-				}
-				else
-					exams_complete.push(testid[i]);
-				}
-			}
-
-		}
+	
 		
-	}
+	
 });
- 
-	res.render('userhome', {username: user, examstoTake: exam, examsComplete: exams_complete});
+
+
+console.log("gijufhjdi " + userids.length);
+
+console.log("gijufhjdi" + statuses.length);
+
+console.log("gijufhjdi" + testids.length);
+
+for( let i= 0; i < userids.length; i++){
+		
+//	console.log("gijufhjdi" + userids.length);
+	if (usersids[i].UserProfileId == 0){
+		
+	console.log("In if statement "+ statuses[i].UserStatus);
+	// console.log("hhefu ");
+		if(statuses[i].UserStatus == 'incomplete'){
+		
+			console.log(testids[i]);
+			exams_incomplete.concat(testids[i]);
+		}
+		else
+			exams_complete.push(testids[i]);
+		}
+	}
+	console.log(exams_incomplete);
+	console.log(exams_complete);
+	res.render('userhome', {username: user, examstoTake: exams_incomplete, examsComplete: exams_complete});
 
 
 
@@ -142,7 +160,7 @@ router.post('/sublogin', (req, res) => {
 						console.log(req.session);
 						return res.render('userhome', {
 						//return res.render('adminAddQuestions', {
-							username: userName, examstoTake: exams
+							username: userName, examstoTake: exams, examsComplete: exams
 						}); //TO FIX WITH PROPER ROUTE
 					}
 				}
