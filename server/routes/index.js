@@ -19,15 +19,9 @@ router.get("/about", (req, res)=>{
 //Quiz Page Route
 router.get("/QuizPage", (req, res)=>{
     res.render("QuizPage");
-
-    connection.query("SELECT * FROM question",function(err,result){
-
-        if(err){
-            throw err;
-        } else {
-            res.render('print', result);                
-        }
-    });
 });
+
+
+
 
 module.exports = router;
