@@ -11,7 +11,7 @@ var exams = [
 	{ name :"Data Structures"},
 	{ name : "Systems Programming"}, 
 	{ name :"Object Oriented Programming"}, 
-	{ name :"Intro to Web Technologies"}
+	//{ name :"Intro to Web Technologies"}
 ]
 
 router.use(bodyParser.json());
@@ -69,9 +69,49 @@ router.get('/about', (req, res) => {
 
 router.get('/home', (req, res) => {
 
+let sqlQuery_user = 'SELECT UserProfileId FROM test;';
+let sqlQuery_status = 'SELECT  UserStatus FROM test;';
+let sqlQuery_testid = 'SELECT TestId FROM test;';
+var exams_incomplete = [];
+var exams_complete = [];
 
-  
-	res.render('userhome', {username: user, exams: exams});
+console.log("yerr");
+db.query(sqlQuery_status, (error, status)  => {
+    if (err) throw err;
+    
+  });
+
+  db.query(sqlQuery_testid, (error, testid)  => {
+    if (err) throw err;
+
+  });
+
+   
+db.query(sqlQuery_user, (error, users) => {
+
+	
+
+	if (error) console.log(error);
+	else{
+
+		for( let i= 0; i < users.length; i++){
+			if (users[i].UserProfileId == 0){
+				
+				if(status[i].UserStatus == 'incomplete'){
+					console.log(testid[i]);
+					exams_incomplete.push(testid[i]);
+				}
+				else
+					exams_complete.push(testid[i]);
+				}
+			}
+
+		}
+		
+	}
+});
+ 
+	res.render('userhome', {username: user, examstoTake: exam, examsComplete: exams_complete});
 
 
 
@@ -102,7 +142,7 @@ router.post('/sublogin', (req, res) => {
 						console.log(req.session);
 						return res.render('userhome', {
 						//return res.render('adminAddQuestions', {
-							username: userName, exams: exams
+							username: userName, examstoTake: exams
 						}); //TO FIX WITH PROPER ROUTE
 					}
 				}
