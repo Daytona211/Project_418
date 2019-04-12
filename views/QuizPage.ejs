@@ -39,6 +39,7 @@
     <br><br><br><br><br>
 
     <%
+    var counter=0;
     var postedquestions = new Set();
     for(let x=0; x<results.length; x++){
         if(!postedquestions.has(results[x].QuestionId)){
@@ -53,10 +54,11 @@
                     <%
                     for(let q=0; q<results.length; q++){
                         if(results[q].QuestionId == results[x].QuestionId){
+                            counter++;
                     %>
-                        <input type="checkbox" value=<%=results[q].PossibleAnswer%> >
-                            <%= results[q].PossibleAnswer %>
-                        </input>
+                            <input type="checkbox" value=<%=results[q].PossibleAnswer%>>
+                                <%= results[q].PossibleAnswer %>
+                            </input>
                         <%}%>
                     <%}%>
                 </form>
