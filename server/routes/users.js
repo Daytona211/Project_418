@@ -83,11 +83,13 @@ router.post('/sublogin', (req, res) => {
 //queries question/choices
 router.get('/QuizPage', (req, res) => {
 	db.query("SELECT * FROM question JOIN choices on question.questionid=choices.questionid;",(request,results,error) => {
-		if(error) console.log(error);
-		res.render("QuizPage",{
-			results: results
-		})
+		if(error){
+			console.log(error);
+		}
+
+		res.render("QuizPage",{results: results})
 	})
+
 });
 
 module.exports = router;
