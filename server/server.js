@@ -41,7 +41,7 @@ app.use(session({
     maxAge: (1000 * 60 * 60), // 1 hr
     sameSite: true,
    }
-})) 
+}));
 module.exports.session = session;
 
 // // routes
