@@ -41,3 +41,10 @@
 		FOREIGN KEY (QuestionId) REFERENCES Question(QuestionId)
 	);
 
+	CREATE TABLE Grade(
+		GradeId int AUTO_INCREMENT,
+		QuestionId int NOT NULL,
+		Grade int NOT NULL,
+		PRIMARY KEY (GradeId),
+		FOREIGN KEY (QuestionId) REFERENCES Question(QuestionId)
+	);
