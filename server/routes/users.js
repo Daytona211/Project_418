@@ -89,7 +89,10 @@ router.post('/sublogin', (req, res) => {
 router.get('/QuizPage', (req, res) => {
 	var id = req.session.userId;
 	console.log(id);
-	db.query("SELECT * FROM question JOIN choices on question.questionid=choices.questionid JOIN test on test.testid=question.testid JOIN userprofile on userprofile.userprofileid=test.userprofileid;",(request,results,error) => {
+	db.query("SELECT * FROM question JOIN choices on question.questionid=choices.questionid;",(request,results,error) => {
+
+		//join statements to userprofile table, add after choices.questionid, not working needs to be fixed.
+		//JOIN test on test.testid=question.testid JOIN userprofile on userprofile.userprofileid=test.userprofileid;
 		if(error){
 			console.log(error);
 		}
