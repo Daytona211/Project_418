@@ -1,4 +1,3 @@
-
 const serverInfo = require('./../server.js');
 const express = require('express');
 const mysql = require('mysql');
@@ -23,20 +22,20 @@ router.use(
 	})
 );
 
-router.get('/login', (req, res) => {
-	if (req.session.userId != undefined){
-		res.render('adminPage'); 	
-	}
-	else
-		res.render('loginPage'); // to access this page go to /users/login
+router.get('/', (req, res) => {
+	res.render('welcomePage');
 });
 
-router.get("/register", (req, res) => {
-	if (req.session.userId){
-		res.render('adminPage'); 	
-	}
-	else
-		res.render("registerPage");
+router.get('/login', (req, res) => {
+	if (req.session.userId != undefined) {
+		res.render('adminPage');
+	} else res.render('loginPage'); // to access this page go to /users/login
+});
+
+router.get('/register', (req, res) => {
+	if (req.session.userId) {
+		res.render('adminPage');
+	} else res.render('registerPage');
 });
 
 router.post('/registers', (req, res) => {
@@ -44,10 +43,10 @@ router.post('/registers', (req, res) => {
 	var username = req.body.username;
 	var password = req.body.password;
 	db.query(`INSERT INTO userprofile(Name, Password) VALUES (?, ?)`, [username, password]);
-	db.query('SELECT * FROM userprofile WHERE Name="' + username + '";', (error, result) =>{
+	db.query('SELECT * FROM userprofile WHERE Name="' + username + '";', (error, result) => {
 		// if(error) throw error;
 		req.session.userId = result[0].UserProfileId;
-		return res.render("adminPage");
+		return res.render('adminPage');
 	});
 });
 
@@ -72,10 +71,10 @@ router.post('/sublogin', (req, res) => {
 				for (let i = 0; i < result.length; i++) {
 					if (passWord == result[i].Password) {
 						req.session.userId = result[i].UserProfileId;
-						return res.render("adminPage");
+						return res.render('adminPage');
 					}
-				}	
-			
+				}
+
 				let errorMsg = "We don't recognize that password. Please try again";
 				res.render('loginPage', {
 					errorMsg
@@ -87,14 +86,12 @@ router.post('/sublogin', (req, res) => {
 
 //queries question/choices
 router.get('/QuizPage', (req, res) => {
-	db.query("SELECT * FROM question JOIN choices on question.questionid=choices.questionid;",(request,results,error) => {
-		if(error){
+	db.query('SELECT * FROM question JOIN choices on question.questionid=choices.questionid;', (request, results, error) => {
+		if (error) {
 			console.log(error);
 		}
 
-		res.render("QuizPage",{results: results})
-	})
-
+		res.render('QuizPage', { results: results });
+	});
 });
 module.exports = router;
-
