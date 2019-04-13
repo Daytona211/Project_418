@@ -1,3 +1,4 @@
+
 const serverInfo = require('./../server.js');
 const express = require('express');
 const mysql = require('mysql');
@@ -73,7 +74,7 @@ router.post('/sublogin', (req, res) => {
 						req.session.userId = result[i].UserProfileId;
 						return res.render("adminPage");
 					}
-				}
+				}	
 			
 				let errorMsg = "We don't recognize that password. Please try again";
 				res.render('loginPage', {
@@ -84,4 +85,16 @@ router.post('/sublogin', (req, res) => {
 	});
 });
 
+//queries question/choices
+router.get('/QuizPage', (req, res) => {
+	db.query("SELECT * FROM question JOIN choices on question.questionid=choices.questionid;",(request,results,error) => {
+		if(error){
+			console.log(error);
+		}
+
+		res.render("QuizPage",{results: results})
+	})
+
+});
 module.exports = router;
+

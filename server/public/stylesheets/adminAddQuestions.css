@@ -1,11 +1,13 @@
-#questionFrm {
+
+#questionDiv {
 	position: relative;
 	top: 100px;
 	width: 40%;
 	left: 30%;
 }
 
-#mcInput #mcLabel {
+
+#mcInput #mcLabel #mcQuestionInput {
 	position: relative;
 	padding-left: 10px;
 }
@@ -16,6 +18,11 @@
 
 #checkAnsReminder {
 	justify-self: left;
+}
+
+
+#csvContent{
+	display: none;	
 }
 
 #tfAllContent {
