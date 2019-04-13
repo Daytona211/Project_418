@@ -22,6 +22,4 @@ router.get("/QuizPage", (req, res)=>{
 });
 
 
-
-
 module.exports = router;

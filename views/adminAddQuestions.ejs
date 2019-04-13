@@ -14,6 +14,7 @@
 </head>
 
 <body>
+
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <a class="navbar-brand" href="#">Coding Buddy</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
@@ -24,7 +25,7 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/users/home">...Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/users/register">Signup</a>
@@ -40,104 +41,137 @@
 </nav>
 
 
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/register">Signup</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/about">About</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-<div id="questionDiv" class="centerContent text-center">
-    <form id="questionFrm" autocomplete="off" class="form-signUp text-center" method="POST"
-        action="/admin/questionSubmission">
-        <input id="question" name="question" class="form-control" placeholder="Question"> </input>
+
+    <div id="questionDiv" class="centerContent text-center">
         <label id="mcLabel" class="radio-inline"><input id="mcInput" type="radio" name="isMultipleChoice"
                 checked>Multiple
             Choice</label>
         <label id="tflabel" class="radio-inline"><input id="tfInput" type="radio" name="isTF">True /
             False</label>
+        <label id="csvlabel" class="radio-inline"><input id="csvInput" type="radio" name="isCSV">Upload a
+            CSV</label>
+        <div id="csvContent">
+            <form id="csvFrm" autocomplete="off" class="form-signUp text-center" method="POST"
+                action="/admin/csvQuestionSubmission" enctype="multipart/form-data">
+                <input id="fileid" type="file" name="csvFile" />
+                <button id="submit" type="submit" class="btn btn-outline-primary btn-lg">Submit</button>
+            </form>
+        </div>
         <div id="tfAllContent">
-            <p id="checkAnsReminder">Check the correct answer</p>
-            <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <input name="isTrueCorrect" id="trueAnswerRadioBtn" type="radio" checked> </input>
-                    </span>
-                    <p>True</p>
+            <form id="tfFrm" autocomplete="off" class="form-signUp text-center" method="POST"
+                action="/admin/tfQuestionSubmission">
+                <input id="mcQuestionInput" name="question" class="form-control" placeholder="Question"> </input>
+                <p id="checkAnsReminder">Check the correct answer</p>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <input name="isTrueCorrect" id="trueAnswerRadioBtn" type="radio" checked> </input>
+                        </span>
+                        <p>True</p>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <input name="isFalseCorrect" id="falseAnswerRadioBtn" type="radio"> </input>
+                        </span>
+                        <p>False</p>
+                    </div>
                 </div>
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <input name="isFalseCorrect" id="falseAnswerRadioBtn" type="radio"> </input>
-                    </span>
-                    <p>False</p>
-                </div>
-            </div>
+                <button id="submit" type="submit" class="btn btn-outline-primary btn-lg">Submit</button>
+
+            </form>
         </div>
 
         <div id="mcAllContent">
-            <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <input name="isACorrect" type="checkbox">
-                    </span>
-                    <input id="AAnswerBox" name="AAnswerBox" class="form-control" type="text"
-                        placeholder="Answer for A">
+            <form id="mcFrm" autocomplete="off" class="form-signUp text-center" method="POST"
+                action="/admin/mcQuestionSubmission">
+                <div class="form-group">
+                    <input id="question" name="question" class="form-control" placeholder="Question"> </input>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <input name="isACorrect" type="checkbox">
+                        </span>
+                        <input id="AAnswerBox" name="AAnswerBox" class="form-control" type="text"
+                            placeholder="Answer for A">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <input name="isBCorrect" type="checkbox">
+                        </span>
+                        <input id="BAnswerBox" name="BAnswerBox" class="form-control" type="text"
+                            placeholder="Answer for B">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <input name="isCCorrect" type="checkbox">
+                        </span>
+                        <input id="CAnswerBox" name="CAnswerBox" class="form-control" type="text"
+                            placeholder="Answer for C">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <input name="isDCorrect" type="checkbox">
+                        </span>
+                        <input id="DAnswerBox" name="DAnswerBox" class="form-control" type="text"
+                            placeholder="Answer for D">
+                    </div>
                 </div>
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <input name="isBCorrect" type="checkbox">
-                    </span>
-                    <input id="BAnswerBox" name="BAnswerBox" class="form-control" type="text"
-                        placeholder="Answer for B">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <input name="isCCorrect" type="checkbox">
-                    </span>
-                    <input id="CAnswerBox" name="CAnswerBox" class="form-control" type="text"
-                        placeholder="Answer for C">
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <input name="isDCorrect" type="checkbox">
-                    </span>
-                    <input id="DAnswerBox" name="DAnswerBox" class="form-control" type="text"
-                        placeholder="Answer for D">
-                </div>
-            </div>
+                <button id="submit" type="submit" class="btn btn-outline-primary btn-lg">Submit</button>
+            </form>
         </div>
-        <button id="submit" type="submit" class="btn btn-outline-primary btn-lg">Submit</button>
-    </form>
-</div>
+        </form>
+    </div>
 
 
-<div id="quizbank">
-    <table class="table table-sm table-active">
-        <thead>
-            <tr>
-                <th scope="col" class="bg-info">QuestionID</th>
-                <th scope="col" class="bg-info">Question</th>
-                <th scope="col" class="bg-info">Answer</th>
-                <th scope="col" class="bg-info">Question Type</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Does Abe love CSS?</td>
-                <td>True</td>
-                <td>True or False</td>
-            </tr>
+    <br>
+    <div id="quizbank">
+        <table class="table table-sm table-active">
+            <thead>
+                <tr>
+                    <th scope="col" class="bg-info">QuestionID</th>
+                    <th scope="col" class="bg-info">Question</th>
+                    <th scope="col" class="bg-info">Answer</th>
+                    <th scope="col" class="bg-info">Question Type</th>
+                    <th scope="col" class="bg-info"></th>
+                </tr>
+            </thead>
+            <tbody>
 
-            <tr>
-                <th scope="row">2</th>
-                <td>What is Richard's new major</td>
-                <td>Chemistry</td>
-                <td>Multiple Choice</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>What did Jared not watch?</td>
-                <td>The videos</td>
-                <td>Multiple Choice</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+                <% for(var i = 0; i < results.length; i++) { %>
+                <tr>
+                    <th scope="row"> <%= results[i].QuestionId %> </th>
+                    <td> <%= results[i].Question %></td>
+                    <td> <%= results[i].Answer %> </td>
+                    <td> <%= results[i].TypeOfQuestion %></td>
+                    <td>
+                        <div class="redXImage">
+                            <a href="/admin/deleteQuestions/?id=<%-results[i].QuestionId%>"> <input width="15px"
+                                    height="15px" type="image" src="/images/redX.jpg" /> </a>
+                        </div>
+                    </td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+
 
 </body>
 

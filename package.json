@@ -4,6 +4,7 @@
   "description": "Project for ICSI418",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",  
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,6 +23,7 @@
     "express": "^4.16.4",
     "express-ejs-layouts": "^2.5.0",
     "express-session": "^1.15.6",
+    "multer": "^1.4.1",
     "mysql": "^2.16.0"
   }
 }
