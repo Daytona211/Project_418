@@ -102,4 +102,39 @@ router.get('/QuizPage', (req, res) => {
 
 });
 
+
+router.post("/Grade", (req, res) => {
+    insertGrade(req, res);
+});
+
+
+//write the proper grade for the question
+function insertGrade(req, res) {
+    var question = req.body.question;
+    var answer;
+    var questionId = req.body.questionId;
+
+    console.log(req.body);
+    var type = req.body.TypeOfQuestion;
+    if (req.body.isTrueCorrect == undefined)
+        answer = "true";
+    else
+		answer = "false";
+		
+    var type = req.body.TypeOfQuestion;
+    if (req.body.isTrueCorrect != undefined)
+        answer = "true";
+    else
+        answer = "false";
+
+    db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "True False");`, [answer, question, type], (req, res, error) => {
+        if (error) {
+            console.log(error);
+            return;
+        }
+        console.log("Added t/f question");
+        console.log(req);
+    });
+}
+
 module.exports = router;
