@@ -87,7 +87,9 @@ router.post('/sublogin', (req, res) => {
 
 //queries question/choices
 router.get('/QuizPage', (req, res) => {
-	db.query("SELECT * FROM question JOIN choices on question.questionid=choices.questionid;",(request,results,error) => {
+	var id = req.session.userId;
+	console.log(id);
+	db.query("SELECT * FROM question JOIN choices on question.questionid=choices.questionid JOIN test on test.testid=question.testid JOIN userprofile on userprofile.userprofileid=test.userprofileid;",(request,results,error) => {
 		if(error){
 			console.log(error);
 		}
@@ -96,5 +98,5 @@ router.get('/QuizPage', (req, res) => {
 	})
 
 });
-module.exports = router;
 
+module.exports = router;
