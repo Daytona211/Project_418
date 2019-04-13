@@ -41,35 +41,38 @@
     <%
     var postedquestions = new Set();
     var answers = new Map();
-    for(let x=0; x<results.length; x++){
-        if(!postedquestions.has(results[x].QuestionId)){
-            postedquestions.add(results[x].QuestionId);
-            answers.set(results[x].QuestionId,results[x].Answer);
-    %>      
-            <div class="container for each question/choices">
-                <div class="questions">
-                    <h4><%= results[x].Question %></h4>
-                </div>
+    %>
+    <form id="quizPage" autocomplete="off" method="POST" action="/users/Grade"> 
+            <%
+            for(let x=0; x<results.length; x++){
+                if(!postedquestions.has(results[x].QuestionId)){
+                    postedquestions.add(results[x].QuestionId);
+                    answers.set(results[x].QuestionId,results[x].Answer);
+            %>      
+                    <div class="container for each question/choices">
+                        <div class="questions">
+                            <h4><%= results[x].Question %></h4>
+                        </div>
 
-                <form>
-                    <%
-                    for(let q=0; q<results.length; q++){
-                        if(results[q].QuestionId == results[x].QuestionId){
-                    %>
-                            <p>
-                                <input type="radio" value=<%=results[q].PossibleAnswer%> name=<%=results[q].QuestionId%>>
-                                    <%= results[q].PossibleAnswer %>
-                                </input>
-                            </p>
-                        <%}%>
-                    <%}%>
-                </form>
-                <br>
-            </div>
-        <%}%>
-    <%}%>  
-    
-    <input type="button" value="Submit" onclick="submission()">
+                        <form>
+                            <%
+                            for(let q=0; q<results.length; q++){
+                                if(results[q].QuestionId == results[x].QuestionId){
+                            %>
+                                    <p>
+                                        <input type="radio" value=<%=results[q].PossibleAnswer%> name=<%=results[q].QuestionId%>>
+                                            <%= results[q].PossibleAnswer %>
+                                        </input>
+                                    </p>
+                                <%}%>
+                            <%}%>
+                        </form>
+                        <br>    
+                    </div>
+                <%}%>
+            <%}%>
+        <button type="submit" value="submit">Submit</button>
+    </form>  
 
 </body>
 </html>
