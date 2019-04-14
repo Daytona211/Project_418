@@ -1,4 +1,3 @@
-
 const express = require("express");
 const router = express.Router();
 const serverInfo = require('./../server.js');
@@ -50,21 +49,10 @@ router.post("/csvQuestionSubmission", upload.single('csvFile'), (req, res) => {
     insertCSV(req, res);
 });
 
-
 function insertTrueFalse(req, res) {
     var question = req.body.question;
     var answer;
     var questionId = req.body.questionId;
-
-    console.log(req.body);
-    var type = req.body.TypeOfQuestion;
-    if (req.body.isTrueCorrect == undefined)
-        answer = "true";
-    else
-        answer = "false";
-     //   INSERT INTO table(c1,c2,...) VALUES (v1,v2,...);
-   // var sqlQuery = `INSERT INTO question(Answer) VALUES (?);`;
-
     var type = req.body.TypeOfQuestion;
     if (req.body.isTrueCorrect != undefined)
         answer = "true";
@@ -72,38 +60,20 @@ function insertTrueFalse(req, res) {
         answer = "false";
     //   INSERT INTO table(c1,c2,...) VALUES (v1,v2,...);
     // var sqlQuery = `INSERT INTO question(Answer) VALUES (?);`;
-
     db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "True False");`, [answer, question, type], (req, res, error) => {
         if (error) {
             console.log(error);
             return;
         }
         console.log("Added t/f question");
-        console.log(req);
     });
-
-    var pass;
-    db.query(`SELECT * FROM question;`, (req, res, error )=>{
-        if(error) console.log(error);
-        //console.log(res);
-        //console.log(req);
-        //console.log(res[0]);
-        pass = res[1];
-       // console.log(pass);
-    });
-    res.render("adminAddQuestions", {
-        results: pass
-    });
-
     db.query(`SELECT * FROM question;`, (request, result, error) => {
         if (error) console.log(error);
         res.render("adminAddQuestions", {
             results: result
         });
     });
-
 }
-
 
 function insertMC(req, res) {
     var question = req.body.question;
@@ -150,14 +120,14 @@ function potato_salad_on_top_of_my_bowl(path, res) {
         var lines = data.split("\n");
 
 
-router.post("/questionSubmission", (req, res) => {
-    console.log(req.body);
-    if (req.body.isTF == "on") { // if it's a T/F question
-        insertTrueFalse(req, res);
-    } else { // if it's MC
-        insertMC(req);
-    }
-});
+        router.post("/questionSubmission", (req, res) => {
+            console.log(req.body);
+            if (req.body.isTF == "on") { // if it's a T/F question
+                insertTrueFalse(req, res);
+            } else { // if it's MC
+                insertMC(req);
+            }
+        });
 
         //IF YOU READ THIS MESSAGE GIVE ME A HIGH FIVE NEXT TIME I SEE YOU
         var thisisgood = [];
