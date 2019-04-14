@@ -92,7 +92,6 @@ router.get('/QuizPage', (req, res) => {
 	console.log(id);
 	db.query("SELECT * FROM question JOIN choices on question.questionid=choices.questionid;",(request,results,error) => {
 
-		//join statements to userprofile table, add after choices.questionid, not working needs to be fixed.
 		//JOIN test on test.testid=question.testid JOIN userprofile on userprofile.userprofileid=test.userprofileid;
 		if(error){
 			console.log(error);
@@ -115,13 +114,25 @@ function insertGrade(req, res) {
     var answer;
     var questionId = req.body.questionId;
 
-    db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, ?);`, [answer, question, type], (req, res, error) => {
+	db.query(`INSERT INTO Grade(QuestionId, Grade) VALUES (?, ?);`, [answer, question], (req, res, error) => {
         if (error) {
             console.log(error);
             return;
-        }
+		}
+		return res.render("");
     });
 }
 
 
+/* router.post('/registers', (req, res) => {
+	//res.render("registerPage"); // to access this page go to /users/register
+	var username = req.body.username;
+	var password = req.body.password;
+	db.query(`INSERT INTO userprofile(Name, Password) VALUES (?, ?)`, [username, password]);
+	db.query('SELECT * FROM userprofile WHERE Name="' + username + '";', (error, result) =>{
+		// if(error) throw error;
+		req.session.userId = result[0].UserProfileId;
+		return res.render("adminPage");
+	});
+}); */
 module.exports = router;
