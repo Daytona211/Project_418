@@ -202,4 +202,18 @@ function potato_salad_on_top_of_my_bowl(path, res) {
         }
     });
 }
+
+//Query for Quiz Creation Page
+router.get('/creatingtestPage', (req, res) => {
+	var id = req.session.userId;
+	console.log(id);
+	db.query("SELECT * FROM question;",(request,results,error) => {
+		if(error){
+			console.log(error);
+		}
+		res.render("creatingtestPage",{results: results})
+	})
+
+});
+
 module.exports = router;
