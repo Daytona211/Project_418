@@ -36,5 +36,16 @@
         </div>
     </nav>
 
+<br><br><br><br><br>
+
+<h4>Create A Test</h4>
+<%
+console.log(results);
+for(let x=0; x<results.length; x++){
+%>
+    <div class="questions">
+        <p><%= results[x]%></p>
+    </div>
+<%}%>
 </body>
 </html>
