@@ -40,11 +40,10 @@
 
 <h4>Create A Test</h4>
 <%
-console.log(results);
 for(let x=0; x<results.length; x++){
 %>
     <div class="questions">
-        <p><%= results[x]%></p>
+        <p><%= results[x].Question%> <input type="checkbox" value=<%=results[x].Question%>></p>
     </div>
 <%}%>
 </body>
