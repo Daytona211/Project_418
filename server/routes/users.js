@@ -85,6 +85,7 @@ router.post('/sublogin', (req, res) => {
 	});
 });
 
+
 //queries question/choices
 router.get('/QuizPage', (req, res) => {
 	var id = req.session.userId;
@@ -114,12 +115,13 @@ function insertGrade(req, res) {
     var answer;
     var questionId = req.body.questionId;
 
-    db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "True False");`, [answer, question, type], (req, res, error) => {
+    db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, ?);`, [answer, question, type], (req, res, error) => {
         if (error) {
             console.log(error);
             return;
         }
     });
 }
+
 
 module.exports = router;
