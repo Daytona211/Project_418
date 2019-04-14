@@ -87,7 +87,12 @@ router.post('/sublogin', (req, res) => {
 
 //queries question/choices
 router.get('/QuizPage', (req, res) => {
+	var id = req.session.userId;
+	console.log(id);
 	db.query("SELECT * FROM question JOIN choices on question.questionid=choices.questionid;",(request,results,error) => {
+
+		//join statements to userprofile table, add after choices.questionid, not working needs to be fixed.
+		//JOIN test on test.testid=question.testid JOIN userprofile on userprofile.userprofileid=test.userprofileid;
 		if(error){
 			console.log(error);
 		}
@@ -96,5 +101,40 @@ router.get('/QuizPage', (req, res) => {
 	})
 
 });
-module.exports = router;
 
+
+router.post("/Grade", (req, res) => {
+    insertGrade(req, res);
+});
+
+
+//write the proper grade for the question
+function insertGrade(req, res) {
+    var question = req.body.question;
+    var answer;
+    var questionId = req.body.questionId;
+
+    console.log(req.body);
+    var type = req.body.TypeOfQuestion;
+    if (req.body.isTrueCorrect == undefined)
+        answer = "true";
+    else
+		answer = "false";
+		
+    var type = req.body.TypeOfQuestion;
+    if (req.body.isTrueCorrect != undefined)
+        answer = "true";
+    else
+        answer = "false";
+
+    db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "True False");`, [answer, question, type], (req, res, error) => {
+        if (error) {
+            console.log(error);
+            return;
+        }
+        console.log("Added t/f question");
+        console.log(req);
+    });
+}
+
+module.exports = router;
