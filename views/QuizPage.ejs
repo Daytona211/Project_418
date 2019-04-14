@@ -42,7 +42,7 @@
     var postedquestions = new Set();
     var answers = new Map();
     %>
-    <form id="quizPage" autocomplete="off" method="POST" action="/users/Grade"> 
+    <form id="submitquiz" method="POST" action="/users/Grade"> 
             <%
             for(let x=0; x<results.length; x++){
                 if(!postedquestions.has(results[x].QuestionId)){
@@ -71,7 +71,7 @@
                     </div>
                 <%}%>
             <%}%>
-        <button type="submit" value="submit">Submit</button>
+        <button type="submit" value="submitquiz">Submit</button>
     </form>  
 
 </body>
