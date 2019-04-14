@@ -36,15 +36,18 @@
         </div>
     </nav>
 
-<br><br><br><br><br>
+    <br><br><br><br><br>
 
-<h4>Create A Test</h4>
-<%
-for(let x=0; x<results.length; x++){
-%>
-    <div class="questions">
-        <p><%= results[x].Question%> <input type="checkbox" value=<%=results[x].Question%>></p>
-    </div>
-<%}%>
+    <form>
+        <h4>Create A Test</h4>
+        <%
+        for(let x=0; x<results.length; x++){
+        %>
+            <div class="questions">
+                <p><%= results[x].Question%> <input type="checkbox" value=<%=results[x].Question%>></p>
+            </div>
+        <%}%>
+    </form>
+    <button input="submit" value="submit">Create Test</button>
 </body>
 </html>
