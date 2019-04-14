@@ -6,7 +6,8 @@ const session = serverInfo.session;
 const db = serverInfo.db;
 var upload = multer({
     dest: 'uploads/'
-})
+});
+
 
 router.get("/addQuestions", (req, res) => {
     if (!req.session.userId)
@@ -27,17 +28,39 @@ router.get("/deleteQuestions", (req1, res1) => {
         res1.redirect('/users/login');
     else {
         var id = req1.query.id;
-        db.query(`DELETE FROM question WHERE QuestionId=${id}`, (req2, res2) => {
-            db.query(`SELECT * FROM question;`, (req3, res3, error) => {
-                if (error) console.log(error);
-                res1.render("adminAddQuestions", {
-                    results: res3
+        var displayErr = false;
+        db.query(`SELECT * FROM question WHERE QuestionId=?`, [id], (req, res) => {
+            if (!res[0].testId) { // if the question isn't in a test
+                db.query(`DELETE FROM choices WHERE QuestionId=?`, [id], (req, res) => {
+                    deleteQuestionAndRerender(id, res1);
                 });
-            });
-        })
+            } else {
+                console.log("AAAA")
+                // if is in a test render error
+                db.query(`SELECT * FROM question;`, (req, res, error) => {
+                    if (error) console.log(error);
+                    res1.render("adminAddQuestions", {
+                        results: res,
+                        error: displayErr
+                    });
+                });
+            }
+        });
     }
 });
 
+
+function deleteQuestionAndRerender(id, renderingRes) {
+    db.query(`DELETE FROM question WHERE QuestionId=${id}`, (req2, res2, err) => {
+        db.query(`SELECT * FROM question;`, (req3, res3, error) => {
+            if (error) console.log(error);
+            renderingRes.render("adminAddQuestions", {
+                results: res3,
+                error: undefined
+            });
+        });
+    })
+}
 
 router.post("/tfQuestionSubmission", (req, res) => {
     insertTrueFalse(req, res);
@@ -76,17 +99,31 @@ function insertTrueFalse(req, res) {
 }
 
 function insertMC(req, res) {
+    console.log(req.body);
     var question = req.body.question;
     var answer = "";
+    var choices = [];
+    choices[0] = req.body.AAnswerBox;
+    choices[1] = req.body.BAnswerBox;
+    choices[2] = req.body.CAnswerBox;
+    choices[3] = req.body.DAnswerBox;
+    /*
+{ question: 'Question',
+  AAnswerBox: 'A answer',
+  BAnswerBox: 'B answer',
+  isCCorrect: 'on',
+  CAnswerBox: 'C answer',
+  DAnswerBox: 'D answer' } */
+    //choices[0] = 
     var type = req.body.TypeOfQuestion;
     if (req.body.isACorrect != undefined)
-        answer += "A ";
+        answer = req.body.AAnswerBox;
     if (req.body.isBCorrect != undefined)
-        answer += "B ";
+        answer = req.body.BAnswerBox;
     if (req.body.isCCorrect != undefined)
-        answer += "C ";
+        answer = req.body.CAnswerBox;
     if (req.body.isDCorrect != undefined)
-        answer += "D";
+        answer = req.body.DAnswerBox;
     db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "Multiple Choice");`, [answer, question], (req, res, error) => {
         if (error) {
             console.log(error);
@@ -94,10 +131,20 @@ function insertMC(req, res) {
         }
         console.log("Added MC question");
     });
-    db.query(`SELECT * FROM question;`, (request, result, error) => {
+    db.query(`SELECT * FROM question;`, (request, res2, error) => {
         if (error) console.log(error);
+        console.log("RES2");
+        console.log(res2);
+        var qid = res2[res2.length - 1].QuestionId;
+        console.log("QID");
+        console.log(qid);
+        for (var i = 0; i < choices.length; i++) {
+            db.query(`INSERT INTO choices(QuestionId, PossibleAnswer) VALUES (?, ?);`, [qid, choices[i]], (req, res, error) => {
+                console.log(res);
+            });
+        }
         res.render("adminAddQuestions", {
-            results: result
+            results: res2
         });
     });
 }
@@ -182,13 +229,13 @@ function potato_salad_on_top_of_my_bowl(path, res) {
             var img = ele["Image Link"];
             var correctAns;
             if (ans1.charAt(0) == '*')
-                correctAns = ans1.split("*")[1];
+                correctAns = ans1Txt;
             else if (ans2.charAt(0) == '*')
-                correctAns = ans2.split("*")[1];
+                correctAns = ans2Txt;
             else if (ans3.charAt(0) == '*')
-                correctAns = ans3.split("*")[1];
+                correctAns = ans3Txt;
             else if (ans4.charAt(0) == '*')
-                correctAns = ans4.split("*")[1];
+                correctAns = ans4Txt;
             db.query(`INSERT INTO question(TypeOfQuestion, Answer, Question) VALUES (?, ?, ?);`, ["Multiple Choice", correctAns, question], (req, result, err) => {
                 if (err) throw err;
                 db.query(`SELECT * FROM question;`, (request, result, error) => {
