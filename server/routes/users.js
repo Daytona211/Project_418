@@ -106,7 +106,7 @@ router.get('/QuizPage', (req, res) => {
 
 router.post('/about', (req, res) => {
 	console.log("hi");
-	return;
+	return res.render("");
 	/* db.query(`INSERT INTO Grade(QuestionId, Grade) VALUES (?, ?);`, [answer, question], (req, res, error) => {
         if (error) {
             console.log(error);
