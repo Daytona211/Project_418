@@ -5,6 +5,8 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="../server/routes/users.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="X-UA-Compatible" content="IE=edge" />
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -40,39 +42,56 @@
 
     <%
     var postedquestions = new Set();
-    var answers = new Map();
+    var answers = new Array();
     %>
-    <form id="submitquiz" method="POST" action="/users/Grade"> 
+    <form id="submitquiz" method="POST" action="/users/about">
+        <div><p name="score" style="display:none;" id="score">0</p></div>
             <%
             for(let x=0; x<results.length; x++){
                 if(!postedquestions.has(results[x].QuestionId)){
                     postedquestions.add(results[x].QuestionId);
-                    answers.set(results[x].QuestionId,results[x].Answer);
+                    answers.push(results[x].Answer);
             %>      
                     <div class="container for each question/choices">
                         <div class="questions">
                             <h4><%= results[x].Question %></h4>
                         </div>
 
-                        <form>
-                            <%
-                            for(let q=0; q<results.length; q++){
-                                if(results[q].QuestionId == results[x].QuestionId){
-                            %>
-                                    <p>
-                                        <input type="radio" value=<%=results[q].PossibleAnswer%> name=<%=results[q].QuestionId%>>
-                                            <%= results[q].PossibleAnswer %>
-                                        </input>
-                                    </p>
-                                <%}%>
+                        <%
+                        for(let q=0; q<results.length; q++){
+                            if(results[q].QuestionId == results[x].QuestionId){
+                        %>
+                                <p>
+                                    <input type="radio" value=<%=results[q].PossibleAnswer%> name=<%=results[q].QuestionId%> onclick="update(<%=results[q].PossibleAnswer%>,<%=x%>)">
+                                        <%= results[q].PossibleAnswer %>
+                                    </input>
+                                </p>
                             <%}%>
-                        </form>
-                        <br>    
+                        <%}%>
+                        <br>
+                                
                     </div>
                 <%}%>
             <%}%>
-        <button type="submit" value="submitquiz">Submit</button>
+        <button type="submit" value="submitquiz" onclick="">Submit</button>
     </form>  
 
+
+    <%
+    var useranswers=[];
+    function update(choice,index){
+        
+        if(answers[index]==choice){
+            useranswers[index]=choice;
+            let temp = parseInt(document.getElementById("score").value) + 1;
+            document.getElementById("score").innerHTML = temp + "";
+        }
+        else{
+            useranswers[index=choice];
+            let temp = parseInt(document.getElementById("score").value) - 1;
+            document.getElementById("score").innerHTML = temp + "";
+        }
+    }
+    %>
 </body>
 </html>
