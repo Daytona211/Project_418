@@ -40,6 +40,7 @@ router.get("/register", (req, res) => {
 });
 
 router.post('/registers', (req, res) => {
+	console.log("sss");
 	//res.render("registerPage"); // to access this page go to /users/register
 	var username = req.body.username;
 	var password = req.body.password;
@@ -103,36 +104,17 @@ router.get('/QuizPage', (req, res) => {
 });
 
 
-router.post("/Grade", (req, res) => {
-    insertGrade(req, res);
-});
-
-
-//write the proper grade for the question
-function insertGrade(req, res) {
-    var question = req.body.question;
-    var answer;
-    var questionId = req.body.questionId;
-
-	db.query(`INSERT INTO Grade(QuestionId, Grade) VALUES (?, ?);`, [answer, question], (req, res, error) => {
+router.post('/about', (req, res) => {
+	console.log("hi");
+	return;
+	/* db.query(`INSERT INTO Grade(QuestionId, Grade) VALUES (?, ?);`, [answer, question], (req, res, error) => {
         if (error) {
             console.log(error);
             return;
 		}
 		return res.render("");
-    });
-}
+    }); */
+});
 
 
-/* router.post('/registers', (req, res) => {
-	//res.render("registerPage"); // to access this page go to /users/register
-	var username = req.body.username;
-	var password = req.body.password;
-	db.query(`INSERT INTO userprofile(Name, Password) VALUES (?, ?)`, [username, password]);
-	db.query('SELECT * FROM userprofile WHERE Name="' + username + '";', (error, result) =>{
-		// if(error) throw error;
-		req.session.userId = result[0].UserProfileId;
-		return res.render("adminPage");
-	});
-}); */
 module.exports = router;
