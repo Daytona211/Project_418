@@ -44,8 +44,8 @@
     var postedquestions = new Set();
     var answers = new Array();
     %>
-    <form id="submitquiz" method="POST" action="/users/about">
-        <div><p name="score" style="display:none;" id="score">0</p></div>
+    <form id="submitquiz" method="POST" action="/users/QuizPage">
+        <div><p name="score" id="score">0</p></div>
             <%
             for(let x=0; x<results.length; x++){
                 if(!postedquestions.has(results[x].QuestionId)){
@@ -62,7 +62,7 @@
                             if(results[q].QuestionId == results[x].QuestionId){
                         %>
                                 <p>
-                                    <input type="radio" value=<%=results[q].PossibleAnswer%> name=<%=results[q].QuestionId%> onclick="update(<%=results[q].PossibleAnswer%>,<%=x%>)">
+                                    <input type="radio" value="<%=results[q].PossibleAnswer%>" name="<%=results[q].QuestionId%>" onclick="update(<%=results[q].PossibleAnswer%>,<%=x%>)">
                                         <%= results[q].PossibleAnswer %>
                                     </input>
                                 </p>
@@ -77,21 +77,29 @@
     </form>  
 
 
-    <%
+    <script>
     var useranswers=[];
+    for(let y=0; y<answers.length; y++){
+        useranswers.push(false);
+    }
+
     function update(choice,index){
-        
+        console.log("hi");
         if(answers[index]==choice){
-            useranswers[index]=choice;
-            let temp = parseInt(document.getElementById("score").value) + 1;
-            document.getElementById("score").innerHTML = temp + "";
+            useranswers[index]=true;
         }
         else{
-            useranswers[index=choice];
-            let temp = parseInt(document.getElementById("score").value) - 1;
-            document.getElementById("score").innerHTML = temp + "";
+            useranswers[index]=false;
         }
+
+        let grade=0;
+        for(let x=0; x<useranswers.length; x++){
+            if(useranswers[x]==true){
+                grade++;
+            }
+        }
+        document.getElementById("score").innerHTML=grade/useranswers.length + "";
     }
-    %>
+    </script>
 </body>
 </html>
