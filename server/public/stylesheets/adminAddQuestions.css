@@ -1,9 +1,11 @@
+
 #questionDiv {
 	position: relative;
 	top: 100px;
 	width: 40%;
 	left: 30%;
 }
+
 
 #mcInput #mcLabel #mcQuestionInput {
 	position: relative;
@@ -17,6 +19,7 @@
 #checkAnsReminder {
 	justify-self: left;
 }
+
 
 #csvContent{
 	display: none;	
