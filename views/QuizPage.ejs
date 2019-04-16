@@ -52,7 +52,6 @@
         }
     }
     var amountofquestions=temp2.length;
-    var useranswers = [];
 
     var postedquestions = new Set();
     var answers = [];
@@ -86,10 +85,7 @@
                                 
                     </div>
                 <%counter++;}%>
-            <%}
-            for(let y=0; y<answers.length; y++){
-                useranswers.push(false);
-            }%>
+            <%}%>
         <button type="submit" value="submitquiz" onclick="">Submit</button>
     </form>  
 
