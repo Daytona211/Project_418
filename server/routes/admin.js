@@ -8,15 +8,48 @@ var upload = multer({
     dest: 'uploads/'
 })
 
-router.get("/addQuestions", (req, res) => {
+router.post("/registerId", (req, res) => {
+    db.query(`SELECT Name FROM userprofile`, (selReq, selRes) => {
+        for (var i = 0; i < selRes.length; i++) {
+            if (selRes[i].Name == req.body.username) {
+                return res.render("userIds", {
+                    error: "Duplicate user use a different username"
+                });
+            }
+        }
+        if (req.body.isAdmin) {
+            db.query(`INSERT INTO userprofile(Name, Password, isAdmin) VALUES (?, ?, ?)`, [req.body.username, req.body.password, 1]);
+            res.render("userIds");
+        } else {
+            db.query(`INSERT INTO userprofile(Name, Password, isAdmin) VALUES (?, ?, ?)`, [req.body.username, req.body.password, 0]);
+            res.render("userIds");
+        }
+    })
+
+})
+
+router.get("/userIds", (req, result) => {
+    if (!req.session.userId) {
+        result.render("loginPage");
+    } else {
+        db.query(`SELECT isAdmin FROM userprofile WHERE UserProfileId=?`, [req.session.userId], (req, res) => {
+            if (res[0].isAdmin == 0)
+                result.render("loginPage");
+            else
+                result.render("userIds");
+        });
+    }
+});
+
+router.get("/addQuestions", (req, result) => {
     if (!req.session.userId)
-        res.redirect('/users/login');
+        result.redirect('/users/login');
     else {
-        db.query(`SELECT * FROM question;`, (request, result, error) => {
-            if (error) console.log(error);
-            res.render("adminAddQuestions", {
-                results: result
-            });
+        db.query(`SELECT isAdmin FROM userprofile WHERE UserProfileId=?`, [req.session.userId], (req, res) => {
+            if (res[0].isAdmin == 0)
+                result.render("loginPage");
+            else
+                rerenderAdminAddQuestionsPage(result);
         });
     }
 });
@@ -27,14 +60,17 @@ router.get("/deleteQuestions", (req1, res1) => {
         res1.redirect('/users/login');
     else {
         var id = req1.query.id;
-        db.query(`DELETE FROM question WHERE QuestionId=${id}`, (req2, res2) => {
-            db.query(`SELECT * FROM question;`, (req3, res3, error) => {
-                if (error) console.log(error);
-                res1.render("adminAddQuestions", {
-                    results: res3
-                });
-            });
-        })
+        db.query(`SELECT TestId FROM question WHERE QuestionId=?`, [id], (req, res) => {
+            if (res[0].TestId != null) {
+                var error = "This question is part of a test please remove it from the test first";
+                rerenderAdminAddQuestionsPage(res1, error);
+            } else {
+                db.query(`DELETE FROM choices WHERE QuestionId=?`, [id]);
+                db.query(`DELETE FROM question WHERE QuestionId=${id}`, (req2, res2) => {
+                    rerenderAdminAddQuestionsPage(res1);
+                })
+            }
+        });
     }
 });
 
@@ -49,6 +85,17 @@ router.post("/csvQuestionSubmission", upload.single('csvFile'), (req, res) => {
     insertCSV(req, res);
 });
 
+function rerenderAdminAddQuestionsPage(res, errorMessage) {
+    console.log(errorMessage);
+    db.query(`SELECT * FROM question;`, (request, result, error) => {
+        if (error) console.log(error);
+        res.render("adminAddQuestions", {
+            results: result,
+            error: errorMessage
+        });
+    });
+}
+
 function insertTrueFalse(req, res) {
     var question = req.body.question;
     var answer;
@@ -60,50 +107,54 @@ function insertTrueFalse(req, res) {
         answer = "false";
     //   INSERT INTO table(c1,c2,...) VALUES (v1,v2,...);
     // var sqlQuery = `INSERT INTO question(Answer) VALUES (?);`;
-    db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "True False");`, [answer, question, type], (req, res, error) => {
+    db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "True False");`, [answer, question, type], (req, resl, error) => {
+        if (error) {
+            console.log(error);
+        }
+        rerenderAdminAddQuestionsPage(res);
+        console.log("Added t/f question");
+    });
+}
+
+function insertMC(req, res1) {
+    var question = req.body.question;
+    var answer = "";
+    var type = req.body.TypeOfQuestion;
+    if (req.body.isACorrect)
+        answer = req.body.AAnswerBox;
+    else if (req.body.isBCorrect)
+        answer = req.body.BAnswerBox;
+    else if (req.body.isCCorrect)
+        answer = req.body.CAnswerBox;
+    else if (req.body.isDCorrect)
+        answer = req.body.AAnswerBox;
+    var choices = [req.body.AAnswerBox, req.body.BAnswerBox, req.body.CAnswerBox, req.body.DAnswerBox];
+
+    db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "Multiple Choice");`, [answer, question], (req, res, error) => {
         if (error) {
             console.log(error);
             return;
         }
-        console.log("Added t/f question");
-    });
-    db.query(`SELECT * FROM question;`, (request, result, error) => {
-        if (error) console.log(error);
-        res.render("adminAddQuestions", {
-            results: result
-        });
-    });
+        for (var i = 0; i < choices.length; i++) {
+            db.query(`INSERT INTO choices(QuestionId, PossibleAnswer) VALUES (?, ?);`, [res.insertId, choices[i]]);
+        }
+        console.log("Added MC question");
+    }); // adds the question to the DB and rerenders
+
+    rerenderAdminAddQuestionsPage(res1);
 }
 
-function insertMC(req, res) {
-    var question = req.body.question;
-    var answer = "";
-    var type = req.body.TypeOfQuestion;
-    if (req.body.isACorrect != undefined)
-        answer += "A ";
-    if (req.body.isBCorrect != undefined)
-        answer += "B ";
-    if (req.body.isCCorrect != undefined)
-        answer += "C ";
-    if (req.body.isDCorrect != undefined)
-        answer += "D";
-    db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "Multiple Choice");`, [answer, question], (req, res, error) => {
+function addNewQuestion(answer, question, type) {
+    db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, ?);`, [answer, question, type], (req, res, error) => {
         if (error) {
             console.log(error);
             return;
         }
         console.log("Added MC question");
     });
-    db.query(`SELECT * FROM question;`, (request, result, error) => {
-        if (error) console.log(error);
-        res.render("adminAddQuestions", {
-            results: result
-        });
-    });
 }
 
 function insertCSV(req, res) { //55 gallons of lube
-    console.log(req.file.filename);
     potato_salad_on_top_of_my_bowl(__dirname + "/../uploads/" + req.file.filename, res);
 }
 
@@ -119,20 +170,16 @@ function potato_salad_on_top_of_my_bowl(path, res) {
         data = data.trim();
         var lines = data.split("\n");
 
-
-        router.post("/questionSubmission", (req, res) => {
-            console.log(req.body);
-            if (req.body.isTF == "on") { // if it's a T/F question
-                insertTrueFalse(req, res);
-            } else { // if it's MC
-                insertMC(req);
-            }
-        });
-
+        // router.post("/questionSubmission", (req, res) => {
+        //     console.log(req.body);
+        //     if (req.body.isTF == "on") { // if it's a T/F question
+        //         insertTrueFalse(req, res);
+        //     } else { // if it's MC
+        //         insertMC(req);
+        //     }
+        // }); I THINK THIS CAN GO
         //IF YOU READ THIS MESSAGE GIVE ME A HIGH FIVE NEXT TIME I SEE YOU
         var thisisgood = [];
-
-
         //this also does something useful
         for (let x = 0; x < lines.length; x++) {
             var NANIIIIII = [];
@@ -191,13 +238,7 @@ function potato_salad_on_top_of_my_bowl(path, res) {
                 correctAns = ans4.split("*")[1];
             db.query(`INSERT INTO question(TypeOfQuestion, Answer, Question) VALUES (?, ?, ?);`, ["Multiple Choice", correctAns, question], (req, result, err) => {
                 if (err) throw err;
-                db.query(`SELECT * FROM question;`, (request, result, error) => {
-                    if (error) console.log(error);
-                    console.log(result);
-                    return res.render("adminAddQuestions", {
-                        results: result
-                    });
-                });
+                rerenderAdminAddQuestionsPage(res);
             });
         }
     });

@@ -26,12 +26,40 @@ function main() {
 
     var trueAnswerRadioBtn = document.getElementById("trueAnswerRadioBtn");
     var falseAnswerRadioBtn = document.getElementById("falseAnswerRadioBtn");
-    console.log(trueAnswerRadioBtn);
     trueAnswerRadioBtn.addEventListener("click", () => {
         falseAnswerRadioBtn.checked = false;
     });
     falseAnswerRadioBtn.addEventListener("click", () => {
         trueAnswerRadioBtn.checked = false;
+    });
+    correctAnswerRadioBtn();
+}
+
+
+function correctAnswerRadioBtn(){
+    var aRadioBtn = document.getElementById('aRadioBtn');
+    var bRadioBtn = document.getElementById('bRadioBtn');
+    var cRadioBtn = document.getElementById('cRadioBtn');
+    var dRadioBtn = document.getElementById('dRadioBtn');
+    aRadioBtn.addEventListener("click", () => {
+        bRadioBtn.checked = false;
+        cRadioBtn.checked = false;
+        dRadioBtn.checked = false;
+    });
+    bRadioBtn.addEventListener("click", () => {
+        aRadioBtn.checked = false;
+        cRadioBtn.checked = false;
+        dRadioBtn.checked = false;
+    });
+    cRadioBtn.addEventListener("click", () => {
+        aRadioBtn.checked = false;
+        bRadioBtn.checked = false;
+        dRadioBtn.checked = false;
+    });
+    dRadioBtn.addEventListener("click", () => {
+        aRadioBtn.checked = false;
+        bRadioBtn.checked = false;
+        cRadioBtn.checked = false;
     });
 }
 
