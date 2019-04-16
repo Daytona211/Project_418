@@ -1,5 +1,6 @@
 	CREATE TABLE UserProfile(
 		UserProfileId int AUTO_INCREMENT,
+		IsAdmin BIT NOT NULL,
 		Name varchar(20) NOT NULL,
 		Email varchar(30) NOT NULL,
 		Password varchar(30) NOT NULL,
@@ -10,7 +11,6 @@
 		TestId int AUTO_INCREMENT,
 		UserProfileId int NOT NULL,
 		UserStatus varchar(15) NOT NULL,
-		UserPermission varchar(15) NOT NULL,
 		PRIMARY KEY (TestId),
 		FOREIGN KEY (UserProfileId) REFERENCES UserProfile(UserProfileId)
 	);
