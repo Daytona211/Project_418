@@ -33,6 +33,7 @@
         </div>
     </nav>
 
+    <div class="container">  
     <form>
         <h4>Create A Test</h4>
         <%
@@ -42,8 +43,15 @@
                 <p><%= results[x].Question%> <input type="checkbox" value=<%=results[x].Question%>></p>
             </div>
         <%}%>
+        
+        <button input="submit" value="submit">Create Test</button>
+
     </form>
-    <button input="submit" value="submit">Create Test</button>
+    </div>
+
+    <br></br>
+ 
+
 
     <div class="container">  
         <div class="panel panel-default">
