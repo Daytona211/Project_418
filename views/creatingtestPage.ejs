@@ -34,19 +34,31 @@
     </nav>
 
     <div class="container">  
-    <form>
-        <h4>Create A Test</h4>
-        <%
-        for(let x=0; x<results.length; x++){
-        %>
-            <div class="questions">
-                <p><%= results[x].Question%> <input type="checkbox" value=<%=results[x].Question%>></p>
-            </div>
-        <%}%>
-        
-        <button input="submit" value="submit">Create Test</button>
+        <div class="panel panel-default">
+                <div class="panel-heading"> Select Test Questions to go in Test Bank</div>
+                    <form>
+                <%
+                 for(let x=0; x<results.length; x++){
+                 %>
 
-    </form>
+                <table class="table">
+                        <thead>
+                                <tr>
+                                        <th></th>
+                                </tr>
+                        </thead>
+                            <tbody>
+                <p><%= results[x].Question%> <input type="checkbox" value=<%=results[x].Question%>></p>
+
+     
+                </table>
+
+                <%} %>
+                
+                 <button input="submit" value="submit">Create Test</button>
+
+                </form>
+        </div>
     </div>
 
     <br></br>
