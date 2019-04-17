@@ -107,18 +107,20 @@ router.get('/QuizPage', (req, res) => {
 router.post('/QuizPage', (req, res) => {
 	
 	var score=req.body.value;
+	score = parseFloat(score).toFixed(4);
 	var testid = req.session.testid;
+	var userid = req.session.userId;
 
-	console.log("score: "+ score);
+	console.log("score: "+ userid);
 	return;
 
-	db.query(`INSERT INTO Grade(TestId, UserProfileId, Grade) VALUES (?, ?);`, [answer, question], (req, res, error) => {
+	/* db.query(`INSERT INTO Grade(TestId, UserProfileId, Grade) VALUES (?,?,?);`, [testid, userid, score], (req, res, error) => {
 		if (error) {
 			console.log(error);
 			return;
 		}
 		return res.render("");
-	});	
+	});	 */
 });
 
 
