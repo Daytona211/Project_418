@@ -104,16 +104,21 @@ router.get('/QuizPage', (req, res) => {
 });
 
 
-router.post('/quizPage', (req, res) => {
-	console.log("hi");
+router.post('/QuizPage', (req, res) => {
+	
+	var score=req.body.value;
+	var testid = req.session.testid;
+
+	console.log("score: "+ score);
 	return;
-	/* db.query(`INSERT INTO Grade(QuestionId, Grade) VALUES (?, ?);`, [answer, question], (req, res, error) => {
-        if (error) {
-            console.log(error);
-            return;
+
+	db.query(`INSERT INTO Grade(TestId, UserProfileId, Grade) VALUES (?, ?);`, [answer, question], (req, res, error) => {
+		if (error) {
+			console.log(error);
+			return;
 		}
 		return res.render("");
-    }); */
+	});	
 });
 
 
