@@ -55,7 +55,6 @@
 
     var postedquestions = new Set();
     var answers = [];
-    answers.push("test");
     var counter=0;
     %>
     <form id="submitquiz" method="POST" action="/users/QuizPage">
@@ -74,12 +73,22 @@
                         <%
                         for(let q=0; q<results.length; q++){
                             if(results[q].QuestionId == results[x].QuestionId){
+                                if(results[x].Answer==results[q].PossibleAnswer){
                         %>
-                                <p>
-                                    <input type="radio" value="<%=results[q].PossibleAnswer%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,<%=answers[answers.length-1]%>,<%=results[q].PossibleAnswer%>,<%=counter%>);">
-                                        <%= results[q].PossibleAnswer %>
-                                    </input>
-                                </p>
+                                    <p>
+                                        <input type="radio" value="<%=results[q].PossibleAnswer%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,1,<%=counter%>);">
+                                            <%= results[q].PossibleAnswer %>
+                                        </input>
+                                    </p>
+                                <%
+                                }
+                                else if(results[x].Answer!=results[q].PossibleAnswer){%>
+                                    <p>
+                                        <input type="radio" value="<%=results[q].PossibleAnswer%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,0,<%=counter%>);">
+                                            <%= results[q].PossibleAnswer %>
+                                        </input>
+                                    </p>
+                                <%}%>
                             <%}%>
                         <%}%>
                         <br>
