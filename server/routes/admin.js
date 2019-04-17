@@ -236,8 +236,12 @@ function potato_salad_on_top_of_my_bowl(path, res) {
                 correctAns = ans3.split("*")[1];
             else if (ans4.charAt(0) == '*')
                 correctAns = ans4.split("*")[1];
+            var choices = [ans1Txt, ans2Txt, ans3Txt, ans4Txt];
             db.query(`INSERT INTO question(TypeOfQuestion, Answer, Question) VALUES (?, ?, ?);`, ["Multiple Choice", correctAns, question], (req, result, err) => {
                 if (err) throw err;
+                for (var i = 0; i < choices.length; i++) {
+                    db.query(`INSERT INTO choices(QuestionId, PossibleAnswer) VALUES (?, ?);`, [result.insertId, choices[i]]);
+                }
                 rerenderAdminAddQuestionsPage(res);
             });
         }
