@@ -36,7 +36,7 @@
     <div class="container">  
         <div class="panel panel-default">
                 <div class="panel-heading"> Select Test Questions to go in Test Bank</div>
-                    <form>
+                    <form id="createDB" action="/admin/createDBTable" method='post'>
                 <%
                  for(let x=0; x<results.length; x++){
                  %>
@@ -48,14 +48,15 @@
                                 </tr>
                         </thead>
                             <tbody>
-                <p><%= results[x].Question%> <input type="checkbox" value=<%=results[x].Question%>></p>
+                                
+                <p><%= results[x].Question%> <input type="checkbox"  name="checked" value=<%=results[x].Question%>  ></p>
 
      
                 </table>
 
                 <%} %>
                 
-                 <button input="submit" value="submit" action="/admin/createDBTable">Create Test</button>
+                 <button input="submit" value="submit">Create Test</button>
 
                 </form>
         </div>

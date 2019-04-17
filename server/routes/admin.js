@@ -217,15 +217,18 @@ router.get('/creatingtestPage', (req, res) => {
 });
 
 router.post("/createDBTable", (req, res) => {
-    var user = {
-        username: req.body.username,
-        password: req.body.password
-    };
-    console.log(req.body.username);
+    //var user = {
+        //username: req.body.username,
+      //  password: req.body.password
+    //};
+    if(req.body.checked) {
+        console.log('checked : ' + req.body.checked);
+      }
+    //console.log(req.body.username);
     //Whenever the query is done call the function
-    connection.query("INSERT INTO user_accounts (Name, Password) VALUES ('" + user.username + "', '" + user.password + "')",  function(err, result){
-    });
-   res.render("creatingtestPage", user.username);
+    //connection.query("INSERT INTO user_accounts (Name, Password) VALUES ('" + user.username + "', '" + user.password + "')",  function(err, result){
+    //});
+  // res.render("creatingtestPage", user.username);
 });
 
 
