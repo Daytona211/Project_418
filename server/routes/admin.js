@@ -216,4 +216,17 @@ router.get('/creatingtestPage', (req, res) => {
 
 });
 
+router.post("/createDBTable", (req, res) => {
+    var user = {
+        username: req.body.username,
+        password: req.body.password
+    };
+    console.log(req.body.username);
+    //Whenever the query is done call the function
+    connection.query("INSERT INTO user_accounts (Name, Password) VALUES ('" + user.username + "', '" + user.password + "')",  function(err, result){
+    });
+   res.render("creatingtestPage", user.username);
+});
+
+
 module.exports = router;
