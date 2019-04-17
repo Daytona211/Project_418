@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <title>Quiz Page</title>
-    <% include ../server/public/javascript/quizpage.ejs %> 
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="../server/routes/users.js"></script>
+    <script src="/javascript/quizpage.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<meta name="X-UA-Compatible" content="IE=edge" />
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -58,7 +58,7 @@
     var counter=0;
     %>
     <form id="submitquiz" method="POST" action="/users/QuizPage">
-        <div><p name="score" id="score">0</p></div>
+        <div><p name="score" id="score" >0</p></div>
             <%
             for(let x=0; x<results.length; x++){
                 if(!postedquestions.has(results[x].QuestionId)){
@@ -75,7 +75,7 @@
                             if(results[q].QuestionId == results[x].QuestionId){
                         %>
                                 <p>
-                                    <input type="radio" value="<%=results[q].PossibleAnswer%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,<%=answers[answers.length-1]%>,<%=results[q].PossibleAnswer%>,<%=counter%>)">
+                                    <input type="radio" value="<%=results[q].PossibleAnswer%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,<%=answers[answers.length-1]%>,<%=results[q].PossibleAnswer%>,<%=counter%>);">
                                         <%= results[q].PossibleAnswer %>
                                     </input>
                                 </p>
@@ -85,7 +85,7 @@
                                 
                     </div>
                 <%counter++;}%>
-            <%}%>
+            <%}console.log(answers);%>
         <button type="submit" value="submitquiz" onclick="">Submit</button>
     </form>  
 
