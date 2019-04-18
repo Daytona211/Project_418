@@ -106,12 +106,12 @@ router.get('/QuizPage', (req, res) => {
 
 router.post('/QuizPage', (req, res) => {
 	
-	var score=req.body.value;
-	score = parseFloat(score).toFixed(4);
-	var testid = req.session.testid;
-	var userid = req.session.userId;
+	var score = req.body.score;
+	score = parseFloat(score).toFixed(4);	
+	/* var testid = req.session.testid;
+	var userid = req.session.userId; */
 
-	console.log("score: "+ userid);
+	console.log("score: "+ score);
 	return;
 
 	/* db.query(`INSERT INTO Grade(TestId, UserProfileId, Grade) VALUES (?,?,?);`, [testid, userid, score], (req, res, error) => {
