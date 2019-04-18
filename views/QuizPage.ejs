@@ -58,7 +58,7 @@
     var counter=0;
     %>
     <form id="submitquiz" method="POST" action="/users/QuizPage">
-        <div><p name="score" id="score" >0</p></div>
+        <input name="score" value="0" id="score" hidden>
             <%
             for(let x=0; x<results.length; x++){
                 if(!postedquestions.has(results[x].QuestionId)){
@@ -96,7 +96,7 @@
                     </div>
                 <%counter++;}%>
             <%}console.log(answers);%>
-        <button type="submit" value="submitquiz" onclick="">Submit</button>
+        <div style="text-align:center; padding-top:10px; padding-bottom:40px;"><button type="submit" value="submitquiz" onclick="">Submit</button></div>
     </form>  
 
 </body>
