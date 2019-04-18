@@ -107,7 +107,8 @@ router.get('/QuizPage', (req, res) => {
 router.post('/QuizPage', (req, res) => {
 	
 	var score = req.body.score;
-	score = parseFloat(score).toFixed(4);	
+	score = parseFloat(score)
+	score = (score*100).toFixed(2);	
 	/* var testid = req.session.testid;
 	var userid = req.session.userId; */
 
