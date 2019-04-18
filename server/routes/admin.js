@@ -228,7 +228,7 @@ router.post("/creatingtestPage", (req, res) => {
     })
     
     for(var x=0; x<results.length; x++){
-        db.query("INSERT INTO Question(TestId,Answer,Question) VALUES (?);",[result[x],"?","?"],(res,res,error)=>{
+        db.query("INSERT INTO Question(TestId,Answer,Question) VALUES (?);",[result[x],"?",],(res,res,error)=>{
             if(error){
                 console.log(error);
                 return;
