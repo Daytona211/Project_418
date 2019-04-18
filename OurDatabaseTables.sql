@@ -16,7 +16,6 @@ CREATE TABLE Test(
 CREATE TABLE Question(
     QuestionId int AUTO_INCREMENT,
     TestId int,
-    TypeOfQuestion varchar(20) NOT NULL,
     Answer varchar(100) NOT NULL,
     Question varchar(500) NOT NULL,
     PRIMARY KEY (QuestionId),
