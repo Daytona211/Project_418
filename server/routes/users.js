@@ -103,7 +103,7 @@ router.get('/home', (req, res) => {
 	// var statuses =  new Array();
 	//var userids = new Array() ;
 	
-	console.log("user profile id is"+ userId);
+	//console.log("user profile id is"+ userId);
 	db.query(sqlQuery, (err, status)  => {
 	
 			if (err) throw err;
