@@ -59,6 +59,7 @@
     %>
     <form id="submitquiz" method="POST" action="/users/QuizPage">
         <input name="score" value="0" id="score" hidden>
+        <input name="useranswers" value="null" id="useranswers" hidden>
             <%
             for(let x=0; x<results.length; x++){
                 if(!postedquestions.has(results[x].QuestionId)){
