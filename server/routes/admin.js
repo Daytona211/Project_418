@@ -216,19 +216,27 @@ router.get('/creatingtestPage', (req, res) => {
 
 });
 
-router.post("/createDBTable", (req, res) => {
-    //var user = {
-        //username: req.body.username,
-      //  password: req.body.password
-    //};
-    if(req.body.checked) {
-        console.log('checked : ' + req.body.checked);
-      }
-    //console.log(req.body.username);
-    //Whenever the query is done call the function
-    //connection.query("INSERT INTO user_accounts (Name, Password) VALUES ('" + user.username + "', '" + user.password + "')",  function(err, result){
-    //});
-  // res.render("creatingtestPage", user.username);
+router.post("/creatingtestPage", (req, res) => {
+    
+    var result = {checked: req.body.checked};
+
+    db.query("INSERT INTO Test() VALUES (?);",[],(req,res,error)=>{
+        if(error){
+            console.log(error);
+            return;
+        }
+    })
+    
+    for(var x=0; x<results.length; x++){
+        db.query("INSERT INTO Question(TestId,Answer,Question) VALUES (?);",[result[x],"?","?"],(res,res,error)=>{
+            if(error){
+                console.log(error);
+                return;
+            }
+            return res.render("");
+        })
+    }
+
 });
 
 
