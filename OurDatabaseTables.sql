@@ -43,7 +43,7 @@ CREATE TABLE Grade(
     GradeId int AUTO_INCREMENT,
     TestId int NOT NULL,
     UserProfileId int NOT NULL,
-    Grade DECIMAL(5,4) NOT NULL,
+    Grade DECIMAL(5,2) NOT NULL,
     PRIMARY KEY (GradeId),
     FOREIGN KEY (TestId) REFERENCES Test(TestId),
     FOREIGN KEY (UserProfileId) REFERENCES UserProfile(UserProfileId)
