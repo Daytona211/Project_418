@@ -21,7 +21,7 @@ function update(amountofquestions,answer,choice,index){
             grade++;
         }
     }
-    document.getElementById("score").innerHTML=grade/useranswers.length + "";
+    document.getElementById("score").value=grade/useranswers.length + "";
 }
 
 
