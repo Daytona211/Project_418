@@ -78,7 +78,7 @@
                                 if(results[x].Answer==results[q].PossibleAnswer){
                         %>
                                     <p>
-                                        <input type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,1,<%=counter%>);">
+                                        <input type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,1,<%=counter%>);">
                                             <%= results[q].PossibleAnswer %>
                                         </input>
                                     </p>
@@ -86,7 +86,7 @@
                                 }
                                 else if(results[x].Answer!=results[q].PossibleAnswer){%>
                                     <p>
-                                        <input type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,0,<%=counter%>);">
+                                        <input type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,0,<%=counter%>);">
                                             <%= results[q].PossibleAnswer %>
                                         </input>
                                     </p>
