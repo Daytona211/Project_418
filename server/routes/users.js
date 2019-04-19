@@ -22,6 +22,10 @@ router.use(
 	})
 );
 
+router.get('/', (req, res) => {
+	res.render('welcomePage');
+});
+
 router.get('/login', (req, res) => {
 	if (req.session.userId != undefined) {
 		res.render('adminPage');
@@ -46,6 +50,7 @@ router.post('/registers', (req, res) => {
 		req.session.userId = result[0].UserProfileId;
 		req.session.admin = 0;
 		return res.render("userhome");
+
 	});
 });
 
@@ -102,7 +107,6 @@ router.get('/QuizPage', (req, res) => {
 		if (error) {
 			console.log(error);
 		}
-
 		res.render("QuizPage", {
 			results: results
 		})
