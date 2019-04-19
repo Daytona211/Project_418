@@ -6,6 +6,15 @@ CREATE TABLE UserProfile(
     PRIMARY KEY (UserProfileId)
 );
 
+CREATE TABLE ChangeColor(
+	ChangeColorId int NOT NULL,
+	UserProfileId int NOT NULL,
+	Color varchar(50) NOT NULL,
+	PRIMARY KEY (ChangeColorId),
+	FOREIGN KEY (UserProfileid) REFERENCES UserProfile(UserProfileId)
+);
+
+
 CREATE TABLE Test(
     TestId int AUTO_INCREMENT,
     UserProfileId int NOT NULL,
