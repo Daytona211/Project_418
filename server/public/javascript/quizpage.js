@@ -2,14 +2,15 @@ var useranswers=[];
 
 function update(amountofquestions,answer,choice,index){
     
-
     if(useranswers.length==0){
         for(let x=0; x<amountofquestions; x++){
             useranswers[x]=false;
         }
     }
 
-    console.log("answer=" + answer + " choice=" + choice);
+    listofuserpicks(amountofquestions,answer,choice,index,userchoices);
+
+    //grading part
     if(answer==choice){
         useranswers[index]=true;
     }
@@ -25,6 +26,22 @@ function update(amountofquestions,answer,choice,index){
     }
     document.getElementById("score").value=grade/useranswers.length + "";
 }
-
-
 //update(<%=amountofquestions%>,<%=answers[answers.length-1]%>,<%=results[q].PossibleAnswer%>,<%=counter%>)
+
+
+
+function listofuserpicks(amountofquestions,answer,choice,index,userchoices){
+
+    var amountofchoices=document.getElementById("amountofchoices").innerHTML;
+    amountofchoices=parseInt(amountofchoices);
+    
+    var userchoices = "";
+    for(let x=0; x<amountofchoices; x++){
+        if(document.getElementById(x).checked){ 
+            userchoices += document.getElementById(x).value + " ";
+        }
+    }
+
+
+    document.getElementById("userchoices").value=userchoices;
+}
