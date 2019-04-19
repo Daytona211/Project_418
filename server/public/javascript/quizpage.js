@@ -8,7 +8,7 @@ function update(amountofquestions,answer,choice,index){
         }
     }
 
-    listofuserpicks(amountofquestions,answer,choice,index,userchoices);
+    listofuserpicks();
 
     //grading part
     if(answer==choice){
@@ -30,7 +30,7 @@ function update(amountofquestions,answer,choice,index){
 
 
 
-function listofuserpicks(amountofquestions,answer,choice,index,userchoices){
+function listofuserpicks(){
 
     var amountofchoices=document.getElementById("amountofchoices").innerHTML;
     amountofchoices=parseInt(amountofchoices);
