@@ -9,7 +9,18 @@ CREATE TABLE UserProfile(
 CREATE TABLE Test(
     TestId int AUTO_INCREMENT,
     UserProfileId int NOT NULL,
+    TestTitle varchar(50),
     PRIMARY KEY (TestId),
+    FOREIGN KEY (UserProfileId) REFERENCES UserProfile(UserProfileId)
+);
+
+CREATE TABLE TestStatus(
+    TestStatusId int AUTO_INCREMENT,
+    TestId int NOT NULL,
+    UserProfileId int NOT NULL,
+    TestStatus tinyint NOT NULL,
+    PRIMARY KEY (TeststatusId),
+    FOREIGN KEY (TestId) REFERENCES Test(TestId),
     FOREIGN KEY (UserProfileId) REFERENCES UserProfile(UserProfileId)
 );
 
