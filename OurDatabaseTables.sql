@@ -51,6 +51,12 @@ CREATE TABLE Grade(
 
 CREATE TABLE UserAnswers(
 	UserAnswerId int AUTO_INCREMENT,
+	UserProfileId int NOT NULL,
+	TestId int NOT NULL,
+	QuestionId int NOT NULL,
 	UserAnswer varchar(400), NOT NULL,
-	PRIMARY KEY (UserAnswerId)
+	PRIMARY KEY (UserAnswerId),
+	FOREIGN KEY (UserProfileId) REFERENCES UserProfile(UserProfileId),
+	FOREIGN KEY (TestId) REFERENCES Test(TestId),
+	FOREIGN KEY (QuestionId) REFERENCES Question(QuestionId)
 );
