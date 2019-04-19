@@ -58,7 +58,7 @@
         <div id="tfAllContent">
             <form id="tfFrm" autocomplete="off" class="form-signUp text-center" method="POST"
                 action="/admin/tfQuestionSubmission">
-                <input id="mcQuestionInput" name="question" class="form-control" placeholder="Question"> </input>
+                <input id="mcQuestionInput" name="question" class="form-control" placeholder="Question" value="<%= questionInfo ? questionInfo.question : '' %>"> </input>
                 <p id="checkAnsReminder">Check the correct answer</p>
                 <div class="form-group">
                     <div class="input-group">
@@ -83,34 +83,34 @@
             <form id="mcFrm" autocomplete="off" class="form-signUp text-center" method="POST"
                 action="/admin/mcQuestionSubmission">
                 <div class="form-group">
-                    <input id="question" name="question" class="form-control" placeholder="Question"> </input>
+                    <input id="question" name="question" class="form-control" placeholder="Question" value="<%= questionInfo ? questionInfo.question : '' %>"> </input>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <input id="aRadioBtn" name="isACorrect" type="radio" checked>
                         </span>
                         <input id="AAnswerBox" name="AAnswerBox" class="form-control" type="text"
-                            placeholder="Answer for A">
+                            placeholder="Answer for A" value="<%= questionInfo ? questionInfo.choice1 : '' %>"> </input>    
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <input id="bRadioBtn" name="isBCorrect" type="radio">
                         </span>
                         <input id="BAnswerBox" name="BAnswerBox" class="form-control" type="text"
-                            placeholder="Answer for B">
+                            placeholder="Answer for B" value="<%= questionInfo ? questionInfo.choice2 : '' %>">
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <input id="cRadioBtn" name="isCCorrect" type="radio">
                         </span>
                         <input id="CAnswerBox" name="CAnswerBox" class="form-control" type="text"
-                            placeholder="Answer for C">
+                            placeholder="Answer for C" value="<%= questionInfo ? questionInfo.choice3 : '' %>">
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <input id="dRadioBtn" name="isDCorrect" type="radio">
                         </span>
                         <input id="DAnswerBox" name="DAnswerBox" class="form-control" type="text"
-                            placeholder="Answer for D">
+                            placeholder="Answer for D" value="<%= questionInfo ? questionInfo.choice4 : '' %>">
                     </div>
                 </div>
                 <button id="submit" type="submit" class="btn btn-outline-primary btn-lg">Submit</button>
@@ -121,13 +121,14 @@
 
     <br>
     <div id="quizbank">
-        <table class="table table-sm table-active">
+        <table id="questionsTable" class="table table-sm table-active">
             <thead>
                 <tr>
-                    <th scope="col" class="bg-info">QuestionID</th>
+                    <!-- <th scope="col" class="bg-info">QuestionID</th> -->
                     <th scope="col" class="bg-info">Question</th>
                     <th scope="col" class="bg-info">Answer</th>
                     <th scope="col" class="bg-info">Question Type</th>
+                    <th scope="col" class="bg-info"></th>
                     <th scope="col" class="bg-info"></th>
                 </tr>
             </thead>
@@ -135,7 +136,7 @@
 
                 <% for(var i = 0; i < results.length; i++) { %>
                 <tr>
-                    <th scope="row"> <%= results[i].QuestionId %> </th>
+                    <!-- <th scope="row"> <%= results[i].QuestionId %> </th> -->
                     <td> <%= results[i].Question %></td>
                     <td> <%= results[i].Answer %> </td>
                     <td> <%= results[i].TypeOfQuestion %></td>
@@ -144,6 +145,9 @@
                             <a href="/admin/deleteQuestions/?id=<%-results[i].QuestionId%>"> <input width="15px"
                                     height="15px" type="image" src="/images/redX.jpg" /> </a>
                         </div>
+                    </td>
+                    <td class ="edit">
+                        <a id="editBtn<%= i %>" href="/admin/editQuestions/?id=<%-results[i].QuestionId%>">Edit</a>
                     </td>
                 </tr>
                 <% } %>

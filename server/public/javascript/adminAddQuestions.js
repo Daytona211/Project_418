@@ -33,6 +33,7 @@ function main() {
         trueAnswerRadioBtn.checked = false;
     });
     correctAnswerRadioBtn();
+    editQuestion();
 }
 
 
@@ -63,8 +64,21 @@ function correctAnswerRadioBtn(){
     });
 }
 
-function addNewItemToQuizBank(item){
-    
+function editQuestion(){
+
+    var rows = document.getElementById("questionsTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr")
+    console.log(rows[0]);
+    for(var i = 0; i < rows.length; i++){
+        var store = rows[i].children[5];
+        console.log(store);
+        store.addEventListener("click", () =>{
+            console.log(store.parentElement);
+        });
+    }
+}
+
+function checkEntry(){
+    // display alert if user tries to leave
 }
 
 document.addEventListener("DOMContentLoaded", function (event) {

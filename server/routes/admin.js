@@ -54,6 +54,30 @@ router.get("/addQuestions", (req, result) => {
     }
 });
 
+router.get("/editQuestions", (req, res) => {
+    if (!req.session.userId)
+        return res.redirect(`/users/login`);
+    else {
+        var id = req.query.id;
+        db.query("SELECT * FROM question INNER JOIN choices ON question.QuestionId= choices.QuestionId WHERE question.QuestionId=?", [id], (req1, res1) => {
+            var questionInfo = {question: res1[0].Question, choice1: undefined, choice2: undefined, choice3: undefined, choice4: undefined, type: "TF"};
+            console.log(res1);
+            console.log(questionInfo);
+            if(res1[0].TypeOfQuestion == "Multiple Choice"){
+                questionInfo.choice1 = res1[0].PossibleAnswer;
+                questionInfo.choice2 = res1[1].PossibleAnswer;
+                questionInfo.choice3 = res1[2].PossibleAnswer;
+                questionInfo.choice4 = res1[3].PossibleAnswer;
+                questionInfo.type = "MC"
+            }
+            db.query(`DELETE FROM choices WHERE QuestionId=?`, [id]);
+            db.query(`DELETE FROM question WHERE QuestionId=?`, [id]);
+            rerenderAdminAddQuestionsPage(res, undefined, questionInfo);
+        });
+    }
+
+    console.log("EDIT");
+});
 
 router.get("/deleteQuestions", (req1, res1) => {
     if (!req1.session.userId)
@@ -85,13 +109,14 @@ router.post("/csvQuestionSubmission", upload.single('csvFile'), (req, res) => {
     insertCSV(req, res);
 });
 
-function rerenderAdminAddQuestionsPage(res, errorMessage) {
+function rerenderAdminAddQuestionsPage(res, errorMessage, questionInfo) {
     console.log(errorMessage);
     db.query(`SELECT * FROM question;`, (request, result, error) => {
         if (error) console.log(error);
         res.render("adminAddQuestions", {
             results: result,
-            error: errorMessage
+            error: errorMessage,
+            questionInfo: questionInfo
         });
     });
 }
@@ -100,17 +125,18 @@ function insertTrueFalse(req, res) {
     var question = req.body.question;
     var answer;
     var questionId = req.body.questionId;
-    var type = req.body.TypeOfQuestion;
     if (req.body.isTrueCorrect != undefined)
         answer = "true";
     else
         answer = "false";
     //   INSERT INTO table(c1,c2,...) VALUES (v1,v2,...);
     // var sqlQuery = `INSERT INTO question(Answer) VALUES (?);`;
-    db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "True False");`, [answer, question, type], (req, resl, error) => {
+    db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "True False");`, [answer, question], (req, resl, error) => {
         if (error) {
             console.log(error);
         }
+        db.query(`INSERT INTO choices(QuestionId, PossibleAnswer) VALUES (?, "True");`, [resl.insertId]);
+        db.query(`INSERT INTO choices(QuestionId, PossibleAnswer) VALUES (?, "False");`, [resl.insertId]);
         rerenderAdminAddQuestionsPage(res);
         console.log("Added t/f question");
     });
