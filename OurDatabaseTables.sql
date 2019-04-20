@@ -17,8 +17,7 @@ CREATE TABLE ChangeColor(
 CREATE TABLE Test(
     TestId int AUTO_INCREMENT,
     TestTitle varchar(50),
-    PRIMARY KEY (TestId),
-    FOREIGN KEY (UserProfileId) REFERENCES UserProfile(UserProfileId)
+    PRIMARY KEY (TestId)
 );
 
 CREATE TABLE TestStatus(
@@ -28,7 +27,8 @@ CREATE TABLE TestStatus(
     TestStatus tinyint NOT NULL,
     Grade DECIMAL(5,2) NOT NULL,
     PRIMARY KEY (TeststatusId),
-    FOREIGN KEY (TestId) REFERENCES Test(TestId)
+    FOREIGN KEY (TestId) REFERENCES Test(TestId),
+    FOREIGN KEY (UserProfileId) REFERENCES UserProfile(UserProfileId)
 );
 
 CREATE TABLE Question(
