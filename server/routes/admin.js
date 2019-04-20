@@ -126,9 +126,9 @@ function insertTrueFalse(req, res) {
     var answer;
     var questionId = req.body.questionId;
     if (req.body.isTrueCorrect != undefined)
-        answer = "true";
+        answer = "True";
     else
-        answer = "false";
+        answer = "False";
     //   INSERT INTO table(c1,c2,...) VALUES (v1,v2,...);
     // var sqlQuery = `INSERT INTO question(Answer) VALUES (?);`;
     db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "True False");`, [answer, question], (req, resl, error) => {

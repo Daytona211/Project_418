@@ -9,7 +9,7 @@ function update(amountofquestions,answer,choice,index){
     }
 
     listofuserpicks();
-
+    // console.log(useranswers)
     //grading part
     if(answer==choice){
         useranswers[index]=true;
