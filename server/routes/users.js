@@ -41,6 +41,7 @@ router.get("/register", (req, res) => {
 });
 
 router.post('/registers', (req, res) => {
+	console.log("sss");
 	//res.render("registerPage"); // to access this page go to /users/register
 	var username = req.body.username;
 	var password = req.body.password;
@@ -96,13 +97,13 @@ router.post('/sublogin', (req, res) => {
 	});
 });
 
+
 //queries question/choices
 router.get('/QuizPage', (req, res) => {
 	var id = req.session.userId;
 	console.log(id);
 	db.query("SELECT * FROM question JOIN choices on question.questionid=choices.questionid;", (request, results, error) => {
 
-		//join statements to userprofile table, add after choices.questionid, not working needs to be fixed.
 		//JOIN test on test.testid=question.testid JOIN userprofile on userprofile.userprofileid=test.userprofileid;
 		if (error) {
 			console.log(error);
@@ -114,11 +115,55 @@ router.get('/QuizPage', (req, res) => {
 
 });
 
+router.post('/QuizPage', (req, res) => {
+	
+	var score = req.body.score;
+	score = parseFloat(score)
+	score = (score*100).toFixed(2);	
 
+	
+	var map = new Map();
+	var useranswers=req.body.userchoices;
+	for(let x=0; x<useranswers.length; x++){
+		var buildanswer = "";
+		while(x!=useranswers.length){
+            if(useranswers.charAt(x)=="-" && useranswers.charAt(x+1)=="|" && useranswers.charAt(x+2)=="|" && useranswers.charAt(x+3)=="|" && useranswers.charAt(x+4)=="-"){
+                x += 5;
+                break;
+            }
+            buildanswer += useranswers.charAt(x);
+            x++;
+        }
+        var answerid="";
+        while(useranswers.charAt(x)!=" "){
+            answerid += useranswers.charAt(x);
+            x++;
+            if(x==useranswers.length){
+                break;
+            }
+        }
+        answerid = parseInt(answerid);
+        map.set(buildanswer,answerid);
+    }
 router.post("/Grade", (req, res) => {
 	insertGrade(req, res);
 });
 
+	var userprofileid = req.body.UserProfileId;
+	/* var testid = req.session.testid;
+	var userid = req.session.userId; */
+
+	console.log("score: "+ score);
+	return;
+
+	/* db.query(`INSERT INTO Grade(TestId, UserProfileId, Grade) VALUES (?,?,?);`, [testid, userid, score], (req, res, error) => {
+		if (error) {
+			console.log(error);
+			return;
+		}
+		return res.render("");
+	});	 */
+});
 
 //write the proper grade for the question
 function insertGrade(req, res) {
