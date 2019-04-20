@@ -92,40 +92,20 @@ router.post('/sublogin', (req, res) => {
 	});
 });
 
+
 router.get('/home', (req, res) => {
+	var id = req.session.userId;
+	db.query("SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE UserProfileId=" + id + ";",(request,results,error) => {
+		if(error){
+			console.log(error);
+		}
 
-	let sqlQuery = 'SELECT * FROM test WHERE UserProfileId ="'+ userId + '";';
-	var exams_incomplete = new Array();
-	var exams_complete = new Array();
-	
-	
-	db.query(sqlQuery, (err, status)  => {
-	
-			if (err) throw err;
-			for (let i =0 ;  i< status.length; i++){
+		res.render("home",{results: results})
+	})
 
-				if (status[i].UserStatus == "incomplete"){
-					exams_incomplete.push(status[i].TestId);
-					
-				}
-				if(status[i].UserStatus == "complete")
-				{
-					exams_complete.push(status[i].TestId);
-					
-				}
-		
-			}
-			console.log(userId);
-			res.render('userhome', {username: user, examstoTake: exams_incomplete, examsComplete: exams_complete});
-		
-	  });
-		
-	
-	});
+});
 
-	function store(quizC, quizIC){
 
-	}
 //queries question/choices
 router.get('/QuizPage', (req, res) => {
 	var id = req.session.userId;
