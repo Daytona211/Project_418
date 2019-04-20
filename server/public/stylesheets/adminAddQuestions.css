@@ -38,3 +38,11 @@
 .redXImage {
 	float: left;
 }
+
+#errorAlert {
+    position: relative;
+    width: 570px;
+    height: 50px;
+    left: 35%;
+    top: 10px;
+}
