@@ -273,4 +273,42 @@ function potato_salad_on_top_of_my_bowl(path, res) {
         }
     });
 }
+
+//Query for Quiz Creation Page
+router.get('/creatingtestPage', (req, res) => {
+	var id = req.session.userId;
+	console.log(id);
+	db.query("SELECT * FROM question;",(request,results,error) => {
+		if(error){
+			console.log(error);
+		}
+		res.render("creatingtestPage",{results: results})
+	})
+
+});
+
+router.post("/creatingtestPage", (req, res) => {
+    
+    var result = {checked: req.body.checked};
+
+    db.query("INSERT INTO Test() VALUES (?);",[],(req,res,error)=>{
+        if(error){
+            console.log(error);
+            return;
+        }
+    })
+    
+    for(var x=0; x<results.length; x++){
+        db.query("INSERT INTO Question(TestId,Answer,Question) VALUES (?);",[result[x],"?",],(res,res,error)=>{
+            if(error){
+                console.log(error);
+                return;
+            }
+            return res.render("");
+        })
+    }
+
+});
+
+
 module.exports = router;
