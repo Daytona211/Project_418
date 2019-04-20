@@ -95,12 +95,30 @@ router.post('/sublogin', (req, res) => {
 
 router.get('/home', (req, res) => {
 	var id = req.session.userId;
-	db.query("SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE UserProfileId=" + id + ";",(request,results,error) => {
+	var exams_incomplete = new Array();
+	var exams_complete = new Array();
+
+	
+	db.query("SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=" + id + ";",(error,results) => {
+	
+			
 		if(error){
 			console.log(error);
 		}
 
-		res.render("home",{results: results})
+	
+		for( let i = 0; i<results.length; i++){
+			
+				if(results[i].TestStatus == 0){
+
+					exams_incomplete.push(results[i].TestTitle);
+
+				}else{
+					exams_complete.push(results[i].TestTitle);
+				}
+			}
+		
+		res.render("userhome",{examstoTake: exams_incomplete,examsComplete: exams_complete, userName: user})
 	})
 
 });
