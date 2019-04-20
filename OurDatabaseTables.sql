@@ -14,10 +14,8 @@ CREATE TABLE ChangeColor(
 	FOREIGN KEY (UserProfileid) REFERENCES UserProfile(UserProfileId)
 );
 
-
 CREATE TABLE Test(
     TestId int AUTO_INCREMENT,
-    UserProfileId int NOT NULL,
     TestTitle varchar(50),
     PRIMARY KEY (TestId),
     FOREIGN KEY (UserProfileId) REFERENCES UserProfile(UserProfileId)
