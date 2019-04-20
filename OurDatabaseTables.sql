@@ -28,8 +28,7 @@ CREATE TABLE TestStatus(
     TestStatus tinyint NOT NULL,
     Grade DECIMAL(5,2) NOT NULL,
     PRIMARY KEY (TeststatusId),
-    FOREIGN KEY (TestId) REFERENCES Test(TestId),
-    FOREIGN KEY (UserProfileId) REFERENCES UserProfile(UserProfileId)
+    FOREIGN KEY (TestId) REFERENCES Test(TestId)
 );
 
 CREATE TABLE Question(
