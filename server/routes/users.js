@@ -174,7 +174,8 @@ router.get('/home', (req, res) => {
 router.get('/QuizPage', (req, res) => {
 	var id = req.session.userId;
 	console.log(id);
-	db.query("SELECT * FROM question JOIN choices on question.questionid=choices.questionid;", (request, results, error) => {
+	var testid = req.session.testId;
+	db.query("SELECT * FROM QuestionsForTest JOIN Question on QuestionsForTest.QuestionId=Question.QuestionId JOIN Choices ON Question.QuestionId=Choices.QuestionId WHERE TestId=;" + testid, (request, results, error) => {
 
 		//JOIN test on test.testid=question.testid JOIN userprofile on userprofile.userprofileid=test.userprofileid;
 		if (error) {
