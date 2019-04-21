@@ -50,12 +50,13 @@ router.post('/registers', (req, res) => {
 	//res.render("registerPage"); // to access this page go to /users/register
 	var username = req.body.username;
 	var password = req.body.password;
+	user = username;
 	db.query(`INSERT INTO userprofile(Name, Password) VALUES (?, ?)`, [username, password]);
 	db.query('SELECT * FROM userprofile WHERE Name="' + username + '";', (error, result) => {
 		// if(error) throw error;
 		req.session.userId = result[0].UserProfileId;
 		req.session.admin = 0;
-		return res.render("userhome", {userName: username, examsComplete: exams_complete, examstoTake: exams_incomplete});
+		return res.render("userhome", {userName: user, examsComplete: exams_complete, examstoTake: exams_incomplete});
 
 	});
 });
