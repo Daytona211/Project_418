@@ -5,9 +5,10 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const session = serverInfo.session;
 
- user = null;
- userId = null;
- 
+user = null;
+userId = null;
+exams_incomplete = new Array();
+exams_complete = new Array();
 
 router.use(bodyParser.json());
 router.use(
@@ -54,7 +55,7 @@ router.post('/registers', (req, res) => {
 		// if(error) throw error;
 		req.session.userId = result[0].UserProfileId;
 		req.session.admin = 0;
-		return res.render("userhome");
+		return res.render("userhome", {userName: username, examsComplete: exams_complete, examstoTake: exams_incomplete});
 
 	});
 });
@@ -83,13 +84,16 @@ router.post('/sublogin', (req, res) => {
 				for (let i = 0; i < result.length; i++) {
 					if (passWord == result[i].Password) {
 						req.session.userId = result[i].UserProfileId;
-		console.log(result[i]);
+						console.log(result[i]);
 						if (result[i].isAdmin == 1) {
 							req.session.admin = 1;
 							return res.render("adminPage")
 						} else {
 							req.session.admin = 0;
-							return res.render("userhome")
+
+							
+							console.log("hjfwjfgh");
+							return res.redirect('/users/home');
 						}
 					}
 				}
@@ -102,8 +106,6 @@ router.post('/sublogin', (req, res) => {
 		}
 	});
 });
-
-
 
 router.get('/home', (req, res) => {
 	var id = req.session.userId;
