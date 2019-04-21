@@ -41,6 +41,7 @@ router.get("/userIds", (req, result) => {
     }
 });
 
+
 router.get("/addQuestions", (req, result) => {
     if (!req.session.userId)
         result.redirect('/users/login');
@@ -263,6 +264,7 @@ function potato_salad_on_top_of_my_bowl(path, res) {
             else if (ans4.charAt(0) == '*')
                 correctAns = ans4.split("*")[1];
             var choices = [ans1Txt, ans2Txt, ans3Txt, ans4Txt];
+
             db.query(`INSERT INTO question(TypeOfQuestion, Answer, Question) VALUES (?, ?, ?);`, ["Multiple Choice", correctAns, question], (req, result, err) => {
                 if (err) throw err;
                 for (var i = 0; i < choices.length; i++) {
