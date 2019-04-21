@@ -42,8 +42,10 @@ CREATE TABLE Question(
 CREATE TABLE QuestionsForTest(
 	QuestionsForTest int AUTO_INCREMENT,
 	QuestionId int NOT NULL,
+	TestId int NOT NULL,
 	PRIMARY KEY (QuestionsForTest),
-	FOREIGN KEY (QuestionId) REFERENCES Question(QuestionId)
+	FOREIGN KEY (QuestionId) REFERENCES Question(QuestionId),
+	FOREIGN KEY (TestId) REFERENCES Test(TestId)
 );
 
 CREATE TABLE Image(
