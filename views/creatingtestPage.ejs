@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Quiz Create Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">Coding Buddy</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/register">Signup</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/about">About</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">  
+        <div class="panel panel-default">
+                <div class="panel-heading"> Select Test Questions to go in Test Bank</div>
+                    <form id="createDB" action="/admin/createDBTable" method='post'>
+                <%
+                 for(let x=0; x<results.length; x++){
+                 %>
+
+                <table class="table">
+                        <thead>
+                                <tr>
+                                        <th></th>
+                                </tr>
+                        </thead>
+                            <tbody>
+                                
+                <p><%= results[x].Question%> <input type="checkbox"  name="checked" value="<%=results[x].Question%>"  ></p>
+
+     
+                </table>
+
+                <%} %>
+                
+                 <button input="submit" value="submit">Create Test</button>
+
+                </form>
+        </div>
+    </div>
+
+    <br></br>
+ 
+
+
+    <div class="container">  
+        <div class="panel panel-default">
+            <div class="panel-heading"> Test Bank Content </div>
+         
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Question Id</th>
+                        <th>Question</th>
+                        <th>Question Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>....</td>
+                        <td>...</td>
+                       
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>....</td>
+                        <td>.....</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>....</td>
+                        <td>....</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="panel-footer"> Project 418! </div>
+        </div>
+    </div>
+
+    <!-- Javascript files -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/4.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+</body>
+</html>

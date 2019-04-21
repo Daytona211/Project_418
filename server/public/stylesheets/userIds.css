@@ -1,0 +1,13 @@
+#createUserForm{
+    padding: 20%;
+}
+
+#isUserContainer{
+    padding-left: 20%;
+}
+
+#errorAlert{
+    position: absolute;
+    bottom: 10%;
+    left: 35%;
+}

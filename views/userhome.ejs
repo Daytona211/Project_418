@@ -45,7 +45,7 @@
     <h1 align="center"><%= username %> activity</h1>
 
     <br> </br>
-            <h2>Quizzes Taken</h2>
+            <h2>Quizzes to Take</h2>
 
            <br><br>
            <div >
@@ -54,14 +54,14 @@
             <% examstoTake.forEach(function(eachExam){ %>
                 
 
-                     <li><%= eachExam.TestId %></li>
+                     <li><%= eachExam%></li>
                    
                      <% }) %>
            </ul>
          </div>
 
           <br> </br>
-            <h3>Quizzes to Take</h2>
+            <h3>Quizzes Taken</h2>
 
            <br><br>
            <div >
@@ -70,11 +70,13 @@
             <% examsComplete.forEach(function(eachExam){ %>
                 
 
-                     <li><%= examsComplete.TestId %></li>
+                     <li><%= eachExam %></li>
                    
                      <% }) %>
            </ul>
          </div>
+
+         
        
             
     

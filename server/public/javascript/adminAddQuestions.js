@@ -1,9 +1,4 @@
 function main() {
-    addingNewQuestionsRadioBtnControl();
-    choicesRadioButtonControl();
-}
-
-function addingNewQuestionsRadioBtnControl() {
     var mcRadio = document.getElementById("mcInput");
     var tfRadio = document.getElementById("tfInput");
     var csvRadio = document.getElementById("csvInput");
@@ -16,58 +11,102 @@ function addingNewQuestionsRadioBtnControl() {
     });
     tfRadio.addEventListener("click", () => {
         mcRadio.checked = false;
-        csvRadio.checked = false;
+        csvRadio.checked = false;        
         document.getElementById("tfAllContent").style.display = "block";
         document.getElementById("mcAllContent").style.display = "none";
         document.getElementById("csvContent").style.display = "none";
     });
-    csvRadio.addEventListener("click", () => {
+    csvRadio.addEventListener("click", () => {  
         mcRadio.checked = false;
-        tfRadio.checked = false;
+        tfRadio.checked = false;        
         document.getElementById("tfAllContent").style.display = "none";
         document.getElementById("mcAllContent").style.display = "none";
         document.getElementById("csvContent").style.display = "block";
     });
-}
 
-// function addNewItemToQuizBank(item) {
-
-// }
-function choicesRadioButtonControl(){
     var trueAnswerRadioBtn = document.getElementById("trueAnswerRadioBtn");
     var falseAnswerRadioBtn = document.getElementById("falseAnswerRadioBtn");
-    console.log(trueAnswerRadioBtn);
     trueAnswerRadioBtn.addEventListener("click", () => {
         falseAnswerRadioBtn.checked = false;
     });
     falseAnswerRadioBtn.addEventListener("click", () => {
         trueAnswerRadioBtn.checked = false;
     });
+    correctAnswerRadioBtn();
+    editQuestion();
+}
 
-    var aRadioButton = document.getElementById("aRadioButton");
-    var bRadioButton = document.getElementById("bRadioButton");
-    var cRadioButton = document.getElementById("cRadioButton");
-    var dRadioButton = document.getElementById("dRadioButton");
-    aRadioButton.addEventListener("click", ()=>{
-        bRadioButton.checked = false;
-        cRadioButton.checked = false;
-        dRadioButton.checked = false;
+
+function correctAnswerRadioBtn(){
+    var aRadioBtn = document.getElementById('aRadioBtn');
+    var bRadioBtn = document.getElementById('bRadioBtn');
+    var cRadioBtn = document.getElementById('cRadioBtn');
+    var dRadioBtn = document.getElementById('dRadioBtn');
+    aRadioBtn.addEventListener("click", () => {
+        bRadioBtn.checked = false;
+        cRadioBtn.checked = false;
+        dRadioBtn.checked = false;
     });
-    bRadioButton.addEventListener("click", ()=>{
-        aRadioButton.checked = false;
-        cRadioButton.checked = false;
-        dRadioButton.checked = false;
+    bRadioBtn.addEventListener("click", () => {
+        aRadioBtn.checked = false;
+        cRadioBtn.checked = false;
+        dRadioBtn.checked = false;
     });
-    cRadioButton.addEventListener("click", ()=>{
-        aRadioButton.checked = false;
-        bRadioButton.checked = false;
-        dRadioButton.checked = false;
+    cRadioBtn.addEventListener("click", () => {
+        aRadioBtn.checked = false;
+        bRadioBtn.checked = false;
+        dRadioBtn.checked = false;
     });
-    dRadioButton.addEventListener("click", ()=>{
-        aRadioButton.checked = false;
-        cRadioButton.checked = false;
-        bRadioButton.checked = false;
+    dRadioBtn.addEventListener("click", () => {
+        aRadioBtn.checked = false;
+        bRadioBtn.checked = false;
+        cRadioBtn.checked = false;
     });
+}
+
+
+function correctAnswerRadioBtn(){
+    var aRadioBtn = document.getElementById('aRadioBtn');
+    var bRadioBtn = document.getElementById('bRadioBtn');
+    var cRadioBtn = document.getElementById('cRadioBtn');
+    var dRadioBtn = document.getElementById('dRadioBtn');
+    aRadioBtn.addEventListener("click", () => {
+        bRadioBtn.checked = false;
+        cRadioBtn.checked = false;
+        dRadioBtn.checked = false;
+    });
+    bRadioBtn.addEventListener("click", () => {
+        aRadioBtn.checked = false;
+        cRadioBtn.checked = false;
+        dRadioBtn.checked = false;
+    });
+    cRadioBtn.addEventListener("click", () => {
+        aRadioBtn.checked = false;
+        bRadioBtn.checked = false;
+        dRadioBtn.checked = false;
+    });
+    dRadioBtn.addEventListener("click", () => {
+        aRadioBtn.checked = false;
+        bRadioBtn.checked = false;
+        cRadioBtn.checked = false;
+    });
+}
+
+function editQuestion(){
+
+    var rows = document.getElementById("questionsTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr")
+    console.log(rows[0]);
+    for(var i = 0; i < rows.length; i++){
+        var store = rows[i].children[5];
+        console.log(store);
+        store.addEventListener("click", () =>{
+            console.log(store.parentElement);
+        });
+    }
+}
+
+function checkEntry(){
+    // display alert if user tries to leave
 }
 
 document.addEventListener("DOMContentLoaded", function (event) {
