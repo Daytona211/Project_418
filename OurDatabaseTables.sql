@@ -33,12 +33,17 @@ CREATE TABLE TestStatus(
 
 CREATE TABLE Question(
     QuestionId int AUTO_INCREMENT,
-    TestId int,
     TypeOfQuestion varchar(20) NOT NULL,
     Answer varchar(100) NOT NULL,
     Question varchar(500) NOT NULL,
-    PRIMARY KEY (QuestionId),
-    FOREIGN KEY (TestId) REFERENCES Test(TestId)
+    PRIMARY KEY (QuestionId)
+);
+
+CREATE TABLE QuestionsForTest(
+	QuestionsForTest int AUTO_INCREMENT,
+	QuestionId int NOT NULL,
+	PRIMARY KEY (QuestionsForTest),
+	FOREIGN KEY (QuestionId) REFERENCES Question(QuestionId)
 );
 
 CREATE TABLE Image(
