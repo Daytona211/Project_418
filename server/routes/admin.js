@@ -6,8 +6,7 @@ const session = serverInfo.session;
 const db = serverInfo.db;
 var upload = multer({
     dest: 'uploads/'
-});
-
+})
 
 router.post("/registerId", (req, res) => {
     db.query(`SELECT Name FROM userprofile`, (selReq, selRes) => {
@@ -100,18 +99,6 @@ router.get("/deleteQuestions", (req1, res1) => {
 });
 
 
-function deleteQuestionAndRerender(id, renderingRes) {
-    db.query(`DELETE FROM question WHERE QuestionId=${id}`, (req2, res2, err) => {
-        db.query(`SELECT * FROM question;`, (req3, res3, error) => {
-            if (error) console.log(error);
-            renderingRes.render("adminAddQuestions", {
-                results: res3,
-                error: undefined
-            });
-        });
-    })
-}
-
 router.post("/tfQuestionSubmission", (req, res) => {
     insertTrueFalse(req, res);
 });
@@ -158,19 +145,6 @@ function insertTrueFalse(req, res) {
 function insertMC(req, res1) {
     var question = req.body.question;
     var answer = "";
-    var choices = [];
-    choices[0] = req.body.AAnswerBox;
-    choices[1] = req.body.BAnswerBox;
-    choices[2] = req.body.CAnswerBox;
-    choices[3] = req.body.DAnswerBox;
-    /*
-{ question: 'Question',
-  AAnswerBox: 'A answer',
-  BAnswerBox: 'B answer',
-  isCCorrect: 'on',
-  CAnswerBox: 'C answer',
-  DAnswerBox: 'D answer' } */
-    //choices[0] = 
     var type = req.body.TypeOfQuestion;
     if (req.body.isACorrect)
         answer = req.body.AAnswerBox;
@@ -281,15 +255,14 @@ function potato_salad_on_top_of_my_bowl(path, res) {
             var img = ele["Image Link"];
             var correctAns;
             if (ans1.charAt(0) == '*')
-                correctAns = ans1Txt;
+                correctAns = ans1.split("*")[1];
             else if (ans2.charAt(0) == '*')
-                correctAns = ans2Txt;
+                correctAns = ans2.split("*")[1];
             else if (ans3.charAt(0) == '*')
-                correctAns = ans3Txt;
+                correctAns = ans3.split("*")[1];
             else if (ans4.charAt(0) == '*')
                 correctAns = ans4.split("*")[1];
             var choices = [ans1Txt, ans2Txt, ans3Txt, ans4Txt];
-
             db.query(`INSERT INTO question(TypeOfQuestion, Answer, Question) VALUES (?, ?, ?);`, ["Multiple Choice", correctAns, question], (req, result, err) => {
                 if (err) throw err;
                 for (var i = 0; i < choices.length; i++) {
