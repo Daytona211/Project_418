@@ -14,13 +14,10 @@ CREATE TABLE ChangeColor(
 	FOREIGN KEY (UserProfileid) REFERENCES UserProfile(UserProfileId)
 );
 
-
 CREATE TABLE Test(
     TestId int AUTO_INCREMENT,
-    UserProfileId int NOT NULL,
     TestTitle varchar(50),
-    PRIMARY KEY (TestId),
-    FOREIGN KEY (UserProfileId) REFERENCES UserProfile(UserProfileId)
+    PRIMARY KEY (TestId)
 );
 
 CREATE TABLE TestStatus(
@@ -28,6 +25,7 @@ CREATE TABLE TestStatus(
     TestId int NOT NULL,
     UserProfileId int NOT NULL,
     TestStatus tinyint NOT NULL,
+    Grade DECIMAL(5,2) NOT NULL,
     PRIMARY KEY (TeststatusId),
     FOREIGN KEY (TestId) REFERENCES Test(TestId),
     FOREIGN KEY (UserProfileId) REFERENCES UserProfile(UserProfileId)
@@ -35,12 +33,19 @@ CREATE TABLE TestStatus(
 
 CREATE TABLE Question(
     QuestionId int AUTO_INCREMENT,
-    TestId int,
     TypeOfQuestion varchar(20) NOT NULL,
     Answer varchar(100) NOT NULL,
     Question varchar(500) NOT NULL,
-    PRIMARY KEY (QuestionId),
-    FOREIGN KEY (TestId) REFERENCES Test(TestId)
+    PRIMARY KEY (QuestionId)
+);
+
+CREATE TABLE QuestionsForTest(
+	QuestionsForTest int AUTO_INCREMENT,
+	QuestionId int NOT NULL,
+	TestId int NOT NULL,
+	PRIMARY KEY (QuestionsForTest),
+	FOREIGN KEY (QuestionId) REFERENCES Question(QuestionId),
+	FOREIGN KEY (TestId) REFERENCES Test(TestId)
 );
 
 CREATE TABLE Image(
@@ -57,16 +62,6 @@ CREATE TABLE Choices(
     PossibleAnswer varchar(400) NOT NULL,
     PRIMARY KEY (ChoicesId),
     FOREIGN KEY (QuestionId) REFERENCES Question(QuestionId)
-);
-
-CREATE TABLE Grade(
-    GradeId int AUTO_INCREMENT,
-    TestId int NOT NULL,
-    UserProfileId int NOT NULL,
-    Grade DECIMAL(5,2) NOT NULL,
-    PRIMARY KEY (GradeId),
-    FOREIGN KEY (TestId) REFERENCES Test(TestId),
-    FOREIGN KEY (UserProfileId) REFERENCES UserProfile(UserProfileId)
 );
 
 CREATE TABLE UserAnswers(
