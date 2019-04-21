@@ -4,7 +4,9 @@
 <title>Quiz Page</title>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="../server/routes/users.js"></script>
+    <script src="/javascript/quizpage.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="X-UA-Compatible" content="IE=edge" />
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -38,40 +40,65 @@
 
     <br><br><br><br><br>
 
+    
     <%
+    var temp1 = new Set();
+    var temp2 = [];
+    for(let x=0; x<results.length; x++){
+        if(!temp1.has(results[x].QuestionId)){
+            temp1.add(results[x].QuestionId);
+            temp2.push(results[x].Answer);
+        }
+    }
+    var amountofquestions=temp2.length;
+
     var postedquestions = new Set();
-    var answers = new Map();
+    var answers = [];
+    var counter=0;
+    var choicecounter=0;
     %>
-    <form id="quizPage" autocomplete="off" method="POST" action="/users/Grade"> 
+    <form id="submitquiz" method="POST" action="/users/QuizPage">
+        <input name="score" value="0" id="score" hidden>
+        <input name="userchoices" value="" id="userchoices" hidden>
             <%
             for(let x=0; x<results.length; x++){
                 if(!postedquestions.has(results[x].QuestionId)){
                     postedquestions.add(results[x].QuestionId);
-                    answers.set(results[x].QuestionId,results[x].Answer);
+                    answers.push(results[x].Answer);
             %>      
                     <div class="container for each question/choices">
                         <div class="questions">
                             <h4><%= results[x].Question %></h4>
                         </div>
 
-                        <form>
-                            <%
-                            for(let q=0; q<results.length; q++){
-                                if(results[q].QuestionId == results[x].QuestionId){
-                            %>
+                        <%
+                        for(let q=0; q<results.length; q++){
+                            if(results[q].QuestionId == results[x].QuestionId){
+                                if(results[x].Answer==results[q].PossibleAnswer){
+                        %>
                                     <p>
-                                        <input type="radio" value=<%=results[q].PossibleAnswer%> name=<%=results[q].QuestionId%>>
+                                        <input type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,1,<%=counter%>);">
+                                            <%= results[q].PossibleAnswer %>
+                                        </input>
+                                    </p>
+                                <%
+                                }
+                                else if(results[x].Answer!=results[q].PossibleAnswer){%>
+                                    <p>
+                                        <input type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,0,<%=counter%>);">
                                             <%= results[q].PossibleAnswer %>
                                         </input>
                                     </p>
                                 <%}%>
-                            <%}%>
-                        </form>
-                        <br>    
+                            <%choicecounter++;}%>
+                        <%}%>
+                        <br>
+                                
                     </div>
-                <%}%>
-            <%}%>
-        <button type="submit" value="submit">Submit</button>
+                <%counter++;}%>
+            <%}console.log(answers + " | counterforchoices: " + choicecounter);%>
+            <p id="amountofchoices" hidden><%=choicecounter%></p>
+        <div style="text-align:center; padding-top:10px; padding-bottom:40px;"><button type="submit" value="submitquiz" onclick="">Submit</button></div>
     </form>  
 
 </body>

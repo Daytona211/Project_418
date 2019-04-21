@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html>
 
 <head>
     <title>Login Page</title>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="/javascript/loginPage.js"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -15,32 +14,12 @@
 </head>
 
 <body>
-
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="#">Coding Buddy</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-        aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/users/home">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/users/register">Signup</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/users/login">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/users/about">About</a>
-            </li>
-        </ul>
-    </div>
-</nav>
-
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">Coding Buddy</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
@@ -79,7 +58,7 @@
         <div id="tfAllContent">
             <form id="tfFrm" autocomplete="off" class="form-signUp text-center" method="POST"
                 action="/admin/tfQuestionSubmission">
-                <input id="mcQuestionInput" name="question" class="form-control" placeholder="Question"> </input>
+                <input id="mcQuestionInput" name="question" class="form-control" placeholder="Question" value="<%= questionInfo ? questionInfo.question : '' %>"> </input>
                 <p id="checkAnsReminder">Check the correct answer</p>
                 <div class="form-group">
                     <div class="input-group">
@@ -104,34 +83,34 @@
             <form id="mcFrm" autocomplete="off" class="form-signUp text-center" method="POST"
                 action="/admin/mcQuestionSubmission">
                 <div class="form-group">
-                    <input id="question" name="question" class="form-control" placeholder="Question"> </input>
+                    <input id="question" name="question" class="form-control" placeholder="Question" value="<%= questionInfo ? questionInfo.question : '' %>"> </input>
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <input name="isACorrect" type="checkbox">
+                            <input id="aRadioBtn" name="isACorrect" type="radio" checked>
                         </span>
                         <input id="AAnswerBox" name="AAnswerBox" class="form-control" type="text"
-                            placeholder="Answer for A">
+                            placeholder="Answer for A" value="<%= questionInfo ? questionInfo.choice1 : '' %>"> </input>    
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <input name="isBCorrect" type="checkbox">
+                            <input id="bRadioBtn" name="isBCorrect" type="radio">
                         </span>
                         <input id="BAnswerBox" name="BAnswerBox" class="form-control" type="text"
-                            placeholder="Answer for B">
+                            placeholder="Answer for B" value="<%= questionInfo ? questionInfo.choice2 : '' %>">
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <input name="isCCorrect" type="checkbox">
+                            <input id="cRadioBtn" name="isCCorrect" type="radio">
                         </span>
                         <input id="CAnswerBox" name="CAnswerBox" class="form-control" type="text"
-                            placeholder="Answer for C">
+                            placeholder="Answer for C" value="<%= questionInfo ? questionInfo.choice3 : '' %>">
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <input name="isDCorrect" type="checkbox">
+                            <input id="dRadioBtn" name="isDCorrect" type="radio">
                         </span>
                         <input id="DAnswerBox" name="DAnswerBox" class="form-control" type="text"
-                            placeholder="Answer for D">
+                            placeholder="Answer for D" value="<%= questionInfo ? questionInfo.choice4 : '' %>">
                     </div>
                 </div>
                 <button id="submit" type="submit" class="btn btn-outline-primary btn-lg">Submit</button>
@@ -140,16 +119,16 @@
         </form>
     </div>
 
-
     <br>
     <div id="quizbank">
-        <table class="table table-sm table-active">
+        <table id="questionsTable" class="table table-sm table-active">
             <thead>
                 <tr>
-                    <th scope="col" class="bg-info">QuestionID</th>
+                    <!-- <th scope="col" class="bg-info">QuestionID</th> -->
                     <th scope="col" class="bg-info">Question</th>
                     <th scope="col" class="bg-info">Answer</th>
                     <th scope="col" class="bg-info">Question Type</th>
+                    <th scope="col" class="bg-info"></th>
                     <th scope="col" class="bg-info"></th>
                 </tr>
             </thead>
@@ -157,7 +136,7 @@
 
                 <% for(var i = 0; i < results.length; i++) { %>
                 <tr>
-                    <th scope="row"> <%= results[i].QuestionId %> </th>
+                    <!-- <th scope="row"> <%= results[i].QuestionId %> </th> -->
                     <td> <%= results[i].Question %></td>
                     <td> <%= results[i].Answer %> </td>
                     <td> <%= results[i].TypeOfQuestion %></td>
@@ -167,14 +146,25 @@
                                     height="15px" type="image" src="/images/redX.jpg" /> </a>
                         </div>
                     </td>
+                    <td class ="edit">
+                        <a id="editBtn<%= i %>" href="/admin/editQuestions/?id=<%-results[i].QuestionId%>">Edit</a>
+                    </td>
                 </tr>
                 <% } %>
             </tbody>
         </table>
     </div>
 
+    <% if(typeof error != 'undefined'){  %>
+    <div id="errorAlert" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>
+            <p><%= error %></p>
+        </strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+    </div>
+    <% } %>
 
 </body>
-
 </html>
 

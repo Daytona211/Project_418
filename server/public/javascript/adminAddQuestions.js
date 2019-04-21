@@ -26,17 +26,87 @@ function main() {
 
     var trueAnswerRadioBtn = document.getElementById("trueAnswerRadioBtn");
     var falseAnswerRadioBtn = document.getElementById("falseAnswerRadioBtn");
-    console.log(trueAnswerRadioBtn);
     trueAnswerRadioBtn.addEventListener("click", () => {
         falseAnswerRadioBtn.checked = false;
     });
     falseAnswerRadioBtn.addEventListener("click", () => {
         trueAnswerRadioBtn.checked = false;
     });
+    correctAnswerRadioBtn();
+    editQuestion();
 }
 
-function addNewItemToQuizBank(item){
-    
+
+function correctAnswerRadioBtn(){
+    var aRadioBtn = document.getElementById('aRadioBtn');
+    var bRadioBtn = document.getElementById('bRadioBtn');
+    var cRadioBtn = document.getElementById('cRadioBtn');
+    var dRadioBtn = document.getElementById('dRadioBtn');
+    aRadioBtn.addEventListener("click", () => {
+        bRadioBtn.checked = false;
+        cRadioBtn.checked = false;
+        dRadioBtn.checked = false;
+    });
+    bRadioBtn.addEventListener("click", () => {
+        aRadioBtn.checked = false;
+        cRadioBtn.checked = false;
+        dRadioBtn.checked = false;
+    });
+    cRadioBtn.addEventListener("click", () => {
+        aRadioBtn.checked = false;
+        bRadioBtn.checked = false;
+        dRadioBtn.checked = false;
+    });
+    dRadioBtn.addEventListener("click", () => {
+        aRadioBtn.checked = false;
+        bRadioBtn.checked = false;
+        cRadioBtn.checked = false;
+    });
+}
+
+
+function correctAnswerRadioBtn(){
+    var aRadioBtn = document.getElementById('aRadioBtn');
+    var bRadioBtn = document.getElementById('bRadioBtn');
+    var cRadioBtn = document.getElementById('cRadioBtn');
+    var dRadioBtn = document.getElementById('dRadioBtn');
+    aRadioBtn.addEventListener("click", () => {
+        bRadioBtn.checked = false;
+        cRadioBtn.checked = false;
+        dRadioBtn.checked = false;
+    });
+    bRadioBtn.addEventListener("click", () => {
+        aRadioBtn.checked = false;
+        cRadioBtn.checked = false;
+        dRadioBtn.checked = false;
+    });
+    cRadioBtn.addEventListener("click", () => {
+        aRadioBtn.checked = false;
+        bRadioBtn.checked = false;
+        dRadioBtn.checked = false;
+    });
+    dRadioBtn.addEventListener("click", () => {
+        aRadioBtn.checked = false;
+        bRadioBtn.checked = false;
+        cRadioBtn.checked = false;
+    });
+}
+
+function editQuestion(){
+
+    var rows = document.getElementById("questionsTable").getElementsByTagName("tbody")[0].getElementsByTagName("tr")
+    console.log(rows[0]);
+    for(var i = 0; i < rows.length; i++){
+        var store = rows[i].children[5];
+        console.log(store);
+        store.addEventListener("click", () =>{
+            console.log(store.parentElement);
+        });
+    }
+}
+
+function checkEntry(){
+    // display alert if user tries to leave
 }
 
 document.addEventListener("DOMContentLoaded", function (event) {
