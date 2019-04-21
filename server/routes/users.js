@@ -5,6 +5,10 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const session = serverInfo.session;
 
+ user = null;
+ userId = null;
+ 
+
 router.use(bodyParser.json());
 router.use(
 	bodyParser.urlencoded({
@@ -55,6 +59,7 @@ router.post('/registers', (req, res) => {
 	});
 });
 
+
 router.get('/about', (req, res) => {
 	res.render('aboutPage');
 });
@@ -74,10 +79,11 @@ router.post('/sublogin', (req, res) => {
 					errorMsg
 				});
 			} else {
+				user = userName;
 				for (let i = 0; i < result.length; i++) {
 					if (passWord == result[i].Password) {
 						req.session.userId = result[i].UserProfileId;
-						console.log(result[i]);
+		console.log(result[i]);
 						if (result[i].isAdmin == 1) {
 							req.session.admin = 1;
 							return res.render("adminPage")
@@ -97,6 +103,37 @@ router.post('/sublogin', (req, res) => {
 	});
 });
 
+
+
+router.get('/home', (req, res) => {
+	var id = req.session.userId;
+	var exams_incomplete = new Array();
+	var exams_complete = new Array();
+
+	
+	db.query("SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=" + id + ";",(error,results) => {
+	
+			
+		if(error){
+			console.log(error);
+		}
+
+	
+		for( let i = 0; i<results.length; i++){
+			
+				if(results[i].TestStatus == 0){
+
+					exams_incomplete.push(results[i].TestTitle);
+
+				}else{
+					exams_complete.push(results[i].TestTitle);
+				}
+			}
+		
+		res.render("userhome",{examstoTake: exams_incomplete,examsComplete: exams_complete, userName: user})
+	})
+
+});
 
 //queries question/choices
 router.get('/QuizPage', (req, res) => {
@@ -193,5 +230,11 @@ function insertGrade(req, res) {
 		console.log(req);
 	});
 }
+router.get("/results", (req, res) =>{
+
+
+	res.render("quizResult", {userName: user})
+
+});
 
 module.exports = router;
