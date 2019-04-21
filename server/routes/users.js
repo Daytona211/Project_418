@@ -5,9 +5,11 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const session = serverInfo.session;
 
- user = null;
- userId = null;
- 
+user = null;
+userId = null;
+exams_incomplete = new Array();
+exams_complete = new Array();
+
 
 router.use(bodyParser.json());
 router.use(
@@ -49,12 +51,13 @@ router.post('/registers', (req, res) => {
 	//res.render("registerPage"); // to access this page go to /users/register
 	var username = req.body.username;
 	var password = req.body.password;
+	user = username;
 	db.query(`INSERT INTO userprofile(Name, Password) VALUES (?, ?)`, [username, password]);
 	db.query('SELECT * FROM userprofile WHERE Name="' + username + '";', (error, result) => {
 		// if(error) throw error;
 		req.session.userId = result[0].UserProfileId;
 		req.session.admin = 0;
-		return res.render("userhome");
+		return res.render("userhome", {userName: user, examsComplete: exams_complete, examstoTake: exams_incomplete});
 
 	});
 });
@@ -89,7 +92,10 @@ router.post('/sublogin', (req, res) => {
 							return res.render("adminPage")
 						} else {
 							req.session.admin = 0;
-							return res.render("userhome")
+
+							
+							console.log("hjfwjfgh");
+							return res.redirect('/users/home');
 						}
 					}
 				}
@@ -103,6 +109,35 @@ router.post('/sublogin', (req, res) => {
 	});
 });
 
+router.get('/home', (req, res) => {
+	var id = req.session.userId;
+	var exams_incomplete = new Array();
+	var exams_complete = new Array();
+
+	
+	db.query("SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=" + id + ";",(error,results) => {
+	
+			
+		if(error){
+			console.log(error);
+		}
+
+	
+		for( let i = 0; i<results.length; i++){
+			
+				if(results[i].TestStatus == 0){
+
+					exams_incomplete.push(results[i].TestTitle);
+
+				}else{
+					exams_complete.push(results[i].TestTitle);
+				}
+			}
+		
+		res.render("userhome",{examstoTake: exams_incomplete,examsComplete: exams_complete, userName: user})
+	})
+
+});
 
 
 router.get('/home', (req, res) => {
