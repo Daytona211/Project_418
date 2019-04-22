@@ -193,7 +193,7 @@ router.post('/QuizPage', (req, res) => {
 	score = (score*100).toFixed(2);	
 
 	
-	var array = new Array();
+	var map = new Map();
 	var useranswers=req.body.userchoices;
 	for(let x=0; x<useranswers.length; x++){
 		var buildanswer = "";
@@ -214,8 +214,7 @@ router.post('/QuizPage', (req, res) => {
             }
         }
 		answerid = parseInt(answerid);
-		array.push(buildanswer);
-		array.push(answerid);
+		map.set(answerid,buildanswer);
     }
 
 	var userprofileid = req.body.UserProfileId;
@@ -229,10 +228,9 @@ router.post('/QuizPage', (req, res) => {
 		}
 	})
 	
-	for(let x=0; x<array.length; x++){
-		let useranswer = array[x];
-		x++;
-		let questionid = array[x];
+	for(let x of map.keys()){
+		let useranswer = map.get(x);
+		let questionid = x;
 		db.query("INSERT INTO UserAnswers(UserProfileId,TestId,QuestionId,UserAnswer) VALUES (?,?,?,?);",[userid,testid,questionid,useranswer],(req,res,error)=>{
 			if(error){
 				console.log(error);
