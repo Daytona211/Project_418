@@ -217,7 +217,6 @@ router.post('/QuizPage', (req, res) => {
 		map.set(answerid,buildanswer);
     }
 
-	var userprofileid = req.body.UserProfileId;
 	var testid = req.session.testid;
 	var userid = req.session.userId;
 
