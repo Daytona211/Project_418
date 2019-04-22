@@ -172,9 +172,8 @@ router.get('/home', (req, res) => {
 
 //queries question/choices
 router.get('/QuizPage', (req, res) => {
-	var id = req.session.userId;
-	console.log(id);
-	var testid = req.session.testId;
+	var userid = req.session.userid;
+	var testid = req.session.testid;
 	db.query("SELECT * FROM QuestionsForTest JOIN Question on QuestionsForTest.QuestionId=Question.QuestionId JOIN Choices ON Question.QuestionId=Choices.QuestionId WHERE TestId=;" + testid, (request, results, error) => {
 
 		if (error) {
@@ -194,7 +193,7 @@ router.post('/QuizPage', (req, res) => {
 	score = (score*100).toFixed(2);	
 
 	
-	var map = new Map();
+	var array = new Array();
 	var useranswers=req.body.userchoices;
 	for(let x=0; x<useranswers.length; x++){
 		var buildanswer = "";
@@ -214,27 +213,35 @@ router.post('/QuizPage', (req, res) => {
                 break;
             }
         }
-        answerid = parseInt(answerid);
-        map.set(buildanswer,answerid);
+		answerid = parseInt(answerid);
+		array.push(buildanswer);
+		array.push(answerid);
     }
-router.post("/Grade", (req, res) => {
-	insertGrade(req, res);
-});
 
 	var userprofileid = req.body.UserProfileId;
-	/* var testid = req.session.testid;
-	var userid = req.session.userId; */
+	var testid = req.session.testid;
+	var userid = req.session.userId;
 
-	console.log("score: "+ score);
-	return;
-
-	/* db.query(`INSERT INTO Grade(TestId, UserProfileId, Grade) VALUES (?,?,?);`, [testid, userid, score], (req, res, error) => {
-		if (error) {
+	db.query("INSERT INTO TestStatus(TestId, UserProfileId, TestStatus, Grade) VALUES (?,?,?,?);",[testid,userid,1,score],(req,res,error)=>{
+		if(error){
 			console.log(error);
 			return;
 		}
-		return res.render("");
-	});	 */
+	})
+	
+	for(let x=0; x<array.length; x++){
+		let useranswer = array[x];
+		x++;
+		let questionid = array[x];
+		db.query("INSERT INTO UserAnswers(UserProfileId,TestId,QuestionId,UserAnswer) VALUES (?,?,?,?);",[userid,testid,questionid,useranswer],(req,res,error)=>{
+			if(error){
+				console.log(error);
+				return;
+			}
+		})
+	}
+	
+	return;
 });
 
 //write the proper grade for the question
