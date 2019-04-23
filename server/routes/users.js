@@ -34,22 +34,30 @@ router.get('/', (req, res) => {
 
 router.get('/login', (req, res) => {
 	if (req.session.userId != undefined) {
-		db.query(`SELECT * FROM Test;`, (req, results) => {
-			return res.render("adminPage", {
-				results: results
-			})
-		})
+		if (req.session.admin) {
+			res.render('adminPage');
+		} else {
+			return res.render("userhome", {
+				username: user,
+				examsComplete: exams_complete,
+				examstoTake: exams_incomplete
+			});
+		}
 	} else
 		res.render('loginPage'); // to access this page go to /users/login
 });
 
 router.get("/register", (req, res) => {
 	if (req.session.userId) {
-		db.query(`SELECT * FROM Test;`, (req, results) => {
-			return res.render("adminPage", {
-				results: results
-			})
-		})
+		if (req.session.admin) {
+			res.render('adminPage');
+		} else {
+			return res.render("userhome", {
+				username: user,
+				examsComplete: exams_complete,
+				examstoTake: exams_incomplete
+			});
+		}
 	} else
 		res.render("registerPage");
 });
@@ -66,7 +74,7 @@ router.post('/registers', (req, res) => {
 		req.session.userId = result[0].UserProfileId;
 		req.session.admin = 0;
 		return res.render("userhome", {
-			userName: user,
+			username: user,
 			examsComplete: exams_complete,
 			examstoTake: exams_incomplete
 		});
@@ -145,7 +153,7 @@ router.get('/home', (req, res) => {
 		res.render("userhome", {
 			examstoTake: exams_incomplete,
 			examsComplete: exams_complete,
-			userName: user
+			username: user
 		})
 	})
 
@@ -180,7 +188,7 @@ router.get('/home', (req, res) => {
 		res.render("userhome", {
 			examstoTake: exams_incomplete,
 			examsComplete: exams_complete,
-			userName: user
+			username: user
 		})
 	})
 
@@ -285,7 +293,7 @@ router.get("/results", (req, res) => {
 
 
 	res.render("quizResult", {
-		userName: user
+		username: user
 	})
 
 });
