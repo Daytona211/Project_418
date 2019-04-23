@@ -34,14 +34,30 @@ router.get('/', (req, res) => {
 
 router.get('/login', (req, res) => {
 	if (req.session.userId != undefined) {
-		res.render('adminPage');
+		if (req.session.admin) {
+			res.render('adminPage');
+		} else {
+			return res.render("userhome", {
+				username: user,
+				examsComplete: exams_complete,
+				examstoTake: exams_incomplete
+			});
+		}
 	} else
 		res.render('loginPage'); // to access this page go to /users/login
 });
 
 router.get("/register", (req, res) => {
 	if (req.session.userId) {
-		res.render('adminPage');
+		if (req.session.admin) {
+			res.render('adminPage');
+		} else {
+			return res.render("userhome", {
+				username: user,
+				examsComplete: exams_complete,
+				examstoTake: exams_incomplete
+			});
+		}
 	} else
 		res.render("registerPage");
 });
@@ -57,7 +73,11 @@ router.post('/registers', (req, res) => {
 		// if(error) throw error;
 		req.session.userId = result[0].UserProfileId;
 		req.session.admin = 0;
-		return res.render("userhome", {userName: user, examsComplete: exams_complete, examstoTake: exams_incomplete});
+		return res.render("userhome", {
+			username: user,
+			examsComplete: exams_complete,
+			examstoTake: exams_incomplete
+		});
 
 	});
 });
@@ -86,24 +106,20 @@ router.post('/sublogin', (req, res) => {
 				for (let i = 0; i < result.length; i++) {
 					if (passWord == result[i].Password) {
 						req.session.userId = result[i].UserProfileId;
-		console.log(result[i]);
+						console.log(result[i]);
 						if (result[i].isAdmin == 1) {
 							req.session.admin = 1;
-							return res.render("adminPage")
+							db.query(`SELECT * FROM Test;`, (req, results) => {
+								return res.render("adminPage", {
+									results: results
+								})
+							})
 						} else {
 							req.session.admin = 0;
-
-							
-							console.log("hjfwjfgh");
 							return res.redirect('/users/home');
 						}
 					}
 				}
-
-				let errorMsg = "We don't recognize that password. Please try again";
-				res.render('loginPage', {
-					errorMsg
-				});
 			}
 		}
 	});
@@ -114,27 +130,31 @@ router.get('/home', (req, res) => {
 	var exams_incomplete = new Array();
 	var exams_complete = new Array();
 
-	
-	db.query("SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=" + id + ";",(error,results) => {
-	
-			
-		if(error){
+
+	db.query("SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=" + id + ";", (error, results) => {
+
+
+		if (error) {
 			console.log(error);
 		}
 
-	
-		for( let i = 0; i<results.length; i++){
-			
-				if(results[i].TestStatus == 0){
 
-					exams_incomplete.push(results[i].TestTitle);
+		for (let i = 0; i < results.length; i++) {
 
-				}else{
-					exams_complete.push(results[i].TestTitle);
-				}
+			if (results[i].TestStatus == 0) {
+
+				exams_incomplete.push(results[i].TestTitle);
+
+			} else {
+				exams_complete.push(results[i].TestTitle);
 			}
-		
-		res.render("userhome",{examstoTake: exams_incomplete,examsComplete: exams_complete, userName: user})
+		}
+
+		res.render("userhome", {
+			examstoTake: exams_incomplete,
+			examsComplete: exams_complete,
+			username: user
+		})
 	})
 
 });
@@ -145,27 +165,31 @@ router.get('/home', (req, res) => {
 	var exams_incomplete = new Array();
 	var exams_complete = new Array();
 
-	
-	db.query("SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=" + id + ";",(error,results) => {
-	
-			
-		if(error){
+
+	db.query("SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=" + id + ";", (error, results) => {
+
+
+		if (error) {
 			console.log(error);
 		}
 
-	
-		for( let i = 0; i<results.length; i++){
-			
-				if(results[i].TestStatus == 0){
 
-					exams_incomplete.push(results[i].TestTitle);
+		for (let i = 0; i < results.length; i++) {
 
-				}else{
-					exams_complete.push(results[i].TestTitle);
-				}
+			if (results[i].TestStatus == 0) {
+
+				exams_incomplete.push(results[i].TestTitle);
+
+			} else {
+				exams_complete.push(results[i].TestTitle);
 			}
-		
-		res.render("userhome",{examstoTake: exams_incomplete,examsComplete: exams_complete, userName: user})
+		}
+
+		res.render("userhome", {
+			examstoTake: exams_incomplete,
+			examsComplete: exams_complete,
+			username: user
+		})
 	})
 
 });
@@ -187,15 +211,15 @@ router.get('/QuizPage', (req, res) => {
 });
 
 router.post('/QuizPage', (req, res) => {
-	
+
 	var score = req.body.score;
 	score = parseFloat(score)
-	score = (score*100).toFixed(2);	
+	score = (score * 100).toFixed(2);
 
-	
+
 	var map = new Map();
-	var useranswers=req.body.userchoices;
-	for(let x=0; x<useranswers.length; x++){
+	var useranswers = req.body.userchoices;
+	for (let x = 0; x < useranswers.length; x++) {
 		var buildanswer = "";
 		while(x!=useranswers.length){
             if(useranswers.charAt(x)=="-" && useranswers.charAt(x+1)=="|" && useranswers.charAt(x+2)=="|" && useranswers.charAt(x+3)=="|" && useranswers.charAt(x+4)=="~" && useranswers.charAt(x+5)=="-"){
@@ -225,6 +249,7 @@ router.post('/QuizPage', (req, res) => {
 			console.log(error);
 			return;
 		}
+
 	})
 	
 	for(let x of map.keys()){
@@ -237,6 +262,7 @@ router.post('/QuizPage', (req, res) => {
 			}
 		})
 	}
+
 
 	return;
 });
