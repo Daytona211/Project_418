@@ -50,18 +50,17 @@
 		<br />
 		<br />
 		<div class="container">
-      <h1>ADMIN PAGE</h1>
-		  <div>
-        <div>
-        <h3>Created Test</h3>
-			  <% for(let x = 0; x < results.length; x++){ %>
-			  <div class="container">
-			  	<h4><%=results[x].TestTitle%></h4>
-			  </div>
+			<h1>ADMIN PAGE</h1>
+
+		<div>
+			<% for(let x = 0; x < results.length; x++){ %>
+			<div class="container">
+				<h4><%=results[x].TestTitle%></h4>
+			</div>
 			<%}%>
     </div>
     <a class="btn-primary" href="/admin/addQuestions">TO ADD QUESTIONS</a>
-			<a class="btn-primary" href="/admin/userIds">TO ADD USERS</a>
-			<a class="btn-primary" href="/admin/creatingTestPage">DARYLE PAGE</a>
+    <a class="btn-primary" href="/admin/userIds">TO ADD USERS</a>
+    <a class="btn-primary" href="/admin/creatingTestPage">DARYLE PAGE</a>
 	</body>
 </html>
