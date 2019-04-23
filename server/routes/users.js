@@ -35,7 +35,11 @@ router.get('/', (req, res) => {
 router.get('/login', (req, res) => {
 	if (req.session.userId != undefined) {
 		if (req.session.admin) {
-			res.render('adminPage');
+			db.query(`SELECT * FROM Test;`, (req, results) => {
+				return res.render("adminPage", {
+					results: results
+				})
+			})
 		} else {
 			return res.render("userhome", {
 				username: user,
@@ -50,7 +54,11 @@ router.get('/login', (req, res) => {
 router.get("/register", (req, res) => {
 	if (req.session.userId) {
 		if (req.session.admin) {
-			res.render('adminPage');
+			db.query(`SELECT * FROM Test;`, (req, results) => {
+				return res.render("adminPage", {
+					results: results
+				})
+			})
 		} else {
 			return res.render("userhome", {
 				username: user,
