@@ -109,21 +109,17 @@ router.post('/sublogin', (req, res) => {
 						console.log(result[i]);
 						if (result[i].isAdmin == 1) {
 							req.session.admin = 1;
-							return res.render("adminPage")
+							db.query(`SELECT * FROM Test;`, (req, results) => {
+								return res.render("adminPage", {
+									results: results
+								})
+							})
 						} else {
 							req.session.admin = 0;
-
-
-							console.log("hjfwjfgh");
 							return res.redirect('/users/home');
 						}
 					}
 				}
-
-				let errorMsg = "We don't recognize that password. Please try again";
-				res.render('loginPage', {
-					errorMsg
-				});
 			}
 		}
 	});
