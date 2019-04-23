@@ -174,7 +174,7 @@ router.get('/home', (req, res) => {
 router.get('/QuizPage', (req, res) => {
 	var userid = req.session.userid;
 	var testid = req.session.testid;
-	db.query("SELECT * FROM QuestionsForTest JOIN Question on QuestionsForTest.QuestionId=Question.QuestionId JOIN Choices ON Question.QuestionId=Choices.QuestionId WHERE TestId=;" + testid, (request, results, error) => {
+	db.query("SELECT * FROM QuestionsForTest JOIN Question on QuestionsForTest.QuestionId=Question.QuestionId JOIN Choices ON Question.QuestionId=Choices.QuestionId WHERE TestId=" + testid + ";", (request, results, error) => {
 
 		if (error) {
 			console.log(error);
@@ -198,8 +198,8 @@ router.post('/QuizPage', (req, res) => {
 	for(let x=0; x<useranswers.length; x++){
 		var buildanswer = "";
 		while(x!=useranswers.length){
-            if(useranswers.charAt(x)=="-" && useranswers.charAt(x+1)=="|" && useranswers.charAt(x+2)=="|" && useranswers.charAt(x+3)=="|" && useranswers.charAt(x+4)=="-"){
-                x += 5;
+            if(useranswers.charAt(x)=="-" && useranswers.charAt(x+1)=="|" && useranswers.charAt(x+2)=="|" && useranswers.charAt(x+3)=="|" && useranswers.charAt(x+4)=="~" && useranswers.charAt(x+5)=="-"){
+                x += 6;
                 break;
             }
             buildanswer += useranswers.charAt(x);
