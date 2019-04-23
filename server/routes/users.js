@@ -196,11 +196,10 @@ router.get('/home', (req, res) => {
 
 //queries question/choices
 router.get('/QuizPage', (req, res) => {
-	var id = req.session.userId;
-	console.log(id);
-	db.query("SELECT * FROM question JOIN choices on question.questionid=choices.questionid;", (request, results, error) => {
+	var userid = req.session.userid;
+	var testid = req.session.testid;
+	db.query("SELECT * FROM QuestionsForTest JOIN Question on QuestionsForTest.QuestionId=Question.QuestionId JOIN Choices ON Question.QuestionId=Choices.QuestionId WHERE TestId=" + testid + ";", (request, results, error) => {
 
-		//JOIN test on test.testid=question.testid JOIN userprofile on userprofile.userprofileid=test.userprofileid;
 		if (error) {
 			console.log(error);
 		}
@@ -222,80 +221,50 @@ router.post('/QuizPage', (req, res) => {
 	var useranswers = req.body.userchoices;
 	for (let x = 0; x < useranswers.length; x++) {
 		var buildanswer = "";
-		while (x != useranswers.length) {
-			if (useranswers.charAt(x) == "-" && useranswers.charAt(x + 1) == "|" && useranswers.charAt(x + 2) == "|" && useranswers.charAt(x + 3) == "|" && useranswers.charAt(x + 4) == "-") {
-				x += 5;
-				break;
-			}
-			buildanswer += useranswers.charAt(x);
-			x++;
-		}
-		var answerid = "";
-		while (useranswers.charAt(x) != " ") {
-			answerid += useranswers.charAt(x);
-			x++;
-			if (x == useranswers.length) {
-				break;
-			}
-		}
+		while(x!=useranswers.length){
+            if(useranswers.charAt(x)=="-" && useranswers.charAt(x+1)=="|" && useranswers.charAt(x+2)=="|" && useranswers.charAt(x+3)=="|" && useranswers.charAt(x+4)=="~" && useranswers.charAt(x+5)=="-"){
+                x += 6;
+                break;
+            }
+            buildanswer += useranswers.charAt(x);
+            x++;
+        }
+        var answerid="";
+        while(useranswers.charAt(x)!=" "){
+            answerid += useranswers.charAt(x);
+            x++;
+            if(x==useranswers.length){
+                break;
+            }
+        }
 		answerid = parseInt(answerid);
-		map.set(buildanswer, answerid);
-	}
-	router.post("/Grade", (req, res) => {
-		insertGrade(req, res);
-	});
+		map.set(answerid,buildanswer);
+    }
 
-	var userprofileid = req.body.UserProfileId;
-	/* var testid = req.session.testid;
-	var userid = req.session.userId; */
+	var testid = req.session.testid;
+	var userid = req.session.userId;
 
-	console.log("score: " + score);
-	return;
-
-	/* db.query(`INSERT INTO Grade(TestId, UserProfileId, Grade) VALUES (?,?,?);`, [testid, userid, score], (req, res, error) => {
-		if (error) {
+	db.query("INSERT INTO TestStatus(TestId, UserProfileId, TestStatus, Grade) VALUES (?,?,?,?);",[testid,userid,1,score],(req,res,error)=>{
+		if(error){
 			console.log(error);
 			return;
 		}
-		return res.render("");
-	});	 */
-});
 
-//write the proper grade for the question
-function insertGrade(req, res) {
-	var question = req.body.question;
-	var answer;
-	var questionId = req.body.questionId;
-
-	console.log(req.body);
-	var type = req.body.TypeOfQuestion;
-	if (req.body.isTrueCorrect == undefined)
-		answer = "true";
-	else
-		answer = "false";
-
-	var type = req.body.TypeOfQuestion;
-	if (req.body.isTrueCorrect != undefined)
-		answer = "true";
-	else
-		answer = "false";
-
-	db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "True False");`, [answer, question, type], (req, res, error) => {
-		if (error) {
-			console.log(error);
-			return;
-		}
-		console.log("Added t/f question");
-		console.log(req);
-	});
-}
-router.get("/results", (req, res) => {
-
-
-	res.render("quizResult", {
-		username: user
 	})
+	
+	for(let x of map.keys()){
+		let useranswer = map.get(x);
+		let questionid = x;
+		db.query("INSERT INTO UserAnswers(UserProfileId,TestId,QuestionId,UserAnswer) VALUES (?,?,?,?);",[userid,testid,questionid,useranswer],(req,res,error)=>{
+			if(error){
+				console.log(error);
+				return;
+			}
+		})
+	}
 
+
+	return;
 });
 
 module.exports = router;
