@@ -95,13 +95,15 @@ router.get("/editQuestions", (req, res) => {
     console.log("EDIT");
 });
 
+
 router.get("/deleteQuestions", (req1, res1) => {
     if (!req1.session.userId)
         res1.redirect('/users/login');
     else {
         var id = req1.query.id;
-        db.query(`SELECT TestId FROM question WHERE QuestionId=?`, [id], (req, res) => {
-            if (res[0].TestId != null) {
+        db.query(`SELECT TestId FROM questionsfortest WHERE QuestionId=?`, [id], (req, res) => {
+            console.log(res);
+            if (res.length > 0 && res[0].TestId != null) {
                 var error = "This question is part of a test please remove it from the test first";
                 rerenderAdminAddQuestionsPage(res1, error);
             } else {
@@ -113,6 +115,25 @@ router.get("/deleteQuestions", (req1, res1) => {
         });
     }
 });
+
+// router.get("/deleteQuestions", (req1, res1) => {
+//     if (!req1.session.userId)
+//         res1.redirect('/users/login');
+//     else {
+//         var id = req1.query.id;
+//         db.query(`SELECT TestId FROM question WHERE QuestionId=?`, [id], (req, res) => {
+//             if (res[0].TestId != null) {
+//                 var error = "This question is part of a test please remove it from the test first";
+//                 rerenderAdminAddQuestionsPage(res1, error);
+//             } else {
+//                 db.query(`DELETE FROM choices WHERE QuestionId=?`, [id]);
+//                 db.query(`DELETE FROM question WHERE QuestionId=${id}`, (req2, res2) => {
+//                     rerenderAdminAddQuestionsPage(res1);
+//                 })
+//             }
+//         });
+//     }
+// });
 
 
 router.post("/tfQuestionSubmission", (req, res) => {
