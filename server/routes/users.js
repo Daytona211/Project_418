@@ -127,10 +127,10 @@ router.get('/home', (req, res) => {
 			
 				if(results[i].TestStatus == 0){
 
-					exams_incomplete.push(results[i].TestTitle);
+					exams_incomplete.push(results[i]);
 
 				}else{
-					exams_complete.push(results[i].TestTitle);
+					exams_complete.push(results[i]);
 				}
 			}
 		

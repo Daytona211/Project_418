@@ -42,7 +42,7 @@
 
     <br> </br>
     <br> </br> 
-    <h1 align="center"><%= username %> activity</h1>
+    <h1 align="center"><%= userName %> activity</h1>
 
     <br> </br>
             <h2>Quizzes to Take</h2>
@@ -54,7 +54,7 @@
             <% examstoTake.forEach(function(eachExam){ %>
                 
 
-                     <li><%= eachExam%></li>
+                     <li><a href = "/users/QuizPage"><%= eachExam.TestTitle%></a></li>
                    
                      <% }) %>
            </ul>
@@ -70,7 +70,7 @@
             <% examsComplete.forEach(function(eachExam){ %>
                 
 
-                     <li><%= eachExam %></li>
+                     <li><a href = "/users/results"><%= eachExam.TestTitle%>   Grade: <%= eachExam.Grade%> </a></li>
                    
                      <% }) %>
            </ul>
