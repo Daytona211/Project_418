@@ -139,7 +139,9 @@ router.get('/home', (req, res) => {
 
 });
 
-
+router.get('/quizResults', (req, res) => {
+	res.render("quizResults", {userName: user})
+});
 router.get('/home', (req, res) => {
 	var id = req.session.userId;
 	var exams_incomplete = new Array();
