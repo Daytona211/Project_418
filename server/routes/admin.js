@@ -313,4 +313,18 @@ router.post("/creatingtestPage", (req, res) => {
 });
 
 
+
+//queries for tests
+router.get('/adminPage', (req, res) => {
+	db.query('SELECT * FROM Test;', (request, results, error) => {
+		if (error) {
+			console.log(error);
+		}
+		res.render('adminPage', {
+			results: results
+		});
+	});
+});
+
+
 module.exports = router;
