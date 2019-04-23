@@ -34,14 +34,22 @@ router.get('/', (req, res) => {
 
 router.get('/login', (req, res) => {
 	if (req.session.userId != undefined) {
-		res.render('adminPage');
+		db.query(`SELECT * FROM Test;`, (req, results) => {
+			return res.render("adminPage", {
+				results: results
+			})
+		})
 	} else
 		res.render('loginPage'); // to access this page go to /users/login
 });
 
 router.get("/register", (req, res) => {
 	if (req.session.userId) {
-		res.render('adminPage');
+		db.query(`SELECT * FROM Test;`, (req, results) => {
+			return res.render("adminPage", {
+				results: results
+			})
+		})
 	} else
 		res.render("registerPage");
 });
