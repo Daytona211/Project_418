@@ -4,6 +4,7 @@
 		<meta charset="UTF-8" />
 		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/adminPage.css" />
 		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
 		<link
 			rel="stylesheet"
@@ -51,16 +52,36 @@
 		<br />
 		<div class="container">
 			<h1>ADMIN PAGE</h1>
-
-		<div>
-			<% for(let x = 0; x < results.length; x++){ %>
-			<div class="container">
-				<h4><%=results[x].TestTitle%></h4>
+		</div>
+		<br />
+		<br />
+		<div class="container">
+			<div>
+				<div>
+					<h3>All Created Test</h3>
+				</div>
+				<% for(let x = 0; x < results.length; x++){ %>
+				<div class="container">
+					<div class="redXDelete">
+						<a href="/admin/deleteTest/?id=<%-results[x].TestId%>"><input width="25px" height="25px" type="image" src="/images/redX.jpg"/></a>
+					</div>
+					<h4><%=results[x].TestTitle%></h4>
+				</div>
+				<%}%>
 			</div>
-			<%}%>
-    </div>
-    <a class="btn-primary" href="/admin/addQuestions">TO ADD QUESTIONS</a>
-    <a class="btn-primary" href="/admin/userIds">TO ADD USERS</a>
-    <a class="btn-primary" href="/admin/creatingTestPage">DARYLE PAGE</a>
+			<div class="buttonStuff">
+				<button type="button">
+					<a href="/admin/addQuestions">TO ADD QUESTIONS</a>
+				</button>
+
+				<button type="button">
+					<a href="/admin/userIds">TO ADD USERS</a>
+				</button>
+
+				<button type="button">
+					<a href="/admin/creatingTestPage">MAKE TEST</a>
+				</button>
+			</div>
+		</div>
 	</body>
 </html>
