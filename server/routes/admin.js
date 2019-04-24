@@ -43,6 +43,7 @@ router.get("/userIds", (req, result) => {
 
 function getUsersAndRenderUserIds(res) {
     db.query(`SELECT * FROM userprofile`, (req1, res1) => {
+        console.log(res1);
         res.render("userIds", {
             result: res1
         });
