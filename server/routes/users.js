@@ -149,13 +149,10 @@ router.get('/home', (req, res) => {
 	var id = req.session.userId;
 	var exams_incomplete = new Array();
 	var exams_complete = new Array();
-
 	db.query('SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=' + id + ';', (error, results) => {
 		if (error) {
 			console.log(error);
 		}
-
-
 
 // // <<<<<<< rich
 // 				exams_incomplete.push(results[i]);
@@ -196,7 +193,6 @@ router.get('/home', (req, res) => {
 		if (error) {
 			console.log(error);
 		}
-
 		for (let i = 0; i < results.length; i++) {
 			if (results[i].TestStatus == 0) {
 				exams_incomplete.push(results[i].TestTitle);
