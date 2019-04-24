@@ -43,7 +43,6 @@ router.get("/userIds", (req, result) => {
 
 function getUsersAndRenderUserIds(res) {
     db.query(`SELECT * FROM userprofile`, (req1, res1) => {
-        console.log(res1);
         res.render("userIds", {
             result: res1
         });
@@ -70,6 +69,11 @@ router.get("/editQuestions", (req, res) => {
     else {
         var id = req.query.id;
         db.query("SELECT * FROM question INNER JOIN choices ON question.QuestionId= choices.QuestionId WHERE question.QuestionId=?", [id], (req1, res1) => {
+
+            if (res1.length < 1){
+                var error = "This question is part of a test please remove the test first or make a new question";
+                return rerenderAdminAddQuestionsPage(res, error, questionInfo);
+            }
             var questionInfo = {
                 question: res1[0].Question,
                 choice1: undefined,
@@ -105,7 +109,7 @@ router.get("/deleteQuestions", (req1, res1) => {
         db.query(`SELECT TestId FROM questionsfortest WHERE QuestionId=?`, [id], (req, res) => {
             console.log(res);
             if (res.length > 0 && res[0].TestId != null) {
-                var error = "This question is part of a test please remove it from the test first";
+                var error = "This question is part of a test please remove the test first or make a new question";
                 rerenderAdminAddQuestionsPage(res1, error);
             } else {
                 db.query(`DELETE FROM choices WHERE QuestionId=?`, [id]);
@@ -116,6 +120,23 @@ router.get("/deleteQuestions", (req1, res1) => {
         });
     }
 });
+
+router.get("/deleteTest",(req,res) => {
+    if(!req.session.userId){
+        res.redirect('/users/login');
+    }else{
+        var id = req.query.id;
+        db.query("DELETE FROM TestStatus WHERE TestId=?",[id]);
+        db.query("DELETE FROM UserAnswers WHERE TestId=?",[id]);
+        db.query("DELETE FROM QuestionsForTest WHERE TestId=?",[id]);
+        db.query("DELETE FROM Test WHERE TestId=?",[id]);
+        db.query(`SELECT * FROM Test;`, (req, results) => {
+            return res.render("adminPage", {
+                results: results
+            })
+        })
+    }
+})
 
 // router.get("/deleteQuestions", (req1, res1) => {
 //     if (!req1.session.userId)
@@ -351,6 +372,20 @@ router.post("/creatingtestPage", (req, res) => {
         })
     }
 
+});
+
+
+
+//queries for tests
+router.get('/adminPage', (req, res) => {
+    db.query('SELECT * FROM Test;', (request, results, error) => {
+        if (error) {
+            console.log(error);
+        }
+        res.render('adminPage', {
+            results: results
+        });
+    });
 });
 
 
