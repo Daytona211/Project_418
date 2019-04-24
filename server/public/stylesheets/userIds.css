@@ -1,13 +1,28 @@
-#createUserForm{
+#createUserForm {
     padding: 20%;
 }
 
-#isUserContainer{
+#isUserContainer {
     padding-left: 20%;
 }
 
-#errorAlert{
+#errorAlert {
     position: absolute;
     bottom: 10%;
     left: 35%;
+}
+
+#tableOfUsers {
+    position: relative;
+    bottom: 200px;
+    width: 30%;
+    margin: 0 auto;
+}
+
+#usersTable{
+    position: relative;
+    width: 570px;
+	height: 50px;
+    margin: 0 auto;
+    bottom: 250px;
 }
