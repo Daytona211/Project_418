@@ -96,7 +96,6 @@ router.get('/resultsOfQuiz', (req, res) => {
 		'SELECT * FROM QuestionsForTest JOIN Question on QuestionsForTest.QuestionId=Question.QuestionId JOIN Choices ON Question.QuestionId=Choices.QuestionId WHERE TestId= ?',
 		[4],
 		(request, results, error) => {
-			console.log(results);
 			db.query('SELECT * FROM UserAnswers WHERE TestId = ?', [4], (request, answer, error) => {
 				res.render('resultsOfQuiz', {
 					results: results,
