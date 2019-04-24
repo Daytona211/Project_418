@@ -315,14 +315,6 @@ router.post("/createDBTable", (req, res) => {
         checked: req.body.checked
     };
 
-    var test1 = {
-        checked: array
-    };
-
-    console.log("============================")
-    console.log(test1);
-    console.log("============================")
-
     var array = new Array();
     for(let x=0; x<[test.checked][0].length; x++){
         array.push(parseInt([test.checked][0][x]));
@@ -333,14 +325,30 @@ router.post("/createDBTable", (req, res) => {
     console.log([test.checked]);
     console.log([array]);
 
-    db.query(`INSERT INTO questionsfortest (QuestionsForTest, QuestionId, TestId) VALUES(?, ?, ? )`, [array[0], array[1], array[2]],  function(err, res){ 
-        if(err){
-            console.log(err);
-            return;
-        }
-        console.log("printed");s
-    })
+    db.query(`SELECT MAX(TestId) FROM Test;`,(req,res,err)=>{
+        if(!err) throw err;
+        console.log("============================")
+        console.log(JSON.stringify(res[0]));
+        console.log("============================")
+        var result = res;
+        
+        console.log("This is the max value");
+        console.log(result[0]);
 
+        db.query(`INSERT INTO questionsfortest(QuestionId, TestId) VALUES(?, ? )`, [array[0], result[0]],  function(req1, err, res){ 
+            if(err) throw err;
+        
+            console.log("============================")
+            //console.log(req1);
+            console.log(array[0]);
+            console.log(result[0]);
+            console.log("============================")
+        })
+    });
+
+
+
+ 
     // db.query("INSERT INTO questionsfortest (QuestionId,TestId) VALUES(?,?)", [array,temp], function(err, result){
     // })   
 
