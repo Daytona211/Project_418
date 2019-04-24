@@ -349,28 +349,45 @@ router.get('/creatingtestPage', (req, res) => {
 
 });
 
-router.post("/creatingtestPage", (req, res) => {
 
-    var result = {
+router.post("/createTestId", (req, res) => {
+    var user = { 
+        testId: req.body.TestTitle
+    };
+
+    console.log(req.body.TestTitle);
+
+    db.query("INSERT INTO test (TestTitle) VALUES(?)", [user.testId],  function(err, result){
+
+    });
+});
+
+router.post("/createDBTable", (req, res) => {
+    var test = {
         checked: req.body.checked
     };
 
-    db.query("INSERT INTO Test() VALUES (?);", [], (req, res, error) => {
-        if (error) {
-            console.log(error);
-            return;
-        }
-    })
+    var array = new Array();
+    for(let x=0; x<[test.checked][0].length; x++){
+        array.push(parseInt([test.checked][0][x]));
 
-    for (var x = 0; x < results.length; x++) {
-        db.query("INSERT INTO Question(TestId,Answer,Question) VALUES (?);", [result[x], "?", "?"], (req, res, error) => {
-            if (error) {
-                console.log(error);
-                return;
-            }
-            return res.render("");
-        })
     }
+
+    db.query(`SELECT MAX(TestId) FROM Test;`,(req,res,err)=>{
+        if(!err) throw err;
+        for(let x=0; x<array.length; x++){
+
+            db.query(`INSERT INTO questionsfortest(QuestionId, TestId) VALUES(?, ?);`,[array[x],res[0]["MAX(TestId)"]],(req1, err, result)=>{ 
+                if(!err) throw err;
+            })
+            console.log("============================")
+            console.log(array[x]);
+            console.log(res[0]["MAX(TestId)"]);
+            console.log("============================");
+        }
+
+    });
+
 
 });
 
