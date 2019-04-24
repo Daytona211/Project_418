@@ -320,38 +320,20 @@ router.post("/createDBTable", (req, res) => {
         array.push(parseInt([test.checked][0][x]));
     }
 
-
-    //prints the questionId
-    console.log([test.checked]);
-    console.log([array]);
-
     db.query(`SELECT MAX(TestId) FROM Test;`,(req,res,err)=>{
         if(!err) throw err;
-        var result = res;
         for(let x=0; x<array.length; x++){
 
-            function timeFunction() {
-                setTimeout(function(){ alert("After 5 seconds!"); }, 5000);
-             }
-            
-            db.query(`INSERT INTO questionsfortest(QuestionId, TestId) VALUES(?, ?);`,[array[x],17],(req1, err, result)=>{ 
-                if(err) throw err;
-                console.log(err);
+            db.query(`INSERT INTO questionsfortest(QuestionId, TestId) VALUES(?, ?);`,[array[x],res[0]["MAX(TestId)"]],(req1, err, result)=>{ 
+                if(!err) throw err;
             })
             console.log("============================")
             console.log(array[x]);
-            console.log(result[0]["MAX(TestId)"]);
+            console.log(res[0]["MAX(TestId)"]);
             console.log("============================");
         }
+
     });
-
-
-
- 
-    // db.query("INSERT INTO questionsfortest (QuestionId,TestId) VALUES(?,?)", [array,temp], function(err, result){
-    // })   
-
-
 
 
 });
