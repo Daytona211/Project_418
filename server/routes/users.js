@@ -147,14 +147,22 @@ router.get('/home', (req, res) => {
 		}
 
 
-		for (let i = 0; i < results.length; i++) {
+// <<<<<<< rich
+					exams_incomplete.push(results[i]);
 
-			if (results[i].TestStatus == 0) {
+				}else{
+					exams_complete.push(results[i]);
+				}
+// =======
+// 		for (let i = 0; i < results.length; i++) {
 
-				exams_incomplete.push(results[i].TestTitle);
+// 			if (results[i].TestStatus == 0) {
 
-			} else {
-				exams_complete.push(results[i].TestTitle);
+// 				exams_incomplete.push(results[i].TestTitle);
+
+// 			} else {
+// 				exams_complete.push(results[i].TestTitle);
+// >>>>>>> testing
 			}
 		}
 
@@ -167,7 +175,9 @@ router.get('/home', (req, res) => {
 
 });
 
-
+router.get('/quizResults', (req, res) => {
+	res.render("quizResults", {userName: user})
+});
 router.get('/home', (req, res) => {
 	var id = req.session.userId;
 	var exams_incomplete = new Array();
