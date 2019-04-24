@@ -289,10 +289,71 @@ router.get('/creatingtestPage', (req, res) => {
 
 });
 
-router.post("/creatingtestPage", (req, res) => {
-    
-    var result = {checked: req.body.checked};
+router.post("/createTestId", (req, res) => {
+    var user = { 
+        testId: req.body.TestTitle
+    };
 
+    console.log(req.body.TestTitle);
+
+    db.query("INSERT INTO test (TestTitle) VALUES(?)", [user.testId],  function(err, result){
+
+    });
+});
+
+var temp;
+db.query("SELECT MAX(TestId) FROM Test;",(request,results,error)=>{
+if(error){
+    console.log(error);
+}
+temp=results[0];
+})
+
+
+router.post("/createDBTable", (req, res) => {
+    var test = {
+        checked: req.body.checked
+    };
+
+    var test1 = {
+        checked: array
+    };
+
+    console.log("============================")
+    console.log(test1);
+    console.log("============================")
+
+    var array = new Array();
+    for(let x=0; x<[test.checked][0].length; x++){
+        array.push(parseInt([test.checked][0][x]));
+    }
+
+
+    //prints the questionId
+    console.log([test.checked]);
+    console.log([array]);
+
+    db.query(`INSERT INTO questionsfortest (QuestionsForTest, QuestionId, TestId) VALUES(?, ?, ? )`, [array[0], array[1], array[2]],  function(err, res){ 
+        if(err){
+            console.log(err);
+            return;
+        }
+        console.log("printed");s
+    })
+
+    // db.query("INSERT INTO questionsfortest (QuestionId,TestId) VALUES(?,?)", [array,temp], function(err, result){
+    // })   
+
+
+
+
+});
+
+
+
+
+router.post("/creatingtestPage", (req, res) => {
+    var result = {checked: req.body.checked};
     db.query("INSERT INTO Test() VALUES (?);",[],(req,res,error)=>{
         if(error){
             console.log(error);
@@ -300,16 +361,6 @@ router.post("/creatingtestPage", (req, res) => {
         }
     })
     
-    for(var x=0; x<results.length; x++){
-        db.query("INSERT INTO Question(TestId,Answer,Question) VALUES (?);",[result[x],"?","?"],(req,res,error)=>{
-            if(error){
-                console.log(error);
-                return;
-            }
-            return res.render("");
-        })
-    }
-
 });
 
 
