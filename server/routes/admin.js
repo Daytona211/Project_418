@@ -116,6 +116,22 @@ router.get("/deleteQuestions", (req1, res1) => {
     }
 });
 
+router.get("/deleteTest",(req,res) => {
+    if(!req.session.userId){
+        res.redirect('/users/login');
+    }else{
+        var id = req.query.id;
+        db.query("DELETE FROM TestStatus WHERE TestId=?",[id]);
+        db.query("DELETE FROM UserAnswers WHERE TestId=?",[id]);
+        db.query("DELETE FROM QuestionsForTest WHERE TestId=?",[id]);
+        db.query("DELETE FROM Test WHERE TestId=?",[id]);
+        db.query(`SELECT * FROM Test;`, (req, results) => {
+            return res.render("adminPage", {
+                results: results
+            })
+        })
+    }
+})
 // router.get("/deleteQuestions", (req1, res1) => {
 //     if (!req1.session.userId)
 //         res1.redirect('/users/login');
