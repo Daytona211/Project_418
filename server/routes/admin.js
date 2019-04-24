@@ -301,15 +301,6 @@ router.post("/createTestId", (req, res) => {
     });
 });
 
-// var temp;
-// db.query("SELECT MAX(TestId) FROM Test;",(request,results,error)=>{
-// if(error){
-//     console.log(error);
-// }
-// temp=results[0];
-// })
-
-
 router.post("/createDBTable", (req, res) => {
     var test = {
         checked: req.body.checked
@@ -336,20 +327,6 @@ router.post("/createDBTable", (req, res) => {
     });
 
 
-});
-
-
-
-
-router.post("/creatingtestPage", (req, res) => {
-    var result = {checked: req.body.checked};
-    db.query("INSERT INTO Test() VALUES (?);",[],(req,res,error)=>{
-        if(error){
-            console.log(error);
-            return;
-        }
-    })
-    
 });
 
 
