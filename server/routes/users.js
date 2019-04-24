@@ -147,21 +147,21 @@ router.get('/home', (req, res) => {
 		}
 
 
-// <<<<<<< rich
-					exams_incomplete.push(results[i]);
+// // <<<<<<< rich
+// 				exams_incomplete.push(results[i]);
 
-				}else{
-					exams_complete.push(results[i]);
-				}
-// =======
-// 		for (let i = 0; i < results.length; i++) {
+// 				}else{
+// 					exams_complete.push(results[i]);
+// 				}
+// // =======
+		for (let i = 0; i < results.length; i++) {
 
-// 			if (results[i].TestStatus == 0) {
+			if (results[i].TestStatus == 0) {
 
-// 				exams_incomplete.push(results[i].TestTitle);
+				exams_incomplete.push(results[i].TestTitle);
 
-// 			} else {
-// 				exams_complete.push(results[i].TestTitle);
+			} else {
+				exams_complete.push(results[i].TestTitle);
 // >>>>>>> testing
 			}
 		}
