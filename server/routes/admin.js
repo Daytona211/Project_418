@@ -301,13 +301,13 @@ router.post("/createTestId", (req, res) => {
     });
 });
 
-var temp;
-db.query("SELECT MAX(TestId) FROM Test;",(request,results,error)=>{
-if(error){
-    console.log(error);
-}
-temp=results[0];
-})
+// var temp;
+// db.query("SELECT MAX(TestId) FROM Test;",(request,results,error)=>{
+// if(error){
+//     console.log(error);
+// }
+// temp=results[0];
+// })
 
 
 router.post("/createDBTable", (req, res) => {
@@ -327,23 +327,22 @@ router.post("/createDBTable", (req, res) => {
 
     db.query(`SELECT MAX(TestId) FROM Test;`,(req,res,err)=>{
         if(!err) throw err;
-        console.log("============================")
-        console.log(JSON.stringify(res[0]));
-        console.log("============================")
         var result = res;
-        
-        console.log("This is the max value");
-        console.log(result[0]);
+        for(let x=0; x<array.length; x++){
 
-        db.query(`INSERT INTO questionsfortest(QuestionId, TestId) VALUES(?, ? )`, [array[0], result[0]],  function(req1, err, res){ 
-            if(err) throw err;
-        
+            function timeFunction() {
+                setTimeout(function(){ alert("After 5 seconds!"); }, 5000);
+             }
+            
+            db.query(`INSERT INTO questionsfortest(QuestionId, TestId) VALUES(?, ?);`,[array[x],17],(req1, err, result)=>{ 
+                if(err) throw err;
+                console.log(err);
+            })
             console.log("============================")
-            //console.log(req1);
-            console.log(array[0]);
-            console.log(result[0]);
-            console.log("============================")
-        })
+            console.log(array[x]);
+            console.log(result[0]["MAX(TestId)"]);
+            console.log("============================");
+        }
     });
 
 
