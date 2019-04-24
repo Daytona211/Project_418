@@ -69,6 +69,7 @@ router.get("/editQuestions", (req, res) => {
     else {
         var id = req.query.id;
         db.query("SELECT * FROM question INNER JOIN choices ON question.QuestionId= choices.QuestionId WHERE question.QuestionId=?", [id], (req1, res1) => {
+
             if (res1.length < 1){
                 var error = "This question is part of a test please remove the test first or make a new question";
                 return rerenderAdminAddQuestionsPage(res, error, questionInfo);
@@ -136,6 +137,7 @@ router.get("/deleteTest",(req,res) => {
         })
     }
 })
+
 // router.get("/deleteQuestions", (req1, res1) => {
 //     if (!req1.session.userId)
 //         res1.redirect('/users/login');
