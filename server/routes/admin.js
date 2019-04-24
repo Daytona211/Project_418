@@ -19,10 +19,10 @@ router.post("/registerId", (req, res) => {
         }
         if (req.body.isAdmin) {
             db.query(`INSERT INTO userprofile(Name, Password, isAdmin) VALUES (?, ?, ?)`, [req.body.username, req.body.password, 1]);
-            res.render("userIds");
+            res.redirect("/admin/userIds")
         } else {
             db.query(`INSERT INTO userprofile(Name, Password, isAdmin) VALUES (?, ?, ?)`, [req.body.username, req.body.password, 0]);
-            res.render("userIds");
+            res.redirect("/admin/userIds")
         }
     })
 
@@ -36,10 +36,18 @@ router.get("/userIds", (req, result) => {
             if (res[0].isAdmin == 0)
                 result.render("loginPage");
             else
-                result.render("userIds");
+                getUsersAndRenderUserIds(result);
         });
     }
 });
+
+function getUsersAndRenderUserIds(res) {
+    db.query(`SELECT * FROM userprofile`, (req1, res1) => {
+        res.render("userIds", {
+            result: res1
+        });
+    });
+}
 
 
 router.get("/addQuestions", (req, result) => {
@@ -61,10 +69,21 @@ router.get("/editQuestions", (req, res) => {
     else {
         var id = req.query.id;
         db.query("SELECT * FROM question INNER JOIN choices ON question.QuestionId= choices.QuestionId WHERE question.QuestionId=?", [id], (req1, res1) => {
-            var questionInfo = {question: res1[0].Question, choice1: undefined, choice2: undefined, choice3: undefined, choice4: undefined, type: "TF"};
+            if (res1.length < 1){
+                var error = "This question is part of a test please remove the test first or make a new question";
+                return rerenderAdminAddQuestionsPage(res, error, questionInfo);
+            }
+            var questionInfo = {
+                question: res1[0].Question,
+                choice1: undefined,
+                choice2: undefined,
+                choice3: undefined,
+                choice4: undefined,
+                type: "TF"
+            };
             console.log(res1);
             console.log(questionInfo);
-            if(res1[0].TypeOfQuestion == "Multiple Choice"){
+            if (res1[0].TypeOfQuestion == "Multiple Choice") {
                 questionInfo.choice1 = res1[0].PossibleAnswer;
                 questionInfo.choice2 = res1[1].PossibleAnswer;
                 questionInfo.choice3 = res1[2].PossibleAnswer;
@@ -80,14 +99,16 @@ router.get("/editQuestions", (req, res) => {
     console.log("EDIT");
 });
 
+
 router.get("/deleteQuestions", (req1, res1) => {
     if (!req1.session.userId)
         res1.redirect('/users/login');
     else {
         var id = req1.query.id;
-        db.query(`SELECT TestId FROM question WHERE QuestionId=?`, [id], (req, res) => {
-            if (res[0].TestId != null) {
-                var error = "This question is part of a test please remove it from the test first";
+        db.query(`SELECT TestId FROM questionsfortest WHERE QuestionId=?`, [id], (req, res) => {
+            console.log(res);
+            if (res.length > 0 && res[0].TestId != null) {
+                var error = "This question is part of a test please remove the test first or make a new question";
                 rerenderAdminAddQuestionsPage(res1, error);
             } else {
                 db.query(`DELETE FROM choices WHERE QuestionId=?`, [id]);
@@ -98,6 +119,25 @@ router.get("/deleteQuestions", (req1, res1) => {
         });
     }
 });
+
+// router.get("/deleteQuestions", (req1, res1) => {
+//     if (!req1.session.userId)
+//         res1.redirect('/users/login');
+//     else {
+//         var id = req1.query.id;
+//         db.query(`SELECT TestId FROM question WHERE QuestionId=?`, [id], (req, res) => {
+//             if (res[0].TestId != null) {
+//                 var error = "This question is part of a test please remove it from the test first";
+//                 rerenderAdminAddQuestionsPage(res1, error);
+//             } else {
+//                 db.query(`DELETE FROM choices WHERE QuestionId=?`, [id]);
+//                 db.query(`DELETE FROM question WHERE QuestionId=${id}`, (req2, res2) => {
+//                     rerenderAdminAddQuestionsPage(res1);
+//                 })
+//             }
+//         });
+//     }
+// });
 
 
 router.post("/tfQuestionSubmission", (req, res) => {
@@ -278,31 +318,35 @@ function potato_salad_on_top_of_my_bowl(path, res) {
 
 //Query for Quiz Creation Page
 router.get('/creatingtestPage', (req, res) => {
-	var id = req.session.userId;
-	console.log(id);
-	db.query("SELECT * FROM question;",(request,results,error) => {
-		if(error){
-			console.log(error);
-		}
-		res.render("creatingtestPage",{results: results})
-	})
+    var id = req.session.userId;
+    console.log(id);
+    db.query("SELECT * FROM question;", (request, results, error) => {
+        if (error) {
+            console.log(error);
+        }
+        res.render("creatingtestPage", {
+            results: results
+        })
+    })
 
 });
 
 router.post("/creatingtestPage", (req, res) => {
-    
-    var result = {checked: req.body.checked};
 
-    db.query("INSERT INTO Test() VALUES (?);",[],(req,res,error)=>{
-        if(error){
+    var result = {
+        checked: req.body.checked
+    };
+
+    db.query("INSERT INTO Test() VALUES (?);", [], (req, res, error) => {
+        if (error) {
             console.log(error);
             return;
         }
     })
-    
-    for(var x=0; x<results.length; x++){
-        db.query("INSERT INTO Question(TestId,Answer,Question) VALUES (?);",[result[x],"?","?"],(req,res,error)=>{
-            if(error){
+
+    for (var x = 0; x < results.length; x++) {
+        db.query("INSERT INTO Question(TestId,Answer,Question) VALUES (?);", [result[x], "?", "?"], (req, res, error) => {
+            if (error) {
                 console.log(error);
                 return;
             }
@@ -310,6 +354,20 @@ router.post("/creatingtestPage", (req, res) => {
         })
     }
 
+});
+
+
+
+//queries for tests
+router.get('/adminPage', (req, res) => {
+    db.query('SELECT * FROM Test;', (request, results, error) => {
+        if (error) {
+            console.log(error);
+        }
+        res.render('adminPage', {
+            results: results
+        });
+    });
 });
 
 
