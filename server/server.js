@@ -15,10 +15,10 @@ app.set("views", path.join(__dirname, "/../views"));
 
 // DATABASE SETUP
 var db = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
-  database : 'coding_buddy'
+  host     : process.env.RDS_HOSTNAME || 'localhost',
+  user     : process.env.RDS_USERNAME || 'root',
+  password : process.env.RDS_PASSWORD || '',
+  daporttabase : process.env.RDS_PORT 
 });
 module.exports.db = db;  
  

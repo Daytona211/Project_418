@@ -156,11 +156,22 @@ router.get('/home', (req, res) => {
 			console.log(error);
 		}
 
+
+
+// // <<<<<<< rich
+// 				exams_incomplete.push(results[i]);
+
+// 				}else{
+// 					exams_complete.push(results[i]);
+// 				}
+// // =======
+
 		for (let i = 0; i < results.length; i++) {
 			if (results[i].TestStatus == 0) {
 				exams_incomplete.push(results[i].TestTitle);
 			} else {
 				exams_complete.push(results[i].TestTitle);
+// >>>>>>> testing
 			}
 		}
 
@@ -170,6 +181,11 @@ router.get('/home', (req, res) => {
 			username: user
 		});
 	});
+});
+
+
+router.get('/quizResults', (req, res) => {
+	res.render("quizResults", {userName: user})
 });
 
 router.get('/home', (req, res) => {

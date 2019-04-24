@@ -42,42 +42,4 @@
 
     <br> </br>
     <br> </br> 
-    <h1 align="center"><%= userName %> activity</h1>
-
-    <br> </br>
-            <h2>Quizzes to Take</h2>
-
-           <br><br>
-           <div >
-           <ul class="col-6 mx-auto" >
-       
-            <% examstoTake.forEach(function(eachExam){ %>
-                
-
-                     <li><a href = "/users/QuizPage"><%= eachExam.TestTitle%></a></li>
-                   
-                     <% }) %>
-           </ul>
-         </div>
-
-          <br> </br>
-            <h3>Quizzes Taken</h2>
-
-           <br><br>
-           <div >
-           <ul class="col-6 mx-auto" >
-       
-            <% examsComplete.forEach(function(eachExam){ %>
-                
-
-                     <li><a href = "/users/quizResults"><%= eachExam.TestTitle%> &nbsp &nbsp Grade: <%= eachExam.Grade%> </a></li>
-                   
-                     <% }) %>
-           </ul>
-         </div>
-
-         
-       
-            
-    
-</body>
+    <h1 align="center"><%= userName %> Results</h1>
