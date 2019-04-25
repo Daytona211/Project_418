@@ -33,7 +33,7 @@
         </div>
     </nav>
 
-
+<!-- 
     <div class="container">  
             <div class="panel panel-default">
                     <div class="panel-heading"> Create TestId</div>
@@ -42,40 +42,36 @@
                     <button input="submit" value="submit">Create TestId</button>
                     </form>
             </div>
-    </div>
+    </div> -->
    
     <div class="container">  
         <div class="panel panel-default">
-                <div class="panel-heading"> Select Test Questions to go in Test Bank</div>
-                <form id="createDB" action="/admin/createDBTable" method='post'>
+               <div class="panel-heading"> Create TestTitle and Select Test Questions to go in Test Bank
+                       <form id="createDB" action="/admin/sendTODB" method='post'> <input type="text" placeholder="Enter Test Title Here" name="TestTitle" id="TestTitle">
+
+                </div>
+               
                 <%
                  for(let x=0; x<results.length; x++){
                  %>
 
-                <table class="table">
-                        <thead>
-                                <tr>
-                                        <th></th>
-                                </tr>
-                        </thead>
-                            <tbody>
-                                
-                <p><%= results[x].Question%> <input type="checkbox"  name="checked" value="<%=results[x].QuestionId%>"  ></p>
-                </table>
+    
+                <p style="padding-left: 20px;"> <input style="margin-right: 20px;" type="checkbox"  name="checked" value="<%=results[x].QuestionId%>"  ><%= results[x].Question%></p>
 
                 <%} %>
 
 
-                 <button input="submit" value="submit">Create Test</button>
+                 <button type="submit" input="submit" value="submit" href="/admin/adminPage" >Create Test</button>
 
                 </form>
         </div>
     </div>
 
-    <br></br>
- 
 
 
+
+
+  <!-- 
     <div class="container">  
         <div class="panel panel-default">
             <div class="panel-heading"> Test Bank Content </div>
@@ -111,7 +107,7 @@
             <div class="panel-footer"> Project 418! </div>
         </div>
     </div>
-
+ -->
     <!-- Javascript files -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/4.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
