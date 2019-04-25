@@ -1,31 +1,29 @@
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>EJS Template for welcome Page using Bootstrap</title>
-  <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/jumbotron/">
-
-  <!-- Bootstrap core CSS -->
-  <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Custom styles for this template -->
+<title>Quiz Page</title>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/javascript/quizpage.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="X-UA-Compatible" content="IE=edge" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 
 <body>
-
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="#">Coding Buddy</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-    
+
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/users/home">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/users/register">Signup</a>
@@ -40,6 +38,57 @@
         </div>
     </nav>
 
-    <br> </br>
-    <br> </br> 
-    <h1 align="center"><%= userName %> Results</h1>
+    <br><br><br><br><br>
+
+    
+    <%
+    var temp1 = new Set();
+    var temp2 = [];
+    for(let x=0; x<results.length; x++){
+        if(!temp1.has(results[x].QuestionId)){
+            temp1.add(results[x].QuestionId);
+            temp2.push(results[x].Answer);
+        }
+    }
+    var amountofquestions=temp2.length;
+
+    var postedquestions = new Set();
+    var answers = [];
+    var counter=0;
+    var choicecounter=0;
+    %>
+
+    <h1 class="container">Results for Test <%= testtitle[0].TestTitle %></h1>
+    <h2 style="text-align: center"><%= results[0].TestTitle %></h2>
+            <%
+            var idWithValues = [];
+            var userAnswers = [];
+            for(let i=0;i<answer.length;i++){
+                idWithValues.push(answer[i].QuestionId);
+                userAnswers.push(answer[i].UserAnswer);
+            }
+
+            var nextCounter = 0;
+            for(let x=0; x<results.length; x++){
+                if(!postedquestions.has(results[x].QuestionId)){
+                    postedquestions.add(results[x].QuestionId);
+                    answers.push(results[x].Answer);
+            %>      
+                  <div class="container">
+                      <h4><%= results[x].Question %></h4>
+                      <% if(idWithValues.includes(results[x].QuestionId)){ %>
+                        <p>Your Answer: <%= userAnswers[idWithValues.indexOf(results[x].QuestionId)]%> </p>
+                        <p>Correct Answer: <%= results[x].Answer %> </p>
+                        <%}else{%>
+                        <p>Your Answer: </p>
+                        <p>Correct Answer: <%= results[x]. Answer %> </p>
+                        <%}%>
+                  </div> 
+                <%nextCounter++;
+            }%>
+            <%}console.log(answers + " | counterforchoices: " + choicecounter);%>
+            <p id="amountofchoices" hidden><%=answer%></p>
+ 
+
+</body>
+</html>

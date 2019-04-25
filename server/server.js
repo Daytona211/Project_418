@@ -14,11 +14,10 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/../views"));
 
 // DATABASE SETUP
-// DATABASE SETUP
 var db = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
+  host     : process.env.RDS_HOSTNAME || 'localhost',
+  user     : process.env.RDS_USERNAME || 'root',
+  password : process.env.RDS_PASSWORD || '',
   database : 'coding_buddy'
 });
 module.exports.db = db;  
