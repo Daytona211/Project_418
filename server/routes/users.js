@@ -167,12 +167,11 @@ router.get('/home', (req, res) => {
 
 router.get('/quizResults', (req, res) => {
 
-<<<<<<< HEAD
 	res.render("quizResults", {
 		userName: user,
 		examName: null
 	})
-=======
+
 	var testid = req.session.TestId;
 	db.query(
 		'SELECT * FROM QuestionsForTest JOIN Question on QuestionsForTest.QuestionId=Question.QuestionId JOIN Choices ON Question.QuestionId=Choices.QuestionId WHERE TestId= ?',
@@ -192,9 +191,9 @@ router.get('/quizResults', (req, res) => {
 	);
 });
 
-	res.render("quizResults", {userName: user, examName: null})
->>>>>>> 40ab40c2c27154b2627f073b8c1a133c2319ba7d
-});
+
+// 	res.render("quizResults", {userName: user, examName: null})
+// });
 
 //queries question/choices
 router.get('/QuizPage', (req, res) => {
