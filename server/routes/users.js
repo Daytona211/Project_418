@@ -41,7 +41,7 @@ router.get('/login', (req, res) => {
 			});
 		} else {
 			return res.render('userhome', {
-				username: user,
+				userName: user,
 				examsComplete: exams_complete,
 				examstoTake: exams_incomplete
 			});
@@ -59,7 +59,7 @@ router.get('/register', (req, res) => {
 			});
 		} else {
 			return res.render('userhome', {
-				username: user,
+				userName: user,
 				examsComplete: exams_complete,
 				examstoTake: exams_incomplete
 			});
@@ -79,7 +79,7 @@ router.post('/registers', (req, res) => {
 		req.session.userId = result[0].UserProfileId;
 		req.session.admin = 0;
 		return res.render('userhome', {
-			username: user,
+			userName: user,
 			examsComplete: exams_complete,
 			examstoTake: exams_incomplete
 		});
