@@ -166,12 +166,6 @@ router.get('/home', (req, res) => {
 });
 
 router.get('/quizResults', (req, res) => {
-
-	res.render("quizResults", {
-		userName: user,
-		examName: null
-	})
-
 	var testid = req.session.TestId;
 	db.query(
 		'SELECT * FROM QuestionsForTest JOIN Question on QuestionsForTest.QuestionId=Question.QuestionId JOIN Choices ON Question.QuestionId=Choices.QuestionId WHERE TestId= ?',
