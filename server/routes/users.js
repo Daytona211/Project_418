@@ -82,21 +82,6 @@ router.get('/about', (req, res) => {
 	res.render('aboutPage');
 });
 
-router.get('/resultsOfQuiz', (req, res) => {
-	var testid = req.session.TestId;
-	db.query(
-		'SELECT * FROM QuestionsForTest JOIN Question on QuestionsForTest.QuestionId=Question.QuestionId JOIN Choices ON Question.QuestionId=Choices.QuestionId WHERE TestId= ?',
-		[4],
-		(request, results, error) => {
-			db.query('SELECT * FROM UserAnswers WHERE TestId = ?', [4], (request, answer, error) => {
-				res.render('resultsOfQuiz', {
-					results: results,
-					answer: answer
-				});
-			});
-		}
-	);
-});
 
 // 7,8,12,20,29,30,34,40,42,43
 // 7,8,12,20,29,30,34,40,42,43
@@ -182,10 +167,33 @@ router.get('/home', (req, res) => {
 
 router.get('/quizResults', (req, res) => {
 
+<<<<<<< HEAD
 	res.render("quizResults", {
 		userName: user,
 		examName: null
 	})
+=======
+	var testid = req.session.TestId;
+	db.query(
+		'SELECT * FROM QuestionsForTest JOIN Question on QuestionsForTest.QuestionId=Question.QuestionId JOIN Choices ON Question.QuestionId=Choices.QuestionId WHERE TestId= ?',
+		[12],
+		(request, results, error) => {
+			db.query('SELECT * FROM UserAnswers WHERE TestId = ? AND UserProfileId=?', [12, 5], (request, answer, error1) => {
+				db.query('SELECT TestTitle FROM TEST WHERE TestId = ?', [12], (req1, testtitle, error2) => {
+					console.log(answer);
+					res.render('quizResults', {
+						results: results,
+						answer: answer,
+						testtitle: testtitle
+					});
+				});
+			});
+		}
+	);
+});
+
+	res.render("quizResults", {userName: user, examName: null})
+>>>>>>> 40ab40c2c27154b2627f073b8c1a133c2319ba7d
 });
 
 //queries question/choices
