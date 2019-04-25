@@ -166,14 +166,16 @@ router.get('/home', (req, res) => {
 });
 
 router.get('/quizResults', (req, res) => {
-	var testid = req.session.TestId;
+	var testid = req.query.TestId;
+	var id = req.session.userId;
 	db.query(
 		'SELECT * FROM QuestionsForTest JOIN Question on QuestionsForTest.QuestionId=Question.QuestionId JOIN Choices ON Question.QuestionId=Choices.QuestionId WHERE TestId= ?',
-		[12],
+		[testid],
 		(request, results, error) => {
-			db.query('SELECT * FROM UserAnswers WHERE TestId = ? AND UserProfileId=?', [12, 5], (request, answer, error1) => {
-				db.query('SELECT TestTitle FROM TEST WHERE TestId = ?', [12], (req1, testtitle, error2) => {
+			db.query('SELECT * FROM UserAnswers WHERE TestId = ? AND UserProfileId=?', [testid, id], (request, answer, error1) => {
+				db.query('SELECT TestTitle FROM TEST WHERE TestId = ?', [testid], (req1, testtitle, error2) => {
 					console.log(answer);
+					console.log(testtitle);
 					res.render('quizResults', {
 						results: results,
 						answer: answer,
