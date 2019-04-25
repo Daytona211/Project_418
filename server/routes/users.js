@@ -141,30 +141,26 @@ router.get('/home', (req, res) => {
 
 // // <<<<<<< rich
 // 				exams_incomplete.push(results[i]);
-
-// 				}else{
-// 					exams_complete.push(results[i]);
-// 				}
-// // =======
-
 		for (let i = 0; i < results.length; i++) {
 			if (results[i].TestStatus == 0) {
-				exams_incomplete.push(results[i].TestTitle);
+
+				exams_incomplete.push(results[i]);
+
 			} else {
-				exams_complete.push(results[i].TestTitle);
-// >>>>>>> testing
+				exams_complete.push(results[i]);
 			}
 		}
 
 		res.render('userhome', {
 			examstoTake: exams_incomplete,
 			examsComplete: exams_complete,
-			username: user
-		});
-	});
+			userName: user
+		})
+	})
 });
 
 router.get('/quizResults', (req, res) => {
+
 	var testid = req.session.TestId;
 	db.query(
 		'SELECT * FROM QuestionsForTest JOIN Question on QuestionsForTest.QuestionId=Question.QuestionId JOIN Choices ON Question.QuestionId=Choices.QuestionId WHERE TestId= ?',
@@ -184,29 +180,7 @@ router.get('/quizResults', (req, res) => {
 	);
 });
 
-router.get('/home', (req, res) => {
-	var id = req.session.userId;
-	var exams_incomplete = new Array();
-	var exams_complete = new Array();
-
-	db.query('SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=' + id + ';', (error, results) => {
-		if (error) {
-			console.log(error);
-		}
-		for (let i = 0; i < results.length; i++) {
-			if (results[i].TestStatus == 0) {
-				exams_incomplete.push(results[i].TestTitle);
-			} else {
-				exams_complete.push(results[i].TestTitle);
-			}
-		}
-
-		res.render('userhome', {
-			examstoTake: exams_incomplete,
-			examsComplete: exams_complete,
-			username: user
-		});
-	});
+	res.render("quizResults", {userName: user, examName: null})
 });
 
 //queries question/choices
