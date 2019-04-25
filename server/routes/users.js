@@ -147,67 +147,58 @@ router.get('/home', (req, res) => {
 		}
 
 
-// <<<<<<< rich
-					exams_incomplete.push(results[i]);
 
-				}else{
-					exams_complete.push(results[i]);
-				}
-// =======
-// 		for (let i = 0; i < results.length; i++) {
+		for (let i = 0; i < results.length; i++) {
 
-// 			if (results[i].TestStatus == 0) {
+			if (results[i].TestStatus == 0) {
 
-// 				exams_incomplete.push(results[i].TestTitle);
+				exams_incomplete.push(results[i]);
 
-// 			} else {
-// 				exams_complete.push(results[i].TestTitle);
-// >>>>>>> testing
+			} else {
+				exams_complete.push(results[i]);
 			}
 		}
 
 		res.render("userhome", {
 			examstoTake: exams_incomplete,
 			examsComplete: exams_complete,
-			username: user
+			userName: user
 		})
 	})
 
 });
 
 router.get('/quizResults', (req, res) => {
-	res.render("quizResults", {userName: user})
+
+	res.render("quizResults", {userName: user, examName: null})
 });
 router.get('/home', (req, res) => {
+
 	var id = req.session.userId;
 	var exams_incomplete = new Array();
 	var exams_complete = new Array();
-
-
-	db.query("SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=" + id + ";", (error, results) => {
-
-
-		if (error) {
+	
+	
+	db.query("SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=" + id + ";",(error,results) => {
+	
+			
+		if(error){
 			console.log(error);
 		}
 
+	
+		for( let i = 0; i<results.length; i++){
+			
+				if(results[i].TestStatus == 0){
 
-		for (let i = 0; i < results.length; i++) {
+					exams_incomplete.push(results[i]);
 
-			if (results[i].TestStatus == 0) {
-
-				exams_incomplete.push(results[i].TestTitle);
-
-			} else {
-				exams_complete.push(results[i].TestTitle);
+				}else{
+					exams_complete.push(results[i]);
+				}
 			}
-		}
-
-		res.render("userhome", {
-			examstoTake: exams_incomplete,
-			examsComplete: exams_complete,
-			username: user
-		})
+		
+		res.render("userhome",{examstoTake: exams_incomplete, examsComplete: exams_complete, userName: user})
 	})
 
 });
