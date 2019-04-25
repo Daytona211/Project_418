@@ -180,8 +180,8 @@ router.get('/quizResults', (req, res) => {
 	);
 });
 
-	res.render("quizResults", {userName: user, examName: null})
-});
+// 	res.render("quizResults", {userName: user, examName: null})
+// });
 
 //queries question/choices
 router.get('/QuizPage', (req, res) => {
