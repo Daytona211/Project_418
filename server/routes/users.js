@@ -40,11 +40,7 @@ router.get('/login', (req, res) => {
 				});
 			});
 		} else {
-			return res.render('userhome', {
-				username: user,
-				examsComplete: exams_complete,
-				examstoTake: exams_incomplete
-			});
+			return res.redirect(`/users/home`);
 		}
 	} else res.render('loginPage'); // to access this page go to /users/login
 });
@@ -58,11 +54,7 @@ router.get('/register', (req, res) => {
 				});
 			});
 		} else {
-			return res.render('userhome', {
-				username: user,
-				examsComplete: exams_complete,
-				examstoTake: exams_incomplete
-			});
+			return res.redirect(`/users/home`);
 		}
 	} else res.render('registerPage');
 });
@@ -79,7 +71,7 @@ router.post('/registers', (req, res) => {
 		req.session.userId = result[0].UserProfileId;
 		req.session.admin = 0;
 		return res.render('userhome', {
-			username: user,
+			userName: user,
 			examsComplete: exams_complete,
 			examstoTake: exams_incomplete
 		});
@@ -149,46 +141,66 @@ router.get('/home', (req, res) => {
 	var id = req.session.userId;
 	var exams_incomplete = new Array();
 	var exams_complete = new Array();
-	db.query('SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=' + id + ';', (error, results) => {
-		if (error) {
-			console.log(error);
-		}
-
-// // <<<<<<< rich
-// 				exams_incomplete.push(results[i]);
-		for (let i = 0; i < results.length; i++) {
-			if (results[i].TestStatus == 0) {
-
-				exams_incomplete.push(results[i]);
-
-			} else {
-				exams_complete.push(results[i]);
+	db.query(`SELECT * FROM Test`, (req1, res1) => {
+		db.query('SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=' + id + ';', (error, results) => {
+			if (error) {
+				console.log(error);
 			}
-		}
+			console.log(results);
+			console.log("==========");
+			console.log(res1);
+			var touchedTests = [];
+			for(var i = 0; i < results.length; i++)
+				touchedTests.push(results[i].TestId);
+			var untouchedTests = [];
+			for(var i = 0; i < res1.length; i++){
+				if(!touchedTests.includes(res1[i].TestId))
+					untouchedTests.push(res1[i]);
+			}
+			
 
-		res.render('userhome', {
-			examstoTake: exams_incomplete,
-			examsComplete: exams_complete,
-			userName: user
+			console.log(untouchedTests);
+			// // <<<<<<< rich
+			// 				exams_incomplete.push(results[i]);
+			for (let i = 0; i < results.length; i++) {
+				if (results[i].TestStatus == 0) {
+					exams_incomplete.push(results[i]);
+
+				} else {
+					exams_complete.push(results[i]);
+				}
+			} 
+
+			res.render('userhome', {
+				examstoTake: untouchedTests,
+				examsComplete: exams_complete,
+				userName: user
+			})
 		})
-	})
+	});
 });
 
 router.get('/quizResults', (req, res) => {
 
-	res.render("quizResults", {userName: user, examName: null})
+	res.render("quizResults", {
+		userName: user,
+		examName: null
+	})
 });
 
 //queries question/choices
 router.get('/QuizPage', (req, res) => {
-	var userid = req.session.userid;
-	var testid = req.session.testid;
+	console.log(req.session)
+	var userid = req.session.userId;
+	var testid = req.query.TestId;
+	req.session.testId = testid;
 	db.query(
 		'SELECT * FROM QuestionsForTest JOIN Question on QuestionsForTest.QuestionId=Question.QuestionId JOIN Choices ON Question.QuestionId=Choices.QuestionId WHERE TestId=' + testid + ';',
 		(request, results, error) => {
 			if (error) {
 				console.log(error);
 			}
+			console.log(request)
 			res.render('QuizPage', {
 				results: results
 			});
@@ -196,7 +208,7 @@ router.get('/QuizPage', (req, res) => {
 	);
 });
 
-router.post('/QuizPage', (req, res) => {
+router.post('/QuizPage', (req, res1) => {
 	var score = req.body.score;
 	score = parseFloat(score);
 	score = (score * 100).toFixed(2);
@@ -232,9 +244,10 @@ router.post('/QuizPage', (req, res) => {
 		map.set(answerid, buildanswer);
 	}
 
-	var testid = req.session.testid;
 	var userid = req.session.userId;
-
+	var testid = req.session.testId;
+	if(req.session.testId)
+		req.session.testId = undefined;
 	db.query('INSERT INTO TestStatus(TestId, UserProfileId, TestStatus, Grade) VALUES (?,?,?,?);', [testid, userid, 1, score], (req, res, error) => {
 		if (error) {
 			console.log(error);
@@ -253,7 +266,7 @@ router.post('/QuizPage', (req, res) => {
 		});
 	}
 
-	return;
+	return res1.redirect(`/users/home`);
 });
 
 module.exports = router;
