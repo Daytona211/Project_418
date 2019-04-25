@@ -18,7 +18,7 @@ var db = mysql.createConnection({
   host     : process.env.RDS_HOSTNAME || 'localhost',
   user     : process.env.RDS_USERNAME || 'root',
   password : process.env.RDS_PASSWORD || '',
-  database : 'coding_buddy'
+  database : 'coding_buddy
 });
 module.exports.db = db;  
  

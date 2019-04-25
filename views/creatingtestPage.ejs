@@ -33,10 +33,21 @@
         </div>
     </nav>
 
+
+    <div class="container">  
+            <div class="panel panel-default">
+                    <div class="panel-heading"> Create TestId</div>
+                    <form id="createId" action="/admin/createTestId" method='post'>
+                        <input type="text" name="TestTitle" placeholder="" id="TestTitle">
+                    <button input="submit" value="submit">Create TestId</button>
+                    </form>
+            </div>
+    </div>
+   
     <div class="container">  
         <div class="panel panel-default">
                 <div class="panel-heading"> Select Test Questions to go in Test Bank</div>
-                    <form id="createDB" action="/admin/createDBTable" method='post'>
+                <form id="createDB" action="/admin/createDBTable" method='post'>
                 <%
                  for(let x=0; x<results.length; x++){
                  %>
@@ -49,13 +60,12 @@
                         </thead>
                             <tbody>
                                 
-                <p><%= results[x].Question%> <input type="checkbox"  name="checked" value="<%=results[x].Question%>"  ></p>
-
-     
+                <p><%= results[x].Question%> <input type="checkbox"  name="checked" value="<%=results[x].QuestionId%>"  ></p>
                 </table>
 
                 <%} %>
-                
+
+
                  <button input="submit" value="submit">Create Test</button>
 
                 </form>
