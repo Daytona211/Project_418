@@ -143,7 +143,6 @@ router.get('/home', (req, res) => {
 					untouchedTests.push(res1[i]);
 			}
 
-
 			console.log(untouchedTests);
 			// // <<<<<<< rich
 			// 				exams_incomplete.push(results[i]);
@@ -154,8 +153,8 @@ router.get('/home', (req, res) => {
 				} else {
 					exams_complete.push(results[i]);
 				}
-			}
 
+			}
 			res.render('userhome', {
 				examstoTake: untouchedTests,
 				examsComplete: exams_complete,
@@ -166,6 +165,11 @@ router.get('/home', (req, res) => {
 });
 
 router.get('/quizResults', (req, res) => {
+
+// 	res.render("quizResults", {
+// 		userName: user,
+// 		examName: null
+// 	})
 	var testid = req.query.TestId;
 	var id = req.session.userId;
 	db.query(
@@ -197,7 +201,6 @@ router.get('/QuizPage', (req, res) => {
 	var userid = req.session.userId;
 	var testid = req.query.TestId;
 	req.session.testId = testid;
-	//console.log(testId)
 	db.query(
 		'SELECT * FROM QuestionsForTest JOIN Question on QuestionsForTest.QuestionId=Question.QuestionId JOIN Choices ON Question.QuestionId=Choices.QuestionId WHERE TestId=' + testid + ';',
 		(request, results, error) => {
@@ -250,7 +253,8 @@ router.post('/QuizPage', (req, res1) => {
 
 	var userid = req.session.userId;
 	var testid = req.session.testId;
-	if (req.session.testId)
+  
+	if(req.session.testId)
 		req.session.testId = undefined;
 	db.query('INSERT INTO TestStatus(TestId, UserProfileId, TestStatus, Grade) VALUES (?,?,?,?);', [testid, userid, 1, score], (req, res, error) => {
 		if (error) {
