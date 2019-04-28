@@ -126,15 +126,15 @@ router.get('/home', (req, res) => {
 	var id = req.session.userId;
 	var exams_incomplete = new Array();
 	var exams_complete = new Array();
-// <<<<<<< zach
-// 	db.query('SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=' + id + ';', (error, results) => {
-// 		if (error) {
-// 			console.log(error);
-// 		}
+	// <<<<<<< zach
+	// 	db.query('SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=' + id + ';', (error, results) => {
+	// 		if (error) {
+	// 			console.log(error);
+	// 		}
 
-// // // <<<<<<< rich
-// // 				exams_incomplete.push(results[i]);
-// =======
+	// // // <<<<<<< rich
+	// // 				exams_incomplete.push(results[i]);
+	// =======
 	db.query(`SELECT * FROM Test`, (req1, res1) => {
 		db.query('SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=' + id + ';', (error, results) => {
 			if (error) {
@@ -173,43 +173,6 @@ router.get('/home', (req, res) => {
 	});
 });
 
-router.get('/quizResults', (req, res) => {
-
-// 	res.render("quizResults", {
-// 		userName: user,
-// 		examName: null
-// 	})
-	var testid = req.query.TestId;
-	var id = req.session.userId;
-	db.query(
-		'SELECT * FROM QuestionsForTest JOIN Question on QuestionsForTest.QuestionId=Question.QuestionId JOIN Choices ON Question.QuestionId=Choices.QuestionId WHERE TestId= ?',
-		[testid],
-		(request, results, error) => {
-			db.query('SELECT * FROM UserAnswers WHERE TestId = ? AND UserProfileId=?', [testid, id], (request, answer, error1) => {
-				db.query('SELECT TestTitle FROM TEST WHERE TestId = ?', [testid], (req1, testtitle, error2) => {
-					console.log(answer);
-					console.log(testtitle);
-					res.render('quizResults', {
-						results: results,
-						answer: answer,
-						testtitle: testtitle
-					});
-				});
-			});
-		}
-
-		for (let i = 0; i < results.length; i++) {
-			if (results[i].TestStatus == 0) {
-				exams_incomplete.push(results[i].TestTitle);
-			} else {
-				exams_complete.push(results[i].TestTitle);
-			}
-		}
-
-// 	res.render("quizResults", {userName: user, examName: null})
-// });
-
-//queries question/choices
 router.get('/QuizPage', (req, res) => {
 	console.log(req.session)
 	var userid = req.session.userId;
