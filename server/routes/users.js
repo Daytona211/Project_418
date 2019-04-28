@@ -126,6 +126,15 @@ router.get('/home', (req, res) => {
 	var id = req.session.userId;
 	var exams_incomplete = new Array();
 	var exams_complete = new Array();
+// <<<<<<< zach
+// 	db.query('SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=' + id + ';', (error, results) => {
+// 		if (error) {
+// 			console.log(error);
+// 		}
+
+// // // <<<<<<< rich
+// // 				exams_incomplete.push(results[i]);
+// =======
 	db.query(`SELECT * FROM Test`, (req1, res1) => {
 		db.query('SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=' + id + ';', (error, results) => {
 			if (error) {
@@ -188,9 +197,14 @@ router.get('/quizResults', (req, res) => {
 				});
 			});
 		}
-	);
-});
 
+		for (let i = 0; i < results.length; i++) {
+			if (results[i].TestStatus == 0) {
+				exams_incomplete.push(results[i].TestTitle);
+			} else {
+				exams_complete.push(results[i].TestTitle);
+			}
+		}
 
 // 	res.render("quizResults", {userName: user, examName: null})
 // });
