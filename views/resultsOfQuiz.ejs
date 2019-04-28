@@ -52,7 +52,18 @@
 		</div>
 
 		<div class="stuff">
-			<p><%= results[0].TypeOfQuestion   %></p>
+			<div>
+				<%
+				var temp1 = new Set();
+				var temp2 = [];
+				for(let x=0; x<results.length; x++){
+					if(!temp1.has(results[x].QuestionId)){
+						temp1.add(results[x].QuestionId);
+						temp2.push(results[x].Answer);
+					}
+				}
+				 %>
+			</div>
 		</div>
 	</body>
 </html>
