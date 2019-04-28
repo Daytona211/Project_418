@@ -183,7 +183,7 @@ router.get('/quizResults', (req, res) => {
 					res.render('quizResults', {
 						results: results,
 						answer: answer,
-						testtitle: testtitle
+						TestTitle: testtitle
 					});
 				});
 			});
