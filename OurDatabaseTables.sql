@@ -40,10 +40,10 @@ CREATE TABLE Question(
 );
 
 CREATE TABLE QuestionsForTest(
-	QuestionsForTest int AUTO_INCREMENT,
+	QuestionsForTestId int AUTO_INCREMENT,
 	QuestionId int NOT NULL,
 	TestId int NOT NULL,
-	PRIMARY KEY (QuestionsForTest),
+	PRIMARY KEY (QuestionsForTestId),
 	FOREIGN KEY (QuestionId) REFERENCES Question(QuestionId),
 	FOREIGN KEY (TestId) REFERENCES Test(TestId)
 );
