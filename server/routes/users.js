@@ -212,7 +212,7 @@ router.get('/quizResults', (req, res) => {
 	);
 });
 
-	res.render("quizResults", {userName: user, examName: null})
+	//res.render("quizResults", {userName: user, examName: null})
 // =======
 // 		for (let i = 0; i < results.length; i++) {
 // 			if (results[i].TestStatus == 0) {
@@ -223,7 +223,7 @@ router.get('/quizResults', (req, res) => {
 // 		}
 // 	})
 // >>>>>>> testing
-});
+
 
 // 	res.render("quizResults", {userName: user, examName: null})
 // });
