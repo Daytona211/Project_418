@@ -191,7 +191,7 @@ function insertTrueFalse(req, res) {
         answer = "False";
 
     var category = "None";
-    if(req.body.category)
+    if (req.body.category)
         category = req.body.category;
 
     db.query(`INSERT INTO Question(Answer, Question, TypeOfQuestion, Category) VALUES (?, ?, "True False", ?);`, [answer, question, category], (req, resl, error) => {
@@ -219,7 +219,7 @@ function insertMC(req, res1) {
         answer = req.body.AAnswerBox;
     var choices = [req.body.AAnswerBox, req.body.BAnswerBox, req.body.CAnswerBox, req.body.DAnswerBox];
     var category = "None";
-    if(req.body.category)
+    if (req.body.category)
         category = req.body.category;
 
     db.query(`INSERT INTO Question(Answer, Question, TypeOfQuestion, Category) VALUES (?, ?, "Multiple Choice", ?);`, [answer, question, category], (req, res, error) => {
@@ -322,10 +322,10 @@ function potato_salad_on_top_of_my_bowl(path, res) {
             var correctAns;
             if (ans1.charAt(0) == '*')
                 correctAns = ans1Txt;
-                // correctAns = ans1.split("*")[1];
+            // correctAns = ans1.split("*")[1];
             else if (ans2.charAt(0) == '*')
                 // correctAns = ans2.split("*")[1];
-                correctAns = ans2Txt;                
+                correctAns = ans2Txt;
             else if (ans3.charAt(0) == '*')
                 // correctAns = ans3.split("*")[1];
                 correctAns = ans3Txt;
@@ -388,7 +388,6 @@ router.post("/createDBTable", (req, res) => {
 });
 
 router.post("/sendTODB", (req, res1) => {
-
     var user = {
         testTitle: req.body.TestTitle
     };
@@ -413,15 +412,14 @@ router.post("/sendTODB", (req, res1) => {
 
             db.query(`INSERT INTO QuestionsForTest(QuestionId, TestId) VALUES(?, ?);`, [array[x], res[0]["MAX(TestId)"]], (req1, err, result) => {
                 if (!err) throw err;
-                db.query
-                res1.redirect("/admin/adminPage")
-            })
+                //db.query
+            });
             console.log("============================")
             console.log(array[x]);
             console.log(res[0]["MAX(TestId)"]);
             console.log("============================");
         }
-
+        return res1.redirect('/admin/adminPage')
     });
 
 

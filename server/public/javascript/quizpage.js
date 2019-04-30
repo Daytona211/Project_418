@@ -1,7 +1,7 @@
 var useranswers=[];
 
 function update(amountofquestions,answer,choice,index){
-    
+    console.log(choice)
     if(useranswers.length==0){
         for(let x=0; x<amountofquestions; x++){
             useranswers[x]=false;
