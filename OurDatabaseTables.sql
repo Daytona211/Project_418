@@ -36,6 +36,7 @@ CREATE TABLE Question(
     TypeOfQuestion varchar(20) NOT NULL,
     Answer varchar(100) NOT NULL,
     Question varchar(500) NOT NULL,
+    Category varchar(20),
     PRIMARY KEY (QuestionId)
 );
 

@@ -90,6 +90,7 @@ router.get("/editQuestions", (req, res) => {
                 questionInfo.choice3 = res1[2].PossibleAnswer;
                 questionInfo.choice4 = res1[3].PossibleAnswer;
                 questionInfo.type = "MC"
+                questionInfo.category = res1[0].category;
             }
             db.query(`DELETE FROM Choices WHERE QuestionId=?`, [id]);
             db.query(`DELETE FROM Question WHERE QuestionId=?`, [id]);
@@ -188,9 +189,12 @@ function insertTrueFalse(req, res) {
         answer = "True";
     else
         answer = "False";
-    //   INSERT INTO table(c1,c2,...) VALUES (v1,v2,...);
-    // var sqlQuery = `INSERT INTO question(Answer) VALUES (?);`;
-    db.query(`INSERT INTO Question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "True False");`, [answer, question], (req, resl, error) => {
+
+    var category = "None";
+    if(req.body.category)
+        category = req.body.category;
+
+    db.query(`INSERT INTO Question(Answer, Question, TypeOfQuestion, Category) VALUES (?, ?, "True False", ?);`, [answer, question, category], (req, resl, error) => {
         if (error) {
             console.log(error);
         }
@@ -214,8 +218,11 @@ function insertMC(req, res1) {
     else if (req.body.isDCorrect)
         answer = req.body.AAnswerBox;
     var choices = [req.body.AAnswerBox, req.body.BAnswerBox, req.body.CAnswerBox, req.body.DAnswerBox];
+    var category = "None";
+    if(req.body.category)
+        category = req.body.category;
 
-    db.query(`INSERT INTO Question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "Multiple Choice");`, [answer, question], (req, res, error) => {
+    db.query(`INSERT INTO Question(Answer, Question, TypeOfQuestion, Category) VALUES (?, ?, "Multiple Choice", ?);`, [answer, question, category], (req, res, error) => {
         if (error) {
             console.log(error);
             return;
@@ -314,13 +321,17 @@ function potato_salad_on_top_of_my_bowl(path, res) {
             var img = ele["Image Link"];
             var correctAns;
             if (ans1.charAt(0) == '*')
-                correctAns = ans1.split("*")[1];
+                correctAns = ans1Txt;
+                // correctAns = ans1.split("*")[1];
             else if (ans2.charAt(0) == '*')
-                correctAns = ans2.split("*")[1];
+                // correctAns = ans2.split("*")[1];
+                correctAns = ans2Txt;                
             else if (ans3.charAt(0) == '*')
-                correctAns = ans3.split("*")[1];
+                // correctAns = ans3.split("*")[1];
+                correctAns = ans3Txt;
             else if (ans4.charAt(0) == '*')
-                correctAns = ans4.split("*")[1];
+                // correctAns = ans4.split("*")[1];
+                correctAns = ans4Txt;
             var choices = [ans1Txt, ans2Txt, ans3Txt, ans4Txt];
 
             db.query(`INSERT INTO Question(TypeOfQuestion, Answer, Question) VALUES (?, ?, ?);`, ["Multiple Choice", correctAns, question], (req, result, err) => {

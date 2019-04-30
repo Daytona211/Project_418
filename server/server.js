@@ -17,15 +17,15 @@ app.set("views", path.join(__dirname, "/../views"));
 
 // DATABASE SETUP
 var db = mysql.createConnection({
-  host: 'codebud1.cvgfqdtlcqye.us-east-2.rds.amazonaws.com',
-  user: 'zach',
-  password: '12345678',
-  database: 'codebud',
-  port: 3306
-  // host     : process.env.RDS_HOSTNAME || 'localhost',
-  // user     : process.env.RDS_USERNAME || 'root',
-  // password : process.env.RDS_PASSWORD || '',
-  // database : 'coding_buddy'
+  // host: 'codebud1.cvgfqdtlcqye.us-east-2.rds.amazonaws.com',
+  // user: 'zach',
+  // password: '12345678',
+  // database: 'codebud',
+  // port: 3306
+  host     : process.env.RDS_HOSTNAME || 'localhost',
+  user     : process.env.RDS_USERNAME || 'root',
+  password : process.env.RDS_PASSWORD || '',
+  database : 'coding_buddy'
 });
 module.exports.db = db;
 
