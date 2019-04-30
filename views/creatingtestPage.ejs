@@ -34,6 +34,7 @@
     </nav>
 
 <!-- 
+
     <div class="container">  
             <div class="panel panel-default">
                     <div class="panel-heading"> Create TestId</div>
@@ -42,6 +43,7 @@
                     <button input="submit" value="submit">Create TestId</button>
                     </form>
             </div>
+
     </div> -->
    
     <div class="container">  
@@ -54,12 +56,10 @@
                 <%
                  for(let x=0; x<results.length; x++){
                  %>
-
     
                 <p style="padding-left: 20px;"> <input style="margin-right: 20px;" type="checkbox"  name="checked" value="<%=results[x].QuestionId%>"  ><%= results[x].Question%></p>
 
                 <%} %>
-
 
                  <button type="submit" input="submit" value="submit" href="/admin/adminPage" >Create Test</button>
 

@@ -349,18 +349,24 @@ router.get('/creatingtestPage', (req, res) => {
 
 });
 
-<<<<<<< HEAD
-// router.post("/createTestId", (req, res) => {
-//     var user = { 
-//         testId: req.body.TestTitle
-//     };
-=======
-
 router.post("/createTestId", (req, res) => {
     var user = { 
         testId: req.body.TestTitle
+
     };
->>>>>>> 5355724f18347bce61c60d455b605fb374d13f06
+
+    console.log(req.body.TestTitle);
+
+    db.query("INSERT INTO test (TestTitle) VALUES(?)", [user.testId],  function(err, result){
+
+    });
+});
+
+router.post("/createDBTable", (req, res) => {
+    var test = {
+        checked: req.body.checked
+    };
+
 
 //     console.log(req.body.TestTitle);
 
@@ -392,6 +398,7 @@ router.post("/sendTODB", (req, res1) => {
             db.query(`INSERT INTO questionsfortest(QuestionId, TestId) VALUES(?, ?);`,[array[x],res[0]["MAX(TestId)"]],(req1, err, result)=>{ 
                 if(!err) throw err;
                 res1.render("adminPage")
+
             })
             console.log("============================")
             console.log(array[x]);
