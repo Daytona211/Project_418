@@ -31,6 +31,13 @@ router.get('/', (req, res) => {
 	res.render('welcomePage');
 });
 
+router.get('/logout', (req, res) =>{
+	if (req.session.userId != undefined){
+		req.session.userId = undefined;
+		res.redirect("/");
+	}
+});
+
 router.get('/login', (req, res) => {
 	if (req.session.userId != undefined) {
 		if (req.session.admin) {
