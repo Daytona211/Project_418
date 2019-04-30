@@ -130,6 +130,10 @@ router.post('/sublogin', (req, res) => {
 });
 
 router.get('/home', (req, res) => {
+	if(!req.session.userId)
+		return res.redirect("/");
+	if(req.session.admin == 1)
+		return res.redirect("/admin/adminPage");
 	var id = req.session.userId;
 	var exams_incomplete = new Array();
 	var exams_complete = new Array();
