@@ -175,6 +175,16 @@ router.get('/home', (req, res) => {
 
 router.get('/quizResults', (req, res) => {
 
+// <<<<<<< abe
+// 	var testid = req.session.TestId;
+// 	db.query(
+// 		'SELECT * FROM QuestionsForTest JOIN Question on QuestionsForTest.QuestionId=Question.QuestionId JOIN Choices ON Question.QuestionId=Choices.QuestionId WHERE TestId= ?',
+// 		[12],
+// 		(request, results, error) => {
+// 			db.query('SELECT * FROM UserAnswers WHERE TestId = ? AND UserProfileId=?', [12, 5], (request, answer, error1) => {
+// 				db.query('SELECT TestTitle FROM TEST WHERE TestId = ?', [12], (req1, testtitle, error2) => {
+// 					console.log(answer);
+// =======
 // 	res.render("quizResults", {
 // 		userName: user,
 // 		examName: null
@@ -189,6 +199,7 @@ router.get('/quizResults', (req, res) => {
 				db.query('SELECT TestTitle FROM TEST WHERE TestId = ?', [testid], (req1, testtitle, error2) => {
 					console.log(answer);
 					console.log(testtitle);
+// >>>>>>> testing
 					res.render('quizResults', {
 						results: results,
 						answer: answer,
@@ -196,15 +207,22 @@ router.get('/quizResults', (req, res) => {
 					});
 				});
 			});
+// <<<<<<< abe
 		}
 
-		for (let i = 0; i < results.length; i++) {
-			if (results[i].TestStatus == 0) {
-				exams_incomplete.push(results[i].TestTitle);
-			} else {
-				exams_complete.push(results[i].TestTitle);
-			}
-		}
+
+	//res.render("quizResults", {userName: user, examName: null})
+// =======
+// 		for (let i = 0; i < results.length; i++) {
+// 			if (results[i].TestStatus == 0) {
+// 				exams_incomplete.push(results[i].TestTitle);
+// 			} else {
+// 				exams_complete.push(results[i].TestTitle);
+// 			}
+// 		}
+// 	})
+// >>>>>>> testing
+
 
 // 	res.render("quizResults", {userName: user, examName: null})
 // });
