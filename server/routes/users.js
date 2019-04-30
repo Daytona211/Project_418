@@ -208,7 +208,8 @@ router.get('/quizResults', (req, res) => {
 				});
 			});
 // <<<<<<< abe
-		}
+		})
+	});
 
 
 	//res.render("quizResults", {userName: user, examName: null})

@@ -374,6 +374,7 @@ router.post("/createDBTable", (req, res) => {
 
 //     });
 // });
+});
 
 router.post("/sendTODB", (req, res1) => {
 
@@ -397,8 +398,8 @@ router.post("/sendTODB", (req, res1) => {
 
             db.query(`INSERT INTO questionsfortest(QuestionId, TestId) VALUES(?, ?);`,[array[x],res[0]["MAX(TestId)"]],(req1, err, result)=>{ 
                 if(!err) throw err;
-                res1.render("adminPage")
-
+                db.query
+                res1.redirect("/admin/adminPage")
             })
             console.log("============================")
             console.log(array[x]);
