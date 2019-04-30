@@ -65,8 +65,8 @@ router.post('/registers', (req, res) => {
 	var username = req.body.username;
 	var password = req.body.password;
 	user = username;
-	db.query(`INSERT INTO userprofile(Name, Password) VALUES (?, ?)`, [username, password]);
-	db.query('SELECT * FROM userprofile WHERE Name="' + username + '";', (error, result) => {
+	db.query(`INSERT INTO UserProfile(Name, Password) VALUES (?, ?)`, [username, password]);
+	db.query('SELECT * FROM UserProfile WHERE Name="' + username + '";', (error, result) => {
 		// if(error) throw error;
 		req.session.userId = result[0].UserProfileId;
 		req.session.admin = 0;
@@ -88,7 +88,7 @@ router.get('/about', (req, res) => {
 router.post('/sublogin', (req, res) => {
 	let userName = req.body.username;
 	let passWord = req.body.password;
-	let sqlQuery = 'SELECT * FROM userprofile WHERE Name="' + userName + '";';
+	let sqlQuery = 'SELECT * FROM UserProfile WHERE Name="' + userName + '";';
 	db.query(sqlQuery, (error, result) => {
 		if (error) console.log(error);
 		else {
@@ -136,7 +136,7 @@ router.get('/home', (req, res) => {
 // // 				exams_incomplete.push(results[i]);
 // =======
 	db.query(`SELECT * FROM Test`, (req1, res1) => {
-		db.query('SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=' + id + ';', (error, results) => {
+		db.query('SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE TestStatus.UserProfileId=' + id + ';', (error, results) => {
 			if (error) {
 				console.log(error);
 			}
@@ -196,7 +196,7 @@ router.get('/quizResults', (req, res) => {
 		[testid],
 		(request, results, error) => {
 			db.query('SELECT * FROM UserAnswers WHERE TestId = ? AND UserProfileId=?', [testid, id], (request, answer, error1) => {
-				db.query('SELECT TestTitle FROM TEST WHERE TestId = ?', [testid], (req1, testtitle, error2) => {
+				db.query('SELECT TestTitle FROM Test WHERE TestId = ?', [testid], (req1, testtitle, error2) => {
 					console.log(answer);
 					console.log(testtitle);
 // >>>>>>> testing

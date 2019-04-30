@@ -9,7 +9,7 @@ var upload = multer({
 })
 
 router.post("/registerId", (req, res) => {
-    db.query(`SELECT Name FROM userprofile`, (selReq, selRes) => {
+    db.query(`SELECT Name FROM UserProfile`, (selReq, selRes) => {
         for (var i = 0; i < selRes.length; i++) {
             if (selRes[i].Name == req.body.username) {
                 return res.render("userIds", {
@@ -18,10 +18,10 @@ router.post("/registerId", (req, res) => {
             }
         }
         if (req.body.isAdmin) {
-            db.query(`INSERT INTO userprofile(Name, Password, isAdmin) VALUES (?, ?, ?)`, [req.body.username, req.body.password, 1]);
+            db.query(`INSERT INTO UserProfile(Name, Password, isAdmin) VALUES (?, ?, ?)`, [req.body.username, req.body.password, 1]);
             res.redirect("/admin/userIds")
         } else {
-            db.query(`INSERT INTO userprofile(Name, Password, isAdmin) VALUES (?, ?, ?)`, [req.body.username, req.body.password, 0]);
+            db.query(`INSERT INTO UserProfile(Name, Password, isAdmin) VALUES (?, ?, ?)`, [req.body.username, req.body.password, 0]);
             res.redirect("/admin/userIds")
         }
     })
@@ -32,7 +32,7 @@ router.get("/userIds", (req, result) => {
     if (!req.session.userId) {
         result.render("loginPage");
     } else {
-        db.query(`SELECT isAdmin FROM userprofile WHERE UserProfileId=?`, [req.session.userId], (req, res) => {
+        db.query(`SELECT isAdmin FROM UserProfile WHERE UserProfileId=?`, [req.session.userId], (req, res) => {
             if (res[0].isAdmin == 0)
                 result.render("loginPage");
             else
@@ -42,7 +42,7 @@ router.get("/userIds", (req, result) => {
 });
 
 function getUsersAndRenderUserIds(res) {
-    db.query(`SELECT * FROM userprofile`, (req1, res1) => {
+    db.query(`SELECT * FROM UserProfile`, (req1, res1) => {
         res.render("userIds", {
             result: res1
         });
@@ -54,7 +54,7 @@ router.get("/addQuestions", (req, result) => {
     if (!req.session.userId)
         result.redirect('/users/login');
     else {
-        db.query(`SELECT isAdmin FROM userprofile WHERE UserProfileId=?`, [req.session.userId], (req, res) => {
+        db.query(`SELECT isAdmin FROM UserProfile WHERE UserProfileId=?`, [req.session.userId], (req, res) => {
             if (res[0].isAdmin == 0)
                 result.render("loginPage");
             else
@@ -68,9 +68,9 @@ router.get("/editQuestions", (req, res) => {
         return res.redirect(`/users/login`);
     else {
         var id = req.query.id;
-        db.query("SELECT * FROM question INNER JOIN choices ON question.QuestionId= choices.QuestionId WHERE question.QuestionId=?", [id], (req1, res1) => {
+        db.query("SELECT * FROM Question INNER JOIN Choices ON Question.QuestionId= Choices.QuestionId WHERE Question.QuestionId=?", [id], (req1, res1) => {
 
-            if (res1.length < 1){
+            if (res1.length < 1) {
                 var error = "This question is part of a test please remove the test first or make a new question";
                 return rerenderAdminAddQuestionsPage(res, error, questionInfo);
             }
@@ -91,8 +91,8 @@ router.get("/editQuestions", (req, res) => {
                 questionInfo.choice4 = res1[3].PossibleAnswer;
                 questionInfo.type = "MC"
             }
-            db.query(`DELETE FROM choices WHERE QuestionId=?`, [id]);
-            db.query(`DELETE FROM question WHERE QuestionId=?`, [id]);
+            db.query(`DELETE FROM Choices WHERE QuestionId=?`, [id]);
+            db.query(`DELETE FROM Question WHERE QuestionId=?`, [id]);
             rerenderAdminAddQuestionsPage(res, undefined, questionInfo);
         });
     }
@@ -106,14 +106,14 @@ router.get("/deleteQuestions", (req1, res1) => {
         res1.redirect('/users/login');
     else {
         var id = req1.query.id;
-        db.query(`SELECT TestId FROM questionsfortest WHERE QuestionId=?`, [id], (req, res) => {
+        db.query(`SELECT TestId FROM QuestionsForTest WHERE QuestionId=?`, [id], (req, res) => {
             console.log(res);
             if (res.length > 0 && res[0].TestId != null) {
                 var error = "This question is part of a test please remove the test first or make a new question";
                 rerenderAdminAddQuestionsPage(res1, error);
             } else {
-                db.query(`DELETE FROM choices WHERE QuestionId=?`, [id]);
-                db.query(`DELETE FROM question WHERE QuestionId=${id}`, (req2, res2) => {
+                db.query(`DELETE FROM Choices WHERE QuestionId=?`, [id]);
+                db.query(`DELETE FROM Question WHERE QuestionId=${id}`, (req2, res2) => {
                     rerenderAdminAddQuestionsPage(res1);
                 })
             }
@@ -121,15 +121,15 @@ router.get("/deleteQuestions", (req1, res1) => {
     }
 });
 
-router.get("/deleteTest",(req,res) => {
-    if(!req.session.userId){
+router.get("/deleteTest", (req, res) => {
+    if (!req.session.userId) {
         res.redirect('/users/login');
-    }else{
+    } else {
         var id = req.query.id;
-        db.query("DELETE FROM TestStatus WHERE TestId=?",[id]);
-        db.query("DELETE FROM UserAnswers WHERE TestId=?",[id]);
-        db.query("DELETE FROM QuestionsForTest WHERE TestId=?",[id]);
-        db.query("DELETE FROM Test WHERE TestId=?",[id]);
+        db.query("DELETE FROM TestStatus WHERE TestId=?", [id]);
+        db.query("DELETE FROM UserAnswers WHERE TestId=?", [id]);
+        db.query("DELETE FROM QuestionsForTest WHERE TestId=?", [id]);
+        db.query("DELETE FROM Test WHERE TestId=?", [id]);
         db.query(`SELECT * FROM Test;`, (req, results) => {
             return res.render("adminPage", {
                 results: results
@@ -170,7 +170,7 @@ router.post("/csvQuestionSubmission", upload.single('csvFile'), (req, res) => {
 
 function rerenderAdminAddQuestionsPage(res, errorMessage, questionInfo) {
     console.log(errorMessage);
-    db.query(`SELECT * FROM question;`, (request, result, error) => {
+    db.query(`SELECT * FROM Question;`, (request, result, error) => {
         if (error) console.log(error);
         res.render("adminAddQuestions", {
             results: result,
@@ -190,12 +190,12 @@ function insertTrueFalse(req, res) {
         answer = "False";
     //   INSERT INTO table(c1,c2,...) VALUES (v1,v2,...);
     // var sqlQuery = `INSERT INTO question(Answer) VALUES (?);`;
-    db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "True False");`, [answer, question], (req, resl, error) => {
+    db.query(`INSERT INTO Question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "True False");`, [answer, question], (req, resl, error) => {
         if (error) {
             console.log(error);
         }
-        db.query(`INSERT INTO choices(QuestionId, PossibleAnswer) VALUES (?, "True");`, [resl.insertId]);
-        db.query(`INSERT INTO choices(QuestionId, PossibleAnswer) VALUES (?, "False");`, [resl.insertId]);
+        db.query(`INSERT INTO Choices(QuestionId, PossibleAnswer) VALUES (?, "True");`, [resl.insertId]);
+        db.query(`INSERT INTO Choices(QuestionId, PossibleAnswer) VALUES (?, "False");`, [resl.insertId]);
         rerenderAdminAddQuestionsPage(res);
         console.log("Added t/f question");
     });
@@ -215,13 +215,13 @@ function insertMC(req, res1) {
         answer = req.body.AAnswerBox;
     var choices = [req.body.AAnswerBox, req.body.BAnswerBox, req.body.CAnswerBox, req.body.DAnswerBox];
 
-    db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "Multiple Choice");`, [answer, question], (req, res, error) => {
+    db.query(`INSERT INTO Question(Answer, Question, TypeOfQuestion) VALUES (?, ?, "Multiple Choice");`, [answer, question], (req, res, error) => {
         if (error) {
             console.log(error);
             return;
         }
         for (var i = 0; i < choices.length; i++) {
-            db.query(`INSERT INTO choices(QuestionId, PossibleAnswer) VALUES (?, ?);`, [res.insertId, choices[i]]);
+            db.query(`INSERT INTO Choices(QuestionId, PossibleAnswer) VALUES (?, ?);`, [res.insertId, choices[i]]);
         }
         console.log("Added MC question");
     }); // adds the question to the DB and rerenders
@@ -230,7 +230,7 @@ function insertMC(req, res1) {
 }
 
 function addNewQuestion(answer, question, type) {
-    db.query(`INSERT INTO question(Answer, Question, TypeOfQuestion) VALUES (?, ?, ?);`, [answer, question, type], (req, res, error) => {
+    db.query(`INSERT INTO Question(Answer, Question, TypeOfQuestion) VALUES (?, ?, ?);`, [answer, question, type], (req, res, error) => {
         if (error) {
             console.log(error);
             return;
@@ -323,10 +323,10 @@ function potato_salad_on_top_of_my_bowl(path, res) {
                 correctAns = ans4.split("*")[1];
             var choices = [ans1Txt, ans2Txt, ans3Txt, ans4Txt];
 
-            db.query(`INSERT INTO question(TypeOfQuestion, Answer, Question) VALUES (?, ?, ?);`, ["Multiple Choice", correctAns, question], (req, result, err) => {
+            db.query(`INSERT INTO Question(TypeOfQuestion, Answer, Question) VALUES (?, ?, ?);`, ["Multiple Choice", correctAns, question], (req, result, err) => {
                 if (err) throw err;
                 for (var i = 0; i < choices.length; i++) {
-                    db.query(`INSERT INTO choices(QuestionId, PossibleAnswer) VALUES (?, ?);`, [result.insertId, choices[i]]);
+                    db.query(`INSERT INTO Choices(QuestionId, PossibleAnswer) VALUES (?, ?);`, [result.insertId, choices[i]]);
                 }
                 rerenderAdminAddQuestionsPage(res);
             });
@@ -338,7 +338,7 @@ function potato_salad_on_top_of_my_bowl(path, res) {
 router.get('/creatingtestPage', (req, res) => {
     var id = req.session.userId;
     console.log(id);
-    db.query("SELECT * FROM question;", (request, results, error) => {
+    db.query("SELECT * FROM Question;", (request, results, error) => {
         if (error) {
             console.log(error);
         }
@@ -350,14 +350,14 @@ router.get('/creatingtestPage', (req, res) => {
 });
 
 router.post("/createTestId", (req, res) => {
-    var user = { 
+    var user = {
         testId: req.body.TestTitle
 
     };
 
     console.log(req.body.TestTitle);
 
-    db.query("INSERT INTO test (TestTitle) VALUES(?)", [user.testId],  function(err, result){
+    db.query("INSERT INTO Test (TestTitle) VALUES(?)", [user.testId], function (err, result) {
 
     });
 });
@@ -368,36 +368,40 @@ router.post("/createDBTable", (req, res) => {
     };
 
 
-//     console.log(req.body.TestTitle);
+    //     console.log(req.body.TestTitle);
 
-//     db.query("INSERT INTO test (TestTitle) VALUES(?)", [user.testId],  function(err, result){
+    //     db.query("INSERT INTO test (TestTitle) VALUES(?)", [user.testId],  function(err, result){
 
-//     });
-// });
+    //     });
+    // });
 });
 
 router.post("/sendTODB", (req, res1) => {
 
-    var user = { testTitle: req.body.TestTitle};
+    var user = {
+        testTitle: req.body.TestTitle
+    };
     console.log(req.body.TestTitle);
 
-    db.query("INSERT INTO test (TestTitle) VALUES(?)", [user.testTitle],  function(err, result){ });
+    db.query("INSERT INTO Test (TestTitle) VALUES(?)", [user.testTitle], function (err, result) {});
 
-    var test = {checked: req.body.checked};
+    var test = {
+        checked: req.body.checked
+    };
     console.log(req.body.checked);
 
     var array = new Array();
-    for(let x=0; x<[test.checked][0].length; x++){
+    for (let x = 0; x < [test.checked][0].length; x++) {
         array.push(parseInt([test.checked][0][x]));
 
     }
 
-    db.query(`SELECT MAX(TestId) FROM Test;`,(req,res,err)=>{
-        if(!err) throw err;
-        for(let x=0; x<array.length; x++){
+    db.query(`SELECT MAX(TestId) FROM Test;`, (req, res, err) => {
+        if (!err) throw err;
+        for (let x = 0; x < array.length; x++) {
 
-            db.query(`INSERT INTO questionsfortest(QuestionId, TestId) VALUES(?, ?);`,[array[x],res[0]["MAX(TestId)"]],(req1, err, result)=>{ 
-                if(!err) throw err;
+            db.query(`INSERT INTO QuestionsForTest(QuestionId, TestId) VALUES(?, ?);`, [array[x], res[0]["MAX(TestId)"]], (req1, err, result) => {
+                if (!err) throw err;
                 db.query
                 res1.redirect("/admin/adminPage")
             })
