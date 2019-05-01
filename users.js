@@ -35,17 +35,17 @@ router.get('/login', (req, res) => {
 	if (req.session.userId != undefined) {
 		if (req.session.admin) {
 			db.query('SELECT * FROM TestStatus JOIN UserProfile ON UserProfile.UserProfileId=TestStatus.UserProfileId;',(req,testStatus)=>{
-				db.query(`SELECT * FROM Test;`, (req1, results) => {
-				db.query('SELECT * FROM UserProfile',(req3,users)=>{
-					console.log(results);
-					return res.render('adminPage', {
-						results: results,
-						testStatus: testStatus,
-						users: users
-					});
+			db.query(`SELECT * FROM Test;`, (req1, results) => {
+			db.query('SELECT * FROM UserProfile',(req3,users)=>{
+				console.log(results);
+				return res.render('adminPage', {
+					results: results,
+					testStatus: testStatus,
+					users: users
 				});
 			});
 		});
+	});
 		} else {
 			return res.redirect(`/users/home`);
 		}
@@ -55,11 +55,17 @@ router.get('/login', (req, res) => {
 router.get('/register', (req, res) => {
 	if (req.session.userId) {
 		if (req.session.admin) {
-			db.query(`SELECT * FROM Test;`, (req, results) => {
-				return res.render('adminPage', {
-					results: results
+			db.query('SELECT * FROM TestStatus JOIN UserProfile ON UserProfile.UserProfileId=TestStatus.UserProfileId;',(req,testStatus)=>{
+				db.query(`SELECT * FROM Test;`, (req1, results) => {
+				db.query('SELECT * FROM UserProfile',(req3,users)=>{
+					return res.render('adminPage', {
+						results: results,
+						testStatus: testStatus,
+						users: users
+					});
 				});
 			});
+		});
 		} else {
 			return res.redirect(`/users/home`);
 		}
@@ -116,7 +122,6 @@ router.post('/sublogin', (req, res) => {
 							db.query('SELECT * FROM TestStatus JOIN UserProfile ON UserProfile.UserProfileId=TestStatus.UserProfileId;',(req,testStatus)=>{
 								db.query(`SELECT * FROM Test;`, (req1, results) => {
 								db.query('SELECT * FROM UserProfile',(req3,users)=>{
-									console.log(results);
 									return res.render('adminPage', {
 										results: results,
 										testStatus: testStatus,
