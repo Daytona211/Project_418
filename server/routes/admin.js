@@ -68,6 +68,12 @@ router.get("/editQuestions", (req, res) => {
         return res.redirect(`/users/login`);
     else {
         var id = req.query.id;
+        db.query(`SELECT * FROM QuestionsForTest WHERE QuestionId=?`, [id], (outReq, outRes) => {
+            if (outRes.length > 0) {
+                var error = "This question is part of a test please remove the test first or make a new question";
+                return rerenderAdminAddQuestionsPage(res, error);
+            }
+        })
         db.query("SELECT * FROM Question INNER JOIN Choices ON Question.QuestionId= Choices.QuestionId WHERE Question.QuestionId=?", [id], (req1, res1) => {
 
             if (res1.length < 1) {
@@ -365,7 +371,6 @@ router.post("/createTestId", (req, res) => {
         testId: req.body.TestTitle
 
     };
-
     console.log(req.body.TestTitle);
 
     db.query("INSERT INTO Test (TestTitle) VALUES(?)", [user.testId], function (err, result) {
@@ -398,20 +403,23 @@ router.post("/sendTODB", (req, res1) => {
     var test = {
         checked: req.body.checked
     };
-    console.log(req.body.checked);
-
     var array = new Array();
-    for (let x = 0; x < [test.checked][0].length; x++) {
-        array.push(parseInt([test.checked][0][x]));
+    if (!Array.isArray(req.body.checked)) {
+        array.push(parseInt(req.body.checked));
+    } else {
+        for (let x = 0; x < [test.checked][0].length; x++) {
+            console.log("Array")
+            console.log([test.checked][0][x]);
+            array.push(parseInt([test.checked][0][x]));
 
+        }
     }
-
     db.query(`SELECT MAX(TestId) FROM Test;`, (req, res, err) => {
-        if (!err) throw err;
+        // if (!err) throw err;
         for (let x = 0; x < array.length; x++) {
 
             db.query(`INSERT INTO QuestionsForTest(QuestionId, TestId) VALUES(?, ?);`, [array[x], res[0]["MAX(TestId)"]], (req1, err, result) => {
-                if (!err) throw err;
+                //if (!err) throw err;
                 //db.query
             });
             console.log("============================")
