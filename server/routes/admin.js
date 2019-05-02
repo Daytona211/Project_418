@@ -9,10 +9,11 @@ var upload = multer({
 })
 
 router.post("/registerId", (req, res) => {
-    db.query(`SELECT Name FROM UserProfile`, (selReq, selRes) => {
+    db.query(`SELECT * FROM UserProfile`, (selReq, selRes) => {
         for (var i = 0; i < selRes.length; i++) {
             if (selRes[i].Name == req.body.username) {
                 return res.render("userIds", {
+                    result: selRes,
                     error: "Duplicate user use a different username"
                 });
             }
