@@ -1,13 +1,14 @@
 var useranswers = [];
 
-function update(amountofquestions, answer, choice, index, testId, event, userId) {
-	var ans = event.value.split('-|||~-')[0];
-	var questionId = event.value.split('-|||~-')[1];
+function update(amountofquestions, answer, choice, index) {
+	// var ans = event.value.split('-|||~-')[0];
+	// var questionId = event.value.split('-|||~-')[1];
 	if (useranswers.length == 0) {
 		for (let x = 0; x < amountofquestions; x++) {
 			useranswers[x] = false;
 		}
 	}
+	//console.log(amountofchoices)
 	//saveAns(testId, ans, questionId, userId);
 	listofuserpicks();
 	// console.log(useranswers)
@@ -49,10 +50,12 @@ function listofuserpicks() {
 
 	var userchoices = '';
 	for (let x = 0; x < amountofchoices; x++) {
-		if (document.getElementById(x).checked) {
-			userchoices += document.getElementById(x).value + ' ';
+		if (document.getElementById(x) != null) {
+			if (document.getElementById(x).checked) {
+				userchoices += document.getElementById(x).value + ' ';
+			}
 		}
 	}
-
+	console.log(userchoices);
 	document.getElementById('userchoices').value = userchoices;
 }
