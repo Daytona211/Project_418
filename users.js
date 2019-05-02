@@ -35,17 +35,17 @@ router.get('/login', (req, res) => {
 	if (req.session.userId != undefined) {
 		if (req.session.admin) {
 			db.query('SELECT * FROM TestStatus JOIN UserProfile ON UserProfile.UserProfileId=TestStatus.UserProfileId;',(req,testStatus)=>{
-				db.query(`SELECT * FROM Test;`, (req1, results) => {
-				db.query('SELECT * FROM UserProfile',(req3,users)=>{
-					console.log(results);
-					return res.render('adminPage', {
-						results: results,
-						testStatus: testStatus,
-						users: users
-					});
+			db.query(`SELECT * FROM Test;`, (req1, results) => {
+			db.query('SELECT * FROM UserProfile',(req3,users)=>{
+				console.log(results);
+				return res.render('adminPage', {
+					results: results,
+					testStatus: testStatus,
+					users: users
 				});
 			});
 		});
+	});
 		} else {
 			return res.redirect(`/users/home`);
 		}
@@ -58,7 +58,6 @@ router.get('/register', (req, res) => {
 			db.query('SELECT * FROM TestStatus JOIN UserProfile ON UserProfile.UserProfileId=TestStatus.UserProfileId;',(req,testStatus)=>{
 				db.query(`SELECT * FROM Test;`, (req1, results) => {
 				db.query('SELECT * FROM UserProfile',(req3,users)=>{
-					console.log(results);
 					return res.render('adminPage', {
 						results: results,
 						testStatus: testStatus,
@@ -123,7 +122,6 @@ router.post('/sublogin', (req, res) => {
 							db.query('SELECT * FROM TestStatus JOIN UserProfile ON UserProfile.UserProfileId=TestStatus.UserProfileId;',(req,testStatus)=>{
 								db.query(`SELECT * FROM Test;`, (req1, results) => {
 								db.query('SELECT * FROM UserProfile',(req3,users)=>{
-									console.log(results);
 									return res.render('adminPage', {
 										results: results,
 										testStatus: testStatus,
@@ -234,11 +232,9 @@ router.get('/quizResults', (req, res) => {
 				});
 			});
 // <<<<<<< abe
-// <<<<<<< zach
-// 		}
-// =======
 		})
 	});
+
 
 	//res.render("quizResults", {userName: user, examName: null})
 // =======
