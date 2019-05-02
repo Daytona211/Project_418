@@ -187,7 +187,7 @@ function rerenderAdminAddQuestionsPage(res, errorMessage, questionInfo) {
     console.log(errorMessage);
     db.query(`SELECT * FROM Question;`, (request, result, error) => {
         if (error) console.log(error);
-        res.render("adminAddQuestions", {
+        res.render("adminAddQuestions", {   
             results: result,
             error: errorMessage,
             questionInfo: questionInfo
@@ -447,14 +447,18 @@ router.post("/sendTODB", (req, res1) => {
 
 //queries for tests
 router.get('/adminPage', (req, res) => {
-    db.query('SELECT * FROM Test;', (request, results, error) => {
-        if (error) {
-            console.log(error);
-        }
-        res.render('adminPage', {
-            results: results
+    db.query('SELECT * FROM TestStatus JOIN UserProfile ON UserProfile.UserProfileId=TestStatus.UserProfileId;',(req,testStatus)=>{
+        db.query(`SELECT * FROM Test;`, (req1, results) => {
+        db.query('SELECT * FROM UserProfile',(req3,users)=>{
+            console.log(results);
+            return res.render('adminPage', {
+                results: results,
+                testStatus: testStatus,
+                users: users
+            });
         });
     });
+});
 });
 
 
