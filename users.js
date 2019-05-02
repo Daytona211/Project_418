@@ -31,28 +31,21 @@ router.get('/', (req, res) => {
 	res.render('welcomePage');
 });
 
-router.get('/logout', (req, res) => {
-	if (req.session.userId != undefined) {
-		req.session.userId = undefined;
-		res.redirect("/");
-	}
-});
-
 router.get('/login', (req, res) => {
 	if (req.session.userId != undefined) {
 		if (req.session.admin) {
 			db.query('SELECT * FROM TestStatus JOIN UserProfile ON UserProfile.UserProfileId=TestStatus.UserProfileId;',(req,testStatus)=>{
-				db.query(`SELECT * FROM Test;`, (req1, results) => {
-				db.query('SELECT * FROM UserProfile',(req3,users)=>{
-					console.log(results);
-					return res.render('adminPage', {
-						results: results,
-						testStatus: testStatus,
-						users: users
-					});
+			db.query(`SELECT * FROM Test;`, (req1, results) => {
+			db.query('SELECT * FROM UserProfile',(req3,users)=>{
+				console.log(results);
+				return res.render('adminPage', {
+					results: results,
+					testStatus: testStatus,
+					users: users
 				});
 			});
 		});
+	});
 		} else {
 			return res.redirect(`/users/home`);
 		}
@@ -65,7 +58,6 @@ router.get('/register', (req, res) => {
 			db.query('SELECT * FROM TestStatus JOIN UserProfile ON UserProfile.UserProfileId=TestStatus.UserProfileId;',(req,testStatus)=>{
 				db.query(`SELECT * FROM Test;`, (req1, results) => {
 				db.query('SELECT * FROM UserProfile',(req3,users)=>{
-					console.log(results);
 					return res.render('adminPage', {
 						results: results,
 						testStatus: testStatus,
@@ -86,8 +78,8 @@ router.post('/registers', (req, res) => {
 	var username = req.body.username;
 	var password = req.body.password;
 	user = username;
-	db.query(`INSERT INTO UserProfile(Name, Password) VALUES (?, ?)`, [username, password]);
-	db.query('SELECT * FROM UserProfile WHERE Name="' + username + '";', (error, result) => {
+	db.query(`INSERT INTO userprofile(Name, Password) VALUES (?, ?)`, [username, password]);
+	db.query('SELECT * FROM userprofile WHERE Name="' + username + '";', (error, result) => {
 		// if(error) throw error;
 		req.session.userId = result[0].UserProfileId;
 		req.session.admin = 0;
@@ -109,7 +101,7 @@ router.get('/about', (req, res) => {
 router.post('/sublogin', (req, res) => {
 	let userName = req.body.username;
 	let passWord = req.body.password;
-	let sqlQuery = 'SELECT * FROM UserProfile WHERE Name="' + userName + '";';
+	let sqlQuery = 'SELECT * FROM userprofile WHERE Name="' + userName + '";';
 	db.query(sqlQuery, (error, result) => {
 		if (error) console.log(error);
 		else {
@@ -130,7 +122,6 @@ router.post('/sublogin', (req, res) => {
 							db.query('SELECT * FROM TestStatus JOIN UserProfile ON UserProfile.UserProfileId=TestStatus.UserProfileId;',(req,testStatus)=>{
 								db.query(`SELECT * FROM Test;`, (req1, results) => {
 								db.query('SELECT * FROM UserProfile',(req3,users)=>{
-									console.log(results);
 									return res.render('adminPage', {
 										results: results,
 										testStatus: testStatus,
@@ -143,11 +134,6 @@ router.post('/sublogin', (req, res) => {
 							req.session.admin = 0;
 							return res.redirect('/users/home');
 						}
-					} else {
-						let errorMsg = "We don't recognize that username. Please register";
-						return res.render('loginPage', {
-							errorMsg
-						});
 					}
 				}
 			}
@@ -156,24 +142,20 @@ router.post('/sublogin', (req, res) => {
 });
 
 router.get('/home', (req, res) => {
-	if (!req.session.userId)
-		return res.redirect("/");
-	if (req.session.admin == 1)
-		return res.redirect("/admin/adminPage");
 	var id = req.session.userId;
 	var exams_incomplete = new Array();
 	var exams_complete = new Array();
-	// <<<<<<< zach
-	// 	db.query('SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=' + id + ';', (error, results) => {
-	// 		if (error) {
-	// 			console.log(error);
-	// 		}
+// <<<<<<< zach
+// 	db.query('SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=' + id + ';', (error, results) => {
+// 		if (error) {
+// 			console.log(error);
+// 		}
 
-	// // // <<<<<<< rich
-	// // 				exams_incomplete.push(results[i]);
-	// =======
+// // // <<<<<<< rich
+// // 				exams_incomplete.push(results[i]);
+// =======
 	db.query(`SELECT * FROM Test`, (req1, res1) => {
-		db.query('SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE TestStatus.UserProfileId=' + id + ';', (error, results) => {
+		db.query('SELECT * FROM Test JOIN TestStatus ON Test.TestId=TestStatus.TestId WHERE teststatus.UserProfileId=' + id + ';', (error, results) => {
 			if (error) {
 				console.log(error);
 			}
@@ -238,10 +220,10 @@ router.get('/quizResults', (req, res) => {
 		[testid],
 		(request, results, error) => {
 			db.query('SELECT * FROM UserAnswers WHERE TestId = ? AND UserProfileId=?', [testid, id], (request, answer, error1) => {
-				db.query('SELECT TestTitle FROM Test WHERE TestId = ?', [testid], (req1, testtitle, error2) => {
+				db.query('SELECT TestTitle FROM TEST WHERE TestId = ?', [testid], (req1, testtitle, error2) => {
 					console.log(answer);
 					console.log(testtitle);
-					// >>>>>>> testing
+// >>>>>>> testing
 					res.render('quizResults', {
 						results: results,
 						answer: answer,
@@ -249,12 +231,13 @@ router.get('/quizResults', (req, res) => {
 					});
 				});
 			});
+// <<<<<<< abe
 		})
-});
+	});
 
-//res.render("quizResults", {userName: user, examName: null})
+
 	//res.render("quizResults", {userName: user, examName: null})
-
+// =======
 // 		for (let i = 0; i < results.length; i++) {
 // 			if (results[i].TestStatus == 0) {
 // 				exams_incomplete.push(results[i].TestTitle);
@@ -271,8 +254,6 @@ router.get('/quizResults', (req, res) => {
 
 //queries question/choices
 router.get('/QuizPage', (req, res) => {
-	if (!req.session.userId)
-		return res.redirect("/users/login");
 	console.log(req.session)
 	var userid = req.session.userId;
 	var testid = req.query.TestId;
@@ -283,13 +264,9 @@ router.get('/QuizPage', (req, res) => {
 			if (error) {
 				console.log(error);
 			}
-			db.query(`SELECT * FROM UserAnswers WHERE TestId=?`, [testid], (req1, res1) => {
-				console.log(req.session.userId)
-				res.render('QuizPage', {
-					results: results,
-					userId: req.session.userId,
-					userAnswersInfo: res1
-				});
+			console.log(request)
+			res.render('QuizPage', {
+				results: results
 			});
 		}
 	);
@@ -333,8 +310,8 @@ router.post('/QuizPage', (req, res1) => {
 
 	var userid = req.session.userId;
 	var testid = req.session.testId;
-
-	if (req.session.testId)
+  
+	if(req.session.testId)
 		req.session.testId = undefined;
 	db.query('INSERT INTO TestStatus(TestId, UserProfileId, TestStatus, Grade) VALUES (?,?,?,?);', [testid, userid, 1, score], (req, res, error) => {
 		if (error) {
@@ -355,22 +332,6 @@ router.post('/QuizPage', (req, res1) => {
 	}
 
 	return res1.redirect(`/users/home`);
-});
-
-router.post("/saveAnsOnQuizNotSubmitted", (req, res) => {
-	console.log(req.body);
-	var uID = req.body.userId;
-	var testId = req.body.testId;
-	var questionId = req.body.questionId;
-	var userAns = req.body.answer;
-	console.log(questionId);
-	db.query(`SELECT * FROM UserAnswers WHERE UserProfileId=? AND TestId=? AND QuestionId=?`, [uID, testId, questionId], (req1, res1) => {
-		if (res1.length < 1) { // if first time
-			db.query(`INSERT INTO UserAnswers (UserProfileId, TestId, QuestionId, UserAnswer) VALUES (?,?,?,?)`, [uID, testId, questionId, userAns]);
-		} else {
-			db.query(`UPDATE UserAnswers SET UserAnswer=? WHERE UserProfileId=? AND TestId=? AND QuestionId=?`, [userAns, uID, testId, questionId]);
-		}
-	});
 });
 
 module.exports = router;
