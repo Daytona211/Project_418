@@ -64,7 +64,7 @@
                 <!-- FIX -->
                 <% 
                 console.log("REEEZ")
-                console.log(userAnswersInfo[0]);
+                console.log(userAnswersInfo[1]);
                   %>
             <%
 
@@ -80,17 +80,36 @@
 
                         <%
                         for(let q=0; q<results.length; q++){
+                            var wasChecked = false;
                             if(results[q].QuestionId == results[x].QuestionId){
-                                if(results[x].Answer==results[q].PossibleAnswer){
-                        %>
-              <p>
+            
+                                for(var i = 0; i < userAnswersInfo.length; i++){
+                                    console.log(userAnswersInfo[i])
+                                    console.log("UserAnsId of userAnswersInfo");
+                                    console.log(userAnswersInfo[i].UserAnswerId);
+                                    console.log(results[q].userAnswersId)
+                                    if(userAnswersInfo[i].UserAnswer == results[q].PossibleAnswer){ 
+                                        console.log("TEST");
+                                        console.log(userAnswersInfo[i])%>
+                                        <p>
+                                            <input checked type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||~-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,1,<%=counter%>,<%=results[q].TestId%>, this, <%=userId%>);">
+                                                <%= results[q].PossibleAnswer; %>
+                                            </input>
+                                        </p>
+                                    <% wasChecked = true;
+                                 }
+                                }   
+
+                                if(results[x].Answer==results[q].PossibleAnswer && wasChecked == false){
+                        %>  
+                                    <p>
                                         <input type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||~-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,1,<%=counter%>,<%=results[q].TestId%>, this, <%=userId%>);">
                                             <%= results[q].PossibleAnswer %>
                                         </input>
                                     </p>
                                 <%
                                 }
-                                else if(results[x].Answer!=results[q].PossibleAnswer){%>
+                                else if(results[x].Answer!=results[q].PossibleAnswer  && wasChecked == false){%>
                                     <p>
                                         <input type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||~-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,0,<%=counter%>, <%=results[q].TestId%>, this, <%=userId%>);">
                                             <%= results[q].PossibleAnswer %>
