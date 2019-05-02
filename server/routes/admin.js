@@ -424,6 +424,7 @@ router.post("/sendTODB", (req, res1) => {
 
         }
     }
+    console.log(array);
     db.query(`SELECT MAX(TestId) FROM Test;`, (req, res, err) => {
         // if (!err) throw err;
         for (let x = 0; x < array.length; x++) {

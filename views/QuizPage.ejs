@@ -60,14 +60,7 @@
     <form id="submitquiz" method="POST" action="/users/QuizPage">
         <input name="score" value="0" id="score" hidden>
         <input name="userchoices" value="" id="userchoices" hidden>
-
-                <!-- FIX -->
-                <% 
-                console.log("REEEZ")
-                console.log(userAnswersInfo[1]);
-                  %>
             <%
-
             for(let x=0; x<results.length; x++){
                 if(!postedquestions.has(results[x].QuestionId)){
                     postedquestions.add(results[x].QuestionId);
@@ -80,43 +73,24 @@
 
                         <%
                         for(let q=0; q<results.length; q++){
-                            var wasChecked = false;
                             if(results[q].QuestionId == results[x].QuestionId){
-            
-                                for(var i = 0; i < userAnswersInfo.length; i++){
-                                    console.log(userAnswersInfo[i])
-                                    console.log("UserAnsId of userAnswersInfo");
-                                    console.log(userAnswersInfo[i].UserAnswerId);
-                                    console.log(results[q].userAnswersId)
-                                    if(userAnswersInfo[i].UserAnswer == results[q].PossibleAnswer){ 
-                                        console.log("TEST");
-                                        console.log(userAnswersInfo[i])%>
-                                        <p>
-                                            <input checked type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||~-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,1,<%=counter%>,<%=results[q].TestId%>, this, <%=userId%>);">
-                                                <%= results[q].PossibleAnswer; %>
-                                            </input>
-                                        </p>
-                                    <% wasChecked = true;
-                                 }
-                                }   
-
-                                if(results[x].Answer==results[q].PossibleAnswer && wasChecked == false){
-                        %>  
+                                if(results[x].Answer==results[q].PossibleAnswer){
+                        %>
                                     <p>
-                                        <input type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||~-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,1,<%=counter%>,<%=results[q].TestId%>, this, <%=userId%>);">
+                                        <input type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||~-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,1,<%=counter%>);">
                                             <%= results[q].PossibleAnswer %>
                                         </input>
                                     </p>
                                 <%
                                 }
-                                else if(results[x].Answer!=results[q].PossibleAnswer  && wasChecked == false){%>
+                                else if(results[x].Answer!=results[q].PossibleAnswer){%>
                                     <p>
-                                        <input type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||~-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,0,<%=counter%>, <%=results[q].TestId%>, this, <%=userId%>);">
+                                        <input type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||~-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,0,<%=counter%>);">
                                             <%= results[q].PossibleAnswer %>
                                         </input>
                                     </p>
                                 <%}%>
-                            <%choicecounter++;}%>
+                            <%}choicecounter++;%>
                         <%}%>
                         <br>
                                 

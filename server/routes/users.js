@@ -283,8 +283,9 @@ router.get('/QuizPage', (req, res) => {
 			if (error) {
 				console.log(error);
 			}
+			
 			db.query(`SELECT * FROM UserAnswers WHERE TestId=?`, [testid], (req1, res1) => {
-				console.log(req.session.userId)
+				console.log(res1);
 				res.render('QuizPage', {
 					results: results,
 					userId: req.session.userId,
