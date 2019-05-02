@@ -234,9 +234,11 @@ router.get('/quizResults', (req, res) => {
 				});
 			});
 // <<<<<<< abe
+// <<<<<<< zach
+// 		}
+// =======
 		})
 	});
-
 
 	//res.render("quizResults", {userName: user, examName: null})
 // =======
