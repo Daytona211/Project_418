@@ -86,8 +86,10 @@ router.get("/editQuestions", (req, res) => {
                 choice2: undefined,
                 choice3: undefined,
                 choice4: undefined,
-                type: "TF"
+                type: "TF",
+                category: undefined
             };
+            console.log("Abz");
             console.log(res1);
             console.log(questionInfo);
             if (res1[0].TypeOfQuestion == "Multiple Choice") {
@@ -96,7 +98,7 @@ router.get("/editQuestions", (req, res) => {
                 questionInfo.choice3 = res1[2].PossibleAnswer;
                 questionInfo.choice4 = res1[3].PossibleAnswer;
                 questionInfo.type = "MC"
-                questionInfo.category = res1[0].category;
+                questionInfo.category = res1[0].Category;
             }
             db.query(`DELETE FROM Choices WHERE QuestionId=?`, [id]);
             db.query(`DELETE FROM Question WHERE QuestionId=?`, [id]);
@@ -233,6 +235,8 @@ function insertMC(req, res1) {
             console.log(error);
             return;
         }
+        console.log("RES IS")
+        console.log(res)
         for (var i = 0; i < choices.length; i++) {
             db.query(`INSERT INTO Choices(QuestionId, PossibleAnswer) VALUES (?, ?);`, [res.insertId, choices[i]]);
         }
