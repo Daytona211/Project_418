@@ -88,13 +88,20 @@
                                                 <%= results[q].PossibleAnswer; %>
                                             </input>
                                         </p>
-                                    <% wasChecked = true;
+                                    <% wasChecked = true;}
+                                    if(results[x].Answer != results[q].PossibleAnswer){ %>
+                                        <p>
+                                            <input checked type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||~-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,0,<%=counter%>,<%=results[q].TestId%>, this, <%=userId%>);">
+                                                <%= results[q].PossibleAnswer; %>
+                                            </input>
+                                        </p>
+                                    <% wasChecked = true; }
                                         } 
 
                                     }  
-                                }   
+                                   
                                 if(results[x].Answer==results[q].PossibleAnswer && wasChecked == false){
-                        %>  
+                                %>  
                                     <p>
                                         <input type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||~-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,1,<%=counter%>,<%=results[q].TestId%>, this, <%=userId%>);">
                                             <%= results[q].PossibleAnswer %>
@@ -108,7 +115,9 @@
                                             <%= results[q].PossibleAnswer %>
                                         </input>
                                     </p>
-                                <%}%>
+                                <%
+                                }
+                                %>
                             <%choicecounter++;
                             }%>
                         <%}%>

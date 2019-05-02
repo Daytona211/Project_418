@@ -81,7 +81,6 @@ router.get('/register', (req, res) => {
 });
 
 router.post('/registers', (req, res) => {
-	console.log('sss');
 	//res.render("registerPage"); // to access this page go to /users/register
 	var username = req.body.username;
 	var password = req.body.password;
@@ -94,11 +93,12 @@ router.post('/registers', (req, res) => {
 			// if(error) throw error;
 			req.session.userId = result[0].UserProfileId;
 			req.session.admin = 0;
-			return res.render('userhome', {
-				userName: user,
-				examsComplete: exams_complete,
-				examstoTake: exams_incomplete
-			});
+			return res.redirect('/users/home');
+			// return res.render('userhome', {
+			// 	userName: user,
+			// 	examsComplete: exams_complete,
+			// 	examstoTake: exams_incomplete
+			// });
 		});
 	});
 });
@@ -303,6 +303,7 @@ router.get('/QuizPage', (req, res) => {
 
 router.post('/QuizPage', (req, res1) => {
 	var score = req.body.score;
+	console.log(score)
 	score = parseFloat(score);
 	score = (score * 100).toFixed(2);
 
