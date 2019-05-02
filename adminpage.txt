@@ -95,7 +95,7 @@
 						<ul>
 							<li>
 								<h5>
-									<a href="/users/quizResults?TestId=<%= testStatus[j].TestId %>&userId=<%= testStatus[j].UserProfileId %> "><%=stringAnswers[storeResultsId.indexOf(testStatus[j].TestId)] %> 	Grade:   <%=testStatus[j].Grade %>%</a>
+									<a href="/users/quizResults?TestId=<%= testStatus[j].TestId %>&userId=<%= testStatus[j].UserProfileId %> "><%=stringAnswers[storeResultsId.indexOf(testStatus[j].TestId)] %></a>
 								</h5>
 							</li>
 						</ul>
