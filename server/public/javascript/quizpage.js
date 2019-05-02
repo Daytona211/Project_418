@@ -1,13 +1,14 @@
 var useranswers=[];
 
-function update(amountofquestions,answer,choice,index){
-    
+function update(amountofquestions,answer,choice,index,testId,event,userId){
+     var ans = (event.value.split("-|||~-")[0]);
+     var questionId = (event.value.split("-|||~-")[1]);;
     if(useranswers.length==0){
         for(let x=0; x<amountofquestions; x++){
             useranswers[x]=false;
         }
     }
-
+    saveAns(testId, ans, questionId, userId);
     listofuserpicks();
     // console.log(useranswers)
     //grading part
@@ -28,7 +29,16 @@ function update(amountofquestions,answer,choice,index){
 }
 //update(<%=amountofquestions%>,<%=answers[answers.length-1]%>,<%=results[q].PossibleAnswer%>,<%=counter%>)
 
-
+function saveAns(testId, ans, questionId, userId){
+    $.post(("/users/saveAnsOnQuizNotSubmitted"),{
+        testId: testId,
+        answer: ans,
+        questionId: questionId, 
+        userId: userId
+    }, function(data, status){
+        console.log(data);
+    });
+}
 
 function listofuserpicks(){
 

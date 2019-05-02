@@ -33,6 +33,9 @@
                     <a class="nav-link" href="/users/login">Login</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/users/logout">Logout</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/users/about">About</a>
                 </li>
             </ul>
@@ -73,12 +76,14 @@
                         </span>
                         <p>False</p>
                     </div>
+                    <span class="input-group-addon">
+                        <input name="category" id="categoryTF" class="form-control form-control-sm" type="text" placeholder="category" value="<%= questionInfo ? questionInfo.category : '' %>"></input>
+                    </span>
                 </div>
                 <button id="submit" type="submit" class="btn btn-outline-primary btn-lg">Submit</button>
-
             </form>
         </div>
-
+        <%= console.log(questionInfo) %>
         <div id="mcAllContent">
             <form id="mcFrm" autocomplete="off" class="form-signUp text-center" method="POST"
                 action="/admin/mcQuestionSubmission">
@@ -108,10 +113,13 @@
                     <div class="input-group">
                         <span class="input-group-addon">
                             <input id="dRadioBtn" name="isDCorrect" type="radio">
-                        </span>
+                        </span> 
                         <input id="DAnswerBox" name="DAnswerBox" class="form-control" type="text"
                             placeholder="Answer for D" value="<%= questionInfo ? questionInfo.choice4 : '' %>">
                     </div>
+                    <span class="input-group-addon">
+                        <input name="category" class="form-control form-control-sm" id="categoryMC" type="text" placeholder="category" value="<%= questionInfo ? questionInfo.category : '' %>"></input>
+                    </span>
                 </div>
                 <button id="submit" type="submit" class="btn btn-outline-primary btn-lg">Submit</button>
             </form>
@@ -128,6 +136,7 @@
                     <th scope="col" class="bg-info">Question</th>
                     <th scope="col" class="bg-info">Answer</th>
                     <th scope="col" class="bg-info">Question Type</th>
+                    <th scope="col" class="bg-info">Category</th>
                     <th scope="col" class="bg-info"></th>
                     <th scope="col" class="bg-info"></th>
                 </tr>
@@ -140,6 +149,7 @@
                     <td> <%= results[i].Question %></td>
                     <td> <%= results[i].Answer %> </td>
                     <td> <%= results[i].TypeOfQuestion %></td>
+                    <td> <%= results[i].Category %></td>
                     <td>
                         <div class="redXImage">
                             <a href="/admin/deleteQuestions/?id=<%-results[i].QuestionId%>"> <input width="15px"

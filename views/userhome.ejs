@@ -1,16 +1,16 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>EJS Template for welcome Page using Bootstrap</title>
-  <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/jumbotron/">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>EJS Template for welcome Page using Bootstrap</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/jumbotron/">
 
-  <!-- Bootstrap core CSS -->
-  <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Custom styles for this template -->
+    <!-- Custom styles for this template -->
 </head>
 
 <body>
@@ -21,7 +21,7 @@
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-    
+
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
@@ -34,6 +34,9 @@
                     <a class="nav-link" href="/users/login">Login</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/users/logout">Logout</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/users/about">About</a>
                 </li>
             </ul>
@@ -41,41 +44,42 @@
     </nav>
 
     <br> </br>
-    <br> </br> 
+    <br> </br>
     <h1 align="center"><%= userName %> activity</h1>
 
     <br> </br>
-            <h2>Quizzes to Take</h2>
+    <h2>Quizzes to Take</h2>
 
-           <br><br>
-           <div >
-           <ul class="col-6 mx-auto" >
-       
+    <br><br>
+    <div>
+        <ul class="col-6 mx-auto">
+
             <% examstoTake.forEach(function(eachExam){ %>
-                
-                     <li><a href = "/users/QuizPage?TestId=<%=eachExam.TestId %>"><%= eachExam.TestTitle%></a></li>
-                   
-                     <% }) %>
-           </ul>
-         </div>
 
-          <br> </br>
-            <h3>Quizzes Taken</h2>
+            <li><a href="/users/QuizPage?TestId=<%=eachExam.TestId %>"><%= eachExam.TestTitle%></a></li>
 
-           <br><br>
-           <div >
-           <ul class="col-6 mx-auto" >
-       
-            <% examsComplete.forEach(function(eachExam){ %>
-                
-                     <li><a href = "/users/quizResults?TestId=<%= eachExam.TestId %>"><%= eachExam.TestTitle%> &nbsp &nbsp Grade: <%= eachExam.Grade%> </a></li>
-                   
-                     <% }) %>
-           </ul>
-         </div>
+            <% }) %>
+        </ul>
+    </div>
 
-         
-       
-            
-    
+    <br> </br>
+    <h3>Quizzes Taken</h2>
+
+        <br><br>
+        <div>
+            <ul class="col-6 mx-auto">
+
+                <% examsComplete.forEach(function(eachExam){ %>
+
+                <li><a href="/users/quizResults?TestId=<%= eachExam.TestId %>"><%= eachExam.TestTitle%> &nbsp &nbsp
+                        Grade: <%= eachExam.Grade%> </a></li>
+
+                <% }) %>
+            </ul>
+        </div>
+
+
+
+
+
 </body>
