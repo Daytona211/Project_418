@@ -1,3 +1,8 @@
+# JEFF YATES ACCOUNT
+Here is your admin account for testing
+Username: Zach
+Password: 123
+
 # Project_418
 ## list of team members
 ** Name -> Github ID ** 
