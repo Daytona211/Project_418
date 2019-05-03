@@ -7,28 +7,35 @@ const path = require("path");
 module.exports.app = app;
 // = to app.js
 // Express body parser
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+  extended: true
+}));
 app.use(express.static(__dirname + '/public'));
 // app.use(expressLayouts);
-app.set("view engine", "ejs"); 
+app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/../views"));
 
 // DATABASE SETUP
 var db = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
+  // host: 'codebud1.cvgfqdtlcqye.us-east-2.rds.amazonaws.com',
+  // user: 'zach',
+  // password: '12345678',
+  // database: 'codebud',
+  // port: 3306
+  host     : process.env.RDS_HOSTNAME || 'localhost',
+  user     : process.env.RDS_USERNAME || 'root',
+  password : process.env.RDS_PASSWORD || '',
   database : 'coding_buddy'
 });
-module.exports.db = db;  
- 
-db.connect(()=>{  
-    console.log("Connected to DB");
+module.exports.db = db;
+
+db.connect(() => {
+  console.log("Connected to DB");
 });
 
 const PORT = ('port', process.env.PORT || 3000);
 app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`);
+  console.log(`Listening on port ${PORT}`);
 });
 
 //SESSIONS SETUP / TESTING
@@ -36,16 +43,16 @@ app.use(session({
   secret: 'sick meme',
   resave: false,
   saveUninitialized: false,
-  cookie: { 
+  cookie: {
     secure: false,
     maxAge: (1000 * 60 * 60), // 1 hr
     sameSite: true,
-   }
+  }
 }));
 module.exports.session = session;
 
 // // routes
-app.use("/",require("./routes/index"));
+app.use("/", require("./routes/index"));
 // app.use("/about", require("./routes/about"));
 app.use("/users", require("./routes/users"));
 app.use("/admin", require("./routes/admin"));

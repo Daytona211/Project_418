@@ -36,14 +36,15 @@ CREATE TABLE Question(
     TypeOfQuestion varchar(20) NOT NULL,
     Answer varchar(100) NOT NULL,
     Question varchar(500) NOT NULL,
+    Category varchar(20),
     PRIMARY KEY (QuestionId)
 );
 
 CREATE TABLE QuestionsForTest(
-	QuestionsForTest int AUTO_INCREMENT,
+	QuestionsForTestId int AUTO_INCREMENT,
 	QuestionId int NOT NULL,
 	TestId int NOT NULL,
-	PRIMARY KEY (QuestionsForTest),
+	PRIMARY KEY (QuestionsForTestId),
 	FOREIGN KEY (QuestionId) REFERENCES Question(QuestionId),
 	FOREIGN KEY (TestId) REFERENCES Test(TestId)
 );

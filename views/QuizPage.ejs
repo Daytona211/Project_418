@@ -41,7 +41,7 @@
     <br><br><br><br><br>
 
     
-    <%
+<%
     var temp1 = new Set();
     var temp2 = [];
     for(let x=0; x<results.length; x++){
@@ -51,16 +51,15 @@
         }
     }
     var amountofquestions=temp2.length;
-
     var postedquestions = new Set();
     var answers = [];
     var counter=0;
     var choicecounter=0;
-    %>
+%>
     <form id="submitquiz" method="POST" action="/users/QuizPage">
         <input name="score" value="0" id="score" hidden>
         <input name="userchoices" value="" id="userchoices" hidden>
-            <%
+        <%
             for(let x=0; x<results.length; x++){
                 if(!postedquestions.has(results[x].QuestionId)){
                     postedquestions.add(results[x].QuestionId);
@@ -70,32 +69,63 @@
                         <div class="questions">
                             <h4><%= results[x].Question %></h4>
                         </div>
-
-                        <%
+            <%
                         for(let q=0; q<results.length; q++){
+                            var wasChecked = false;
                             if(results[q].QuestionId == results[x].QuestionId){
-                                if(results[x].Answer==results[q].PossibleAnswer){
+            
+                                for(var i = 0; i < userAnswersInfo.length; i++){
+                                    console.log("USERANSWERINFO")
+                                    console.log(userAnswersInfo[0])
+                                    console.log("---==---");
+                                    console.log("RESULTS")
+                                    console.log(results[0])
+                                    if(userAnswersInfo[i].UserAnswer == results[q].PossibleAnswer && userAnswersInfo[i].QuestionId == results[q].QuestionId && userId == userAnswersInfo[i].UserProfileId){ 
+                                        if(results[x].Answer == results[q].PossibleAnswer){ 
                         %>
+                                        <p>
+                                            <input checked type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||~-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,1,<%=counter%>,<%=results[q].TestId%>, this, <%=userId%>);">
+                                                <%= results[q].PossibleAnswer; %>
+                                            </input>
+                                        </p>
+                                    <% wasChecked = true;}
+                                    if(results[x].Answer != results[q].PossibleAnswer){ %>
+                                        <p>
+                                            <input checked type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||~-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,0,<%=counter%>,<%=results[q].TestId%>, this, <%=userId%>);">
+                                                <%= results[q].PossibleAnswer; %>
+                                            </input>
+                                        </p>
+                                    <% wasChecked = true; }
+                                        } 
+
+                                    }  
+                                   
+                                if(results[x].Answer==results[q].PossibleAnswer && wasChecked == false){
+                                %>  
                                     <p>
-                                        <input type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,1,<%=counter%>);">
+                                        <input type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||~-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,1,<%=counter%>,<%=results[q].TestId%>, this, <%=userId%>);">
                                             <%= results[q].PossibleAnswer %>
                                         </input>
                                     </p>
                                 <%
                                 }
-                                else if(results[x].Answer!=results[q].PossibleAnswer){%>
+                                else if(results[x].Answer!=results[q].PossibleAnswer  && wasChecked == false){%>
                                     <p>
-                                        <input type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,0,<%=counter%>);">
+                                        <input type="radio" id="<%=choicecounter%>" value="<%=results[q].PossibleAnswer%>-|||~-<%=results[q].QuestionId%>" name="<%=results[q].QuestionId%>" onclick="update(<%=amountofquestions%>,1,0,<%=counter%>, <%=results[q].TestId%>, this, <%=userId%>);">
                                             <%= results[q].PossibleAnswer %>
                                         </input>
                                     </p>
-                                <%}%>
-                            <%choicecounter++;}%>
+                                <%
+                                }
+                                %>
+                            <%choicecounter++;
+                            }%>
                         <%}%>
                         <br>
                                 
                     </div>
-                <%counter++;}%>
+                <%counter++;
+                }%>
             <%}console.log(answers + " | counterforchoices: " + choicecounter);%>
             <p id="amountofchoices" hidden><%=choicecounter%></p>
         <div style="text-align:center; padding-top:10px; padding-bottom:40px;"><button type="submit" value="submitquiz" onclick="">Submit</button></div>

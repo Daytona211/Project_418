@@ -4,7 +4,6 @@
 		<meta charset="UTF-8" />
 		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="/javascript/adminPage.js"></script>
 		<link rel="stylesheet" type="text/css" href="/stylesheets/adminPage.css" />
 		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
 		<link
@@ -40,9 +39,6 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/users/login">Login</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/users/logout">Logout</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/users/about">About</a>
@@ -87,20 +83,20 @@
 				<%}%>
 			</div>
 			<br />
-			<div id="userresults">
+			<div>
 				<h2>Users</h2>
 				<% var setIG = new Set(); var storeResultsId = []; var stringAnswers = []; var counter = 0; for(i = 0; i < results.length; i++){ storeResultsId.push(results[i].TestId);
 				stringAnswers.push(results[i].TestTitle); } %>
 				<ul>
 					<% for(i = 0; i < users.length; i++){ %>
 					<li>
-						<p><%=users[i].Name%></p>
+						<h3><%=users[i].Name%></h3>
 						<% for(j = 0; j < testStatus.length; j++){ if(users[i].UserProfileId == testStatus[j].UserProfileId && testStatus[j].isAdmin==0){ %>
 						<ul>
 							<li>
-								<p>
-									<a href="/users/quizResults?TestId=<%= testStatus[j].TestId %>&userId=<%= testStatus[j].UserProfileId %> "><%=stringAnswers[storeResultsId.indexOf(testStatus[j].TestId)] %> 	Grade:   <%=testStatus[j].Grade %>%</a>
-								</p>
+								<h5>
+									<a href="/users/quizResults?TestId=<%= testStatus[j].TestId %>&userId=<%= testStatus[j].UserProfileId %> "><%=stringAnswers[storeResultsId.indexOf(testStatus[j].TestId)] %></a>
+								</h5>
 							</li>
 						</ul>
 						<%}%> <%}%>
