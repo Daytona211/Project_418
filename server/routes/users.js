@@ -84,7 +84,10 @@ router.post('/registers', (req, res) => {
 	//res.render("registerPage"); // to access this page go to /users/register
 	var username = req.body.username;
 	var password = req.body.password;
+	var password2 = req.body.password2;
 	user = username;
+	if(password != password2)
+		return res.render("registerPage");
 	db.query('SELECT * FROM UserProfile WHERE Name="' + username + '";', (error, res1) => {
 		if(res1.length > 0)
 			return res.render(`registerPage`);
